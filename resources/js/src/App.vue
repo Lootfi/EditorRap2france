@@ -16,8 +16,7 @@
 
 <script>
 import themeConfig from '@/../themeConfig.js'
-import jwt from '@/http/requests/auth/jwt/index.js'
-jwt.init()
+
 
 export default {
   data () {

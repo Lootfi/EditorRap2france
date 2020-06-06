@@ -15,3 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/auth/login', 'Api\Auth\LoginController@login');
+
+
+Route::get('/users' , 'Api\Users\IndexController@getAllUsers');

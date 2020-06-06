@@ -1,5 +1,3 @@
 <template>
-    <div class="h-screen flex w-full bg-img">
-       Hey
-    </div>
+	<h1>This is the dashboard</h1>
 </template>

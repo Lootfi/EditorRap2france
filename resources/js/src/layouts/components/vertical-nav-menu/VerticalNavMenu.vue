@@ -139,7 +139,7 @@ export default {
   data: () => ({
     clickNotClose       : false, // disable close navMenu on outside click
     isMouseEnter        : false,
-    reduce              : false, // determines if navMenu is reduce - component property
+    reduce              : true, // determines if navMenu is reduce - component property
     showCloseButton     : false, // show close button in smaller devices
     settings            : {      // perfectScrollbar settings
       maxScrollbarLength: 60,

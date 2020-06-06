@@ -10,15 +10,33 @@
 
 export default [
   {
-    url: "/",
-    name: "Home",
-    slug: "home",
+    url: null,
+    name: "Dashboard",
+    slug: "dashboard",
     icon: "HomeIcon",
+    i18n: "Dashboard",
+
   },
   {
-    url: "/page2",
-    name: "Page 2",
-    slug: "page2",
-    icon: "FileIcon",
+    url : null,
+    name: "Actualité",
+    slug: "actualite",
+    icon: "EditIcon",
+    i18n: "Actualité",
+    submenu: [
+      {
+        url: null,
+        name: "Liste des articles",
+        slug: "listearticles",
+        i18n: "Articles",
+      },
+      {
+        url: null,
+        name: "Ajouter un article",
+        slug: "ajouter-article",
+        i18n: "Articles",
+      },
+    ]
+
   }
 ]

@@ -20,7 +20,6 @@ const router = new Router({
         return { x: 0, y: 0 }
     },
     routes: [
-
         {
     // =============================================================================
     // MAIN LAYOUT ROUTES
@@ -31,35 +30,30 @@ const router = new Router({
         // =============================================================================
         // Theme Routes
         // =============================================================================
-              { path: '/',
-              redirect: '/login'
-        },
+              {
+            path: '/',
+            redirect: {name : 'dashboard'}
+                },   
+
+         {
+                path: '/dashboard',
+                name: 'dashboard',
+                component: () => import('@/views/pages/Dashboard.vue'),
+                meta :{
+                  requiresAuth :true,
+                }
+              }
             ],
-        },
-    // =============================================================================
-    // FULL PAGE LAYOUTS
-    // =============================================================================
-        {
+        },{
             path: '',
             component: () => import('@/layouts/full-page/FullPage.vue'),
             children: [
-        // =============================================================================
-        // PAGES
-        // =============================================================================
               {
                 path: '/login',
                 name: 'page-login',
                 component: () => import('@/views/pages/Auth/Login.vue'),
                 meta :{
                   guest: true,
-                }
-              },{
-
-                path: '/dashboard',
-                name : 'page-dashboard',
-                component: () => import('@/views/pages/Dashboard.vue'),
-                meta :{
-                  requiresAuth :true,
                 }
               }
             ]
@@ -68,22 +62,20 @@ const router = new Router({
         {
             path: '*',
             redirect: '/pages/error-404'
-        }
+        },
     ],
 })
 
-
-router.beforeEach((to, from, next) => {
+   
+/*
+  router.beforeEach((to, from, next) => {
    if(to.matched.some(record => record.meta.requiresAuth)) {
         if (localStorage.getItem('jwt') == null) {
-            next({
-                path: '/login'
-                }
-            )
+            next('/login')
         } else {
             let role = localStorage.getItem('role')
                if(role == "Admin"){
-                   next({path : '/dashboard'})
+                   next('/dashboard')
                 }
                 else{
               next({
@@ -94,18 +86,20 @@ router.beforeEach((to, from, next) => {
             
         }
     }
-  else if(to.matched.some(record => record.meta.guest)) {
+  if(to.matched.some(record => record.meta.guest)) {
 
         if(localStorage.getItem('jwt') == null ){
             next()
         }
         else{
-            next({path : '/dashboard'})
+            next('/dashboard')
             }
     } else {
         next()
     }
+    
 })
+*/
 
 router.afterEach(() => {
   // Remove initial loading
