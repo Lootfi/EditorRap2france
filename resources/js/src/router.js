@@ -83,10 +83,10 @@ router.beforeEach((to, from, next) => {
         } else {
             let role = localStorage.getItem('role')
                if(role == "Admin"){
-                    next({path : '/dashboard'})
+                   next({path : '/dashboard'})
                 }
                 else{
-            next({
+              next({
                 path: '/login',
                 params: { nextUrl: to.fullPath }
             })
