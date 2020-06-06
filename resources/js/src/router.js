@@ -31,16 +31,9 @@ const router = new Router({
         // =============================================================================
         // Theme Routes
         // =============================================================================
-              {
-                path: '/',
-                name: 'home',
-                component: () => import('./views/Home.vue')
-              },
-              {
-                path: '/page2',
-                name: 'page-2',
-                component: () => import('./views/Page2.vue')
-              },
+              { path: '/',
+              redirect: '/login'
+        },
             ],
         },
     // =============================================================================
@@ -56,13 +49,19 @@ const router = new Router({
               {
                 path: '/login',
                 name: 'page-login',
-                component: () => import('@/views/pages/Login.vue')
-              },
-              {
-                path: '/pages/error-404',
-                name: 'page-error-404',
-                component: () => import('@/views/pages/Error404.vue')
-              },
+                component: () => import('@/views/pages/Auth/Login.vue'),
+                meta :{
+                  guest: true,
+                }
+              },{
+
+                path: '/dashboard',
+                name : 'page-dashboard',
+                component: () => import('@/views/pages/Dashboard.vue'),
+                meta :{
+                  requiresAuth :true,
+                }
+              }
             ]
         },
         // Redirect to 404 page, if no match found
@@ -71,6 +70,36 @@ const router = new Router({
             redirect: '/pages/error-404'
         }
     ],
+})
+
+
+router.beforeEach((to, from, next) => {
+    if(to.matched.some(record => record.meta.requiresAuth)) {
+        if (localStorage.getItem('jwt') == null) {
+            next({
+                path: '/login',
+                params: { nextUrl: to.fullPath }
+            })
+        } else {
+            let role = localStorage.getItem('role')
+               if(role == "Admin"){
+                    next({path : 'page-dashboard'})
+                }
+                else{
+                    next({ name: 'page-login'})
+                }
+            
+        }
+    } else if(to.matched.some(record => record.meta.guest)) {
+        if(localStorage.getItem('jwt') == null){
+            next()
+        }
+        else{
+            next({ path: '/'})
+        }
+    }else {
+        next()
+    }
 })
 
 router.afterEach(() => {
