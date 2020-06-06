@@ -18,3 +18,9 @@ Route::post('/auth/login', 'Api\Auth\LoginController@login');
 
 
 Route::get('/users' , 'Api\Users\IndexController@getAllUsers');
+Route::post('/users/add-new-user', 'Api\Users\CreateController@createUser');
+Route::get('/users/{slug}', 'Api\Users\ShowController@showUser');
+Route::post('/users/{slug}/edit', 'Api\Users\EditController@editUser');
+Route::get('/users/{slug}/activate','Api\Users\StatusController@activateUser');
+Route::get('/users/{slug}/suspend','Api\Users\StatusController@suspendUser');
+Route::get('/users/{slug}/delete','Api\Users\DeleteController@deleteUser');

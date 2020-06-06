@@ -36,5 +36,11 @@ class Administrator extends Authenticatable implements JWTSubject
         if ( !empty($password) ) {
             $this->attributes['password'] = bcrypt($password);
         }
+    }
+
+
+    public static function fetchBySlug($slug){
+
+        return self::where('slug',$slug)->first();
     }  
 }

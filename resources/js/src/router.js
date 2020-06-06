@@ -67,7 +67,6 @@ const router = new Router({
 })
 
    
-/*
   router.beforeEach((to, from, next) => {
    if(to.matched.some(record => record.meta.requiresAuth)) {
         if (localStorage.getItem('jwt') == null) {
@@ -75,7 +74,9 @@ const router = new Router({
         } else {
             let role = localStorage.getItem('role')
                if(role == "Admin"){
+                 if( to.path == '/login'){
                    next('/dashboard')
+                 }
                 }
                 else{
               next({
@@ -99,7 +100,6 @@ const router = new Router({
     }
     
 })
-*/
 
 router.afterEach(() => {
   // Remove initial loading
