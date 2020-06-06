@@ -74,30 +74,35 @@ const router = new Router({
 
 
 router.beforeEach((to, from, next) => {
-    if(to.matched.some(record => record.meta.requiresAuth)) {
+   if(to.matched.some(record => record.meta.requiresAuth)) {
         if (localStorage.getItem('jwt') == null) {
+            next({
+                path: '/login'
+                }
+            )
+        } else {
+            let role = localStorage.getItem('role')
+               if(role == "Admin"){
+                    next({path : '/dashboard'})
+                }
+                else{
             next({
                 path: '/login',
                 params: { nextUrl: to.fullPath }
             })
-        } else {
-            let role = localStorage.getItem('role')
-               if(role == "Admin"){
-                    next({path : 'page-dashboard'})
-                }
-                else{
-                    next({ name: 'page-login'})
                 }
             
         }
-    } else if(to.matched.some(record => record.meta.guest)) {
-        if(localStorage.getItem('jwt') == null){
+    }
+  else if(to.matched.some(record => record.meta.guest)) {
+
+        if(localStorage.getItem('jwt') == null ){
             next()
         }
         else{
-            next({ path: '/'})
-        }
-    }else {
+            next({path : '/dashboard'})
+            }
+    } else {
         next()
     }
 })
