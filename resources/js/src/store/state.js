@@ -27,8 +27,7 @@ const userDefaults = {
 
 
 const userInfoLocalStorage = JSON.parse(localStorage.getItem('user')) || {};
-
-
+console.log(userInfoLocalStorage)
 const getUserInfo = () => {
 
   const userInfo = {uid: 0,

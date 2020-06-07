@@ -16,7 +16,6 @@
         <vs-alert color="primary" icon="new_releases" active="true" class="mt-5">
             <p>For the title of each tab the <code>vs-label</code> property is implemented in the <code>vs-tab</code> component</p>
         </vs-alert>
-
         <div class="mt-5">
             <vs-upload action="https://jsonplaceholder.typicode.com/posts/" @on-success="successUpload" />
         </div>
@@ -30,6 +29,7 @@
 export default {
   methods:{
     successUpload(){
+    console.log('success');
       this.$vs.notify({color:'success',title:'Upload Success',text:'Lorem ipsum dolor sit amet, consectetur'})
     }
   }

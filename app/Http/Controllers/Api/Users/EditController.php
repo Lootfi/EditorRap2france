@@ -13,17 +13,31 @@ class EditController extends Controller
     	$payload = request(['full_name','username','email','password','role']);
 
     	if($administrator = Administrator::fetchBySlug($slug)){
-	    	$administrator->full_name = $payload['full_name'];
+    		if($payload{'full_name'}){
+    			$administrator->full_name = $payload['full_name'];
+    			$administrator->slug = str_slug($payload['full_name']) . "-" .mt_srand(6);
+    		}
+    		if($payload{'username'}){
 	    	$administrator->username = $payload['username'];
+    		
+    		}
+    		if($payload{'email'}){
 	    	$administrator->email = $payload['email'];
-	    	$administrator->password = Hash::make($payload['password']);	
-	    	$administrator->slug = str_slug($payload['full_name']) . "-" .mt_srand(6);
-	    	$administrator->role = $payload['role'];
+    		
+    		}
+    		if(request('password')){
+	    	$administrator->password = Hash::make($payload['password']);
+
+    		}
 	    	$administrator->updated_at = now();
 	    	$administrator->save();
-	    	return response()->json("Administrator Modified");
+	    	return response()->json([
+
+	    		'user' => $administrator,
+	    	]);
     	}
 
     		return response()->json("Administrator not found ! ");
     	
+}
 }

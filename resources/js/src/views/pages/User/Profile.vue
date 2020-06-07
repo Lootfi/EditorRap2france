@@ -1,50 +1,31 @@
 <template>
-    <div id="profile-page">
+    <div id="profile-page" style="padding-top:100px;">
 
         <!-- PROFILE HEADER -->
         <div class="profile-header">
             <div class="relative">
-                <div class="cover-container rounded-t-lg">
-                    <img :src="user_info.cover_img" alt="user-profile-cover" class="responsive block">
-                </div>
-                <div class="profile-img-container pointer-events-none">
+                <div class="profile-img-container pointer-events-none mt-4 flex">
+                    <div class="flex items-center">
                     <div>
-                        <vs-avatar class="user-profile-img" :src="user_info.profile_img" size="85px" />
+                        <vs-avatar class="user-profile-img" :src="activeUserInfo.photoURL" size="155px" />
+                        
                     </div>
+                     <h2 class=" pl-4 text-lg font-bold">{{activeUserInfo.user.Full_Name}}</h2>
+                 </div>
                     <div class="profile-actions pointer-events-auto flex">
                         <vs-button icon-pack="feather" radius icon="icon-edit-2" @click="$router.push('/profile-setting').catch(() => {})"></vs-button>
                     </div>
                 </div>
             </div>
-             <div class="flex items-center justify-end flex-wrap profile-header-nav p-6">
-
-                <div class="block sm:hidden">
-                    <feather-icon @click="isNavOpen = !isNavOpen" icon="AlignJustifyIcon" v-show="!isNavOpen" class="vx-navbar-toggler cursor-pointer" />
-                    <feather-icon icon="XIcon" v-show="isNavOpen" @click="isNavOpen = !isNavOpen" class="vx-navbar-toggler cursor-pointer" />
-                </div>
-                <div :class="isNavOpen ? 'block': 'hidden'" class="w-full flex-grow sm:flex sm:items-center sm:w-auto">
-                    <div class="text-sm sm:flex-grow">
-                        <ul class="sm:flex justify-around mt-8 w-full md:mt-0 md:ml-auto md:w-3/4">
-                            <li class="p-2 sm:p-0"><router-link to="/pages/profile">Timeline</router-link></li>
-                            <li class="p-2 sm:p-0"><router-link to="/pages/profile">About</router-link></li>
-                            <li class="p-2 sm:p-0"><router-link to="/pages/profile">Photos</router-link></li>
-                            <li class="p-2 sm:p-0"><router-link to="/pages/profile">Friends</router-link></li>
-                            <li class="p-2 sm:p-0"><router-link to="/pages/profile">Videos</router-link></li>
-                            <li class="p-2 sm:p-0"><router-link to="/pages/profile">Events</router-link></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- <vx-navbar> -->
-            <!-- </vx-navbar> -->
+           
         </div>
 
         <!-- COL AREA -->
-        <div class="vx-row">
+        <div class="vx-row" style="margin-top:20px;">
             <!-- COL 1 -->
             <div class="vx-col w-full lg:w-1/4">
                 <!-- ABOUT CARD -->
-                <vx-card title="About" class="mt-base">
+                <vx-card title="Biography" class="mt-base">
                     <!-- ACTION SLOT -->
                     <template slot="actions">
                         <feather-icon icon="MoreHorizontalIcon"></feather-icon>
@@ -52,28 +33,23 @@
 
                     <!-- USER BIO -->
                     <div class="user-bio">
-                        <p>Tart I love sugar plum I love oat cake. Sweet roll caramels I love jujubes. Topping cake wafer.</p>
+                        <p>{{activeUserInfo.user.Details.biography}}</p>
                     </div>
 
                     <!-- OTEHR DATA -->
                     <div class="mt-5">
-                        <h6>Joined:</h6>
-                        <p>November 15, 2015</p>
+                        <h6>Added at:</h6>
+                        <p>{{activeUserInfo.user.created_at}}</p>
                     </div>
 
                     <div class="mt-5">
                         <h6>Lives:</h6>
-                        <p>New York, USA</p>
+                        <p>{{activeUserInfo.user.Details.country}}</p>
                     </div>
 
                     <div class="mt-5">
                         <h6>Email:</h6>
-                        <p>bucketful@fiendhead.org</p>
-                    </div>
-
-                    <div class="mt-5">
-                        <h6>Website:</h6>
-                        <p>www.pixinvent.com</p>
+                        <p>{{activeUserInfo.user.email}}</p>
                     </div>
 
                     <div class="social-links flex mt-4">
@@ -207,68 +183,7 @@
                     </div>
                 </vx-card>
             </div>
-
-            <!-- COL 3 -->
-            <div class="vx-col w-full lg:w-1/4">
-
-                <!-- LATEST PHOTOS -->
-                <vx-card title="Latest Photos" class="mt-base">
-                    <div class="vx-row pt-2">
-                        <div class="vx-col w-1/2 sm:w-1/2 md:w-1/3 xl:1/4" v-for="(img, index) in userLatestPhotos" :key="index">
-                            <img :src="img" alt="latest-upload" class="rounded mb-4 user-latest-image responsive">
-                        </div>
-                    </div>
-                </vx-card>
-
-                <vx-card title="Suggestions" class="mt-base">
-                    <!-- ACTION SLOT -->
-                    <template slot="actions">
-                        <feather-icon icon="MoreHorizontalIcon"></feather-icon>
-                    </template>
-
-                    <!-- FRIENDS LIST -->
-                    <ul class="friend-suggesions-list">
-                        <li class="friend-suggestion flex items-center mb-4" v-for="(friend, index) in suggestedFriends" :key="index">
-                            <div class="mr-3"><vs-avatar class="m-0" :src="friend.avatar" size="35px" /></div>
-                            <div class="leading-tight">
-                                <p class="font-medium">{{ friend.name }}</p>
-                                <span class="text-xs">{{ friend.mutualFriends }} Mutual Friends</span>
-                            </div>
-                            <div class="ml-auto cursor-pointer">
-                                <vs-button radius type="border" icon-pack="feather" icon="icon-user-plus" />
-                            </div>
-                        </li>
-                    </ul>
-                    <template slot="footer">
-                    <vs-button icon-pack="feather" icon="icon-plus" class="w-full">Load More</vs-button>
-                    </template>
-                </vx-card>
-
-                <vx-card title="Polls" class="mt-base">
-                    <ul class="polls-list">
-                        <li class="poll" v-for="poll in polls" :key="poll.id">
-                            <h6 class="poll-title">{{ poll.title }}</h6>
-                            <ul class="poll-options-result">
-                                <li class="poll-option mt-6" v-for="option in poll.options" :key="option.value">
-                                    <div class="flex">
-                                        <vs-radio v-model="userPoll" :vs-value="option.value">{{ option.text | capitalize }}</vs-radio>
-                                        <span class="block ml-auto">{{ option.voted }}%</span>
-                                    </div>
-                                    <vs-progress :percent="option.voted"></vs-progress>
-                                    <ul class="users-voted user-list mt-2">
-                                        <li v-for="(user, userIndex) in option.usersVoted" :key="userIndex">
-                                            <vx-tooltip :text="user.name" position="bottom">
-                                                <vs-avatar :src="user.avatar" size="30px" class="border-2 border-white border-solid -m-1"></vs-avatar>
-                                            </vx-tooltip>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <vs-button class="mt-5 w-full">Vote Now</vs-button>
-                        </li>
-                    </ul>
-                </vx-card>
-            </div>
+        
         </div>
 
         <div class="vx-row">
@@ -507,6 +422,9 @@ export default {
     }
   },
   computed: {
+    activeUserInfo () {
+      return this.$store.state.AppActiveUser
+    },
     mediaType () {
       return (media) => {
         if (media.img) {

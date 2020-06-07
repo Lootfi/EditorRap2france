@@ -28,19 +28,42 @@ class Administrator extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-    protected $appends = ['Details'];
+    protected $appends = ['Details','StatusName'];
 
      /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = ['password','id'];
+    protected $hidden = ['password','id','status'];
+    /**
+    * The attributes that should be cast.
+    *
+    * @var array
+    */
+    protected $casts = [
+       'created_at' => 'datetime:Y-m-d',
+       'updated_at' => 'datetime:Y-m-d',
+    ];
 
     public function getDetailsAttribute(){
 
 
         return \App\Models\AdministratorDetail::where('admin_id',$this->id)->first();
+    }
+
+
+    public function getStatusNameAttribute(){
+
+        if($this->status == 1){
+
+            return "Active";
+        }
+
+        if($this->status == 2){
+
+            return "suspended";
+        }
     }
 
     public static function fetchBySlug($slug){

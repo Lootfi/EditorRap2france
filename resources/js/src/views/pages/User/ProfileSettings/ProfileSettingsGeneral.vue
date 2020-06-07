@@ -12,13 +12,13 @@
 
     <!-- Info -->
     <vs-input class="w-full mb-base" label-placeholder="Nom d'utilisateur" v-model="username"></vs-input>
-    <vs-input class="w-full mb-base" label-placeholder="Nom" v-model="name"></vs-input>
+    <vs-input class="w-full mb-base" label-placeholder="Nom" v-model="full_name"></vs-input>
     <vs-input class="w-full" label-placeholder="Email" v-model="email"></vs-input>
 
 
     <!-- Save & Reset Button -->
     <div class="flex flex-wrap items-center justify-end">
-      <vs-button class="ml-auto mt-2">Enregistrer</vs-button>
+      <vs-button class="ml-auto mt-2" @click="handleSubmit">Enregistrer</vs-button>
     </div>
   </vx-card>
 </template>
@@ -29,7 +29,7 @@ export default {
 
     return {
       username: this.$store.state.AppActiveUser.user.username,
-      name: this.$store.state.AppActiveUser.user.Full_Name,
+      full_name: this.$store.state.AppActiveUser.user.Full_Name,
       email: this.$store.state.AppActiveUser.user.email,
     }
   },
@@ -37,6 +37,26 @@ export default {
     activeUserInfo () {
       return this.$store.state.AppActiveUser
     }
-  }
+  },
+
+  methods: {
+    handleSubmit(e){
+      console.log('hey')
+      e.preventDefault();
+     this.$http.post(`/api/users/${this.$store.state.AppActiveUser.user.slug}/edit`, {
+                        username: this.username,
+                        full_name: this.full_name,
+                        email: this.email
+                    })
+
+                    .then(response => {
+
+                      localStorage.setItem('user',JSON.stringify(response.data.user))
+
+                    }).catch(function (error) {
+                        console.error(error.response);
+                    });
+
+  }}
 }
 </script>
