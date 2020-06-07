@@ -191,6 +191,7 @@ export default {
     windowWidth ()          { return this.$store.state.windowWidth }
   },
   methods: {
+
     changeRouteTitle (title) {
       this.routeTitle = title
     },

@@ -37,6 +37,27 @@ export default [
         i18n: "Articles",
       },
     ]
+  },
+  {
+   url : null,
+   name: "Editeurs",
+   slug: "users",
+   icon: "UserIcon",
+   i18n: "Editors",
+   submenu: [
+      {
+        url: null,
+        name: "Liste des editeurs",
+        slug: "listeediteurs",
+        i18n: "Editors",
+      },
+      {
+        url: null,
+        name: "Ajouter un editeur",
+        slug: "ajouter-editeur",
+        i18n: "Editors",
+      },
+    ]
 
   }
 ]

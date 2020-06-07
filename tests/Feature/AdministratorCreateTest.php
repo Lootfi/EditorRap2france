@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Hash;
 
 class AdministratorCreateTest extends TestCase
 {
@@ -13,15 +14,17 @@ class AdministratorCreateTest extends TestCase
     {
 
         $response = $this->post('api/users/add-new-user', [
-            'full_name' => 'Mister Editor',
-            'username' => 'editor2',
-            'email'    => 'editor2@gmail.com',
-            'password' => 'editor2password',
-            'role' => 'Editor',
+            'full_name' => 'Karam Henni',
+            'username' => 'KaramHnni',
+            'email'    => 'karam.tenes@gmail.com',
+            'password' => 'password',
+            'role' => 'Admin',
+            'biography' => 'Developer',
+            'picture' => NULL,
         ]);
 
         $response->assertJsonStructure([
-        
+            
         ]);
     }
 }

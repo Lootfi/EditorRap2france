@@ -8,7 +8,7 @@ use App\Models\Administrator;
 
 class EditController extends Controller
 {
-    public function editUser(){
+    public function editUser($slug){
 
     	$payload = request(['full_name','username','email','password','role']);
 
@@ -22,7 +22,6 @@ class EditController extends Controller
 	    	$administrator->updated_at = now();
 	    	$administrator->save();
 	    	return response()->json("Administrator Modified");
-
     	}
 
     		return response()->json("Administrator not found ! ");

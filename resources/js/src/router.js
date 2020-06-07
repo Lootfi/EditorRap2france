@@ -10,6 +10,8 @@
 
 import Vue from 'vue'
 import Router from 'vue-router'
+import Profile from './views/pages/User/Profile.vue'
+import ProfileSetting from './views/pages/User/ProfileSettings/ProfileSetting.vue'
 
 Vue.use(Router)
 
@@ -33,9 +35,24 @@ const router = new Router({
               {
             path: '/',
             redirect: {name : 'dashboard'}
-                },   
-
-         {
+                }
+            ,{  
+                path: '/profile',
+                name: 'profile',
+                component: Profile,
+                meta :{
+                  requiresAuth :true,
+                }
+              },  
+              {  
+                path: '/profile-setting',
+                name: 'profile-setting',
+                component: ProfileSetting,
+                meta :{
+                  requiresAuth :true,
+                }
+              },
+               {
                 path: '/dashboard',
                 name: 'dashboard',
                 component: () => import('@/views/pages/Dashboard.vue'),
@@ -66,15 +83,38 @@ const router = new Router({
     ],
 })
 
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/login'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('jwt');
+  console.log(loggedIn);
+
+  // trying to access a restricted page + not logged in
+  // redirect to login page
+  if (authRequired && !loggedIn) {
+    next('/login');
+  } else {
+    next();
+  }
+});
+
+/*
    
   router.beforeEach((to, from, next) => {
    if(to.matched.some(record => record.meta.requiresAuth)) {
         if (localStorage.getItem('jwt') == null) {
             next('/login')
         } else {
+
+            if(to.path == '/profile'){
+
+                next('/profile')
+            }
+
             let role = localStorage.getItem('role')
-               if(role == "Admin"){
-                 if( to.path == '/login'){
+               if(role == "Admin"){        
+                if( to.path == '/login'){
                    next('/dashboard')
                  }
                 }
@@ -100,7 +140,7 @@ const router = new Router({
     }
     
 })
-
+*/
 router.afterEach(() => {
   // Remove initial loading
   const appLoading = document.getElementById('loading-bg')

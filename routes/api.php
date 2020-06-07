@@ -14,13 +14,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/auth/login', 'Api\Auth\LoginController@login');
+Route::post('/auth/login', 'Auth\LoginController@login');
+Route::get('/auth/logout','Auth\LoginController@logout');
 
 
-Route::get('/users' , 'Api\Users\IndexController@getAllUsers');
-Route::post('/users/add-new-user', 'Api\Users\CreateController@createUser');
-Route::get('/users/{slug}', 'Api\Users\ShowController@showUser');
-Route::post('/users/{slug}/edit', 'Api\Users\EditController@editUser');
-Route::get('/users/{slug}/activate','Api\Users\StatusController@activateUser');
-Route::get('/users/{slug}/suspend','Api\Users\StatusController@suspendUser');
-Route::get('/users/{slug}/delete','Api\Users\DeleteController@deleteUser');
+// ** -- Routes accessible only for Admins role -- ** 
+
+
+Route::group(['prefix' => 'users' ,'namespace' => 'Users'],function(){
+
+	Route::get('/' , 'IndexController@getAllUsers');
+	Route::post('/add-new-user', 'CreateController@createUser');
+	Route::get('/{slug}', 'ShowController@showUser');
+	Route::post('/{slug}/edit', 'EditController@editUser');
+	Route::get('/{slug}/activate','StatusController@activateUser');
+	Route::get('/{slug}/suspend','StatusController@suspendUser');
+	Route::get('/{slug}/delete','DeleteController@deleteUser');
+
+});
+
+
+
+Route::group(['prefix' => 'articles' ,'namespace' => 'Articles'],function(){
+
+	Route::get('/' , 'IndexController@getAllArticles');
+
+
+});
+
+

@@ -11,12 +11,21 @@ class LoginController extends Controller
     public function login()
     {
         $credentials = request(['email', 'password']);
-
-        if (! $token = auth()->attempt($credentials)) {
+        
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         return $this->respondWithToken($token);
+    }
+
+    public function logout()
+    {
+        $this->guard()->logout();
+        return response()->json([
+            'status' => 'success',
+            'msg' => 'Logged out Successfully.'
+        ], 200);
     }
 
     protected function respondWithToken($token)
@@ -25,8 +34,7 @@ class LoginController extends Controller
             'access_token' => $token,
             'token_type'   => 'bearer',
             'expires_in'   => auth()->factory()->getTTL() * 60,
-            'username' => Auth::guard('api')->user()->username,
-            'role' => Auth::guard('api')->user()->role
+            'user' => Auth::guard('api')->user(),
         ]);
     }
 }

@@ -11,7 +11,11 @@ class DeleteController extends Controller
     public function deleteUser($slug){
 
     	if($administrator = Administrator::fetchBySlug($slug)){
+    		
+
     		$administrator->delete();
+    		$details = $administrator->Details;
+    		$details->delete();
 			return response()->json('Administrator deleted');
     	}
 

@@ -10,9 +10,9 @@ class ShowController extends Controller
 {
     public function showUser($slug){
 
-    	if($user = Administrator::fetchBySlug($slug)){
+    	if($admin = Administrator::fetchBySlug($slug)){
 
-    		return $user;
+    		return $admin;
     	}
 
     	return response()->json("User not found");

@@ -23,6 +23,31 @@ class Administrator extends Authenticatable implements JWTSubject
      */
     public $timestamps = false;
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['Details'];
+
+     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['password','id'];
+
+    public function getDetailsAttribute(){
+
+
+        return \App\Models\AdministratorDetail::where('admin_id',$this->id)->first();
+    }
+
+    public static function fetchBySlug($slug){
+
+        return self::where('slug',$slug)->first();
+    }  
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -31,16 +56,16 @@ class Administrator extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
-    }    public function setPasswordAttribute($password)
-    {
-        if ( !empty($password) ) {
-            $this->attributes['password'] = bcrypt($password);
-        }
+    }   
+
+    public function getAuthPassword() {
+    return $this->password;
+}  
+
+    public function articles(){
+
+        return $this->hasMany('\App\Models\Article','admin_creator_id','id');
+    
+
     }
-
-
-    public static function fetchBySlug($slug){
-
-        return self::where('slug',$slug)->first();
-    }  
 }

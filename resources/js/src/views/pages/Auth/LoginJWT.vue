@@ -47,25 +47,14 @@ export default {
                         email: this.email,
                         password: this.password
                     })
+
                     .then(response => {
                         let role = response.data.role
-                        localStorage.setItem('name',JSON.stringify(response.data.username))
+                        console.log(role)
+                        localStorage.setItem('user',JSON.stringify(response.data.user))
                         localStorage.setItem('jwt',response.data.access_token)
-                        localStorage.setItem('role',response.data.role)
-
-
-                        if (localStorage.getItem('jwt') != null){
-                            this.$emit('loggedIn')
-                            if(this.$router.params.nextUrl != null){
-                                this.$router.push(this.$route.params.nextUrl)
-                            }
-                            else {
-                              
-                              this.$router.push({name : 'page-dashboard'})
-                              
-                                
-                            }
-                        }
+                        this.$router.push({path : '/dashboard'})
+                            
                     })
                     .catch(function (error) {
                         console.error(error.response);
