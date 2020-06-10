@@ -18,8 +18,8 @@
           <!-- <vs-avatar :src="data.avatar" size="80px" class="mr-4" /> -->
           <div>
             <p class="text-lg font-medium mb-2 mt-4 sm:mt-0">{{ data_local.Full_Name  }}</p>
-            <input type="file" @change="onFileChange" accept="image/*" name="avatar">
-
+            <input type="file" class="hidden" ref="update_avatar_input" @change="onFileChange" accept="image/*" name="avatar">
+            <vs-button type="border" class="mr-4" @click="$refs.update_avatar_input.click()">Change Avatar</vs-button>
             <vs-button type="border" color="danger" @click="handleAvatarUpload">Apply</vs-button>
           </div>
         </div>
@@ -30,7 +30,7 @@
     <div class="vx-row">
       <div class="vx-col md:w-1/2 w-full">
         <vs-input class="w-full mt-4" label="Username" v-model="data_local.username" name="username" />
-       
+        
 
         <vs-input class="w-full mt-4" label="Name" v-model="data_local.Full_Name" name="name" />
         
@@ -67,7 +67,7 @@
     <div class="vx-row">
       <div class="vx-col w-full">
         <div class="mt-8 flex flex-wrap items-center justify-end">
-          <vs-button class="ml-auto mt-2" >Save Changes</vs-button>
+          <vs-button class="ml-auto mt-2" @click="handleAccountSubmit" >Save Changes</vs-button>
         </div>
       </div>
     </div>
@@ -91,11 +91,13 @@ export default {
     return {
 
       data_local: JSON.parse(JSON.stringify(this.data)),
-      avatar : this.data.Avatar,
+      avatar : JSON.parse(JSON.stringify(this.data.Avatar)),
+      authentificatedUser : this.$store.state.AppActiveUser.user,
+
 
       statusOptions: [
-        { label: 'Activé', value: 'Activé' },
-        { label: 'Suspendu', value: 'Suspendu' }
+        { label: 'Activé', value: '1' },
+        { label: 'Suspendu', value: '2' }
       ],
       roleOptions: [
         { label: 'Administrateur', value: 'Admin' },
@@ -114,7 +116,7 @@ export default {
                 let reader = new FileReader();
                 let vm = this;
                 reader.onload = (e) => {
-                    vm.data.avatar = e.target.result;
+                    this.avatar = e.target.result;
                 };
                 reader.readAsDataURL(file);
             },
@@ -124,12 +126,34 @@ export default {
                   
                  this.$http.post(`/api/users/${this.data.slug}/uploadAvatar`,{avatar : this.avatar})
                  .then(response => {
-                      this.data_local = response.data;
+
+                    if(this.authentificatedUser.slug == response.data.user.slug){
+                      
+                      localStorage.setItem('user',JSON.stringify(response.data.user))
+                      this.$store.state.AppActiveUser.user = response.data.user;
+                    }
                     }).catch(function (error) {
                         console.error(error.response);
                     });
   
-              }
+              },
+
+
+      handleAccountSubmit(e){
+
+                e.preventDefault();
+                this.$http.post(`/api/users/${this.data.slug}/edit`, {
+                        username: this.data_local.username,
+                        full_name: this.data_local.Full_Name,
+                        email: this.data_local.email,
+                        status: this.data_local.StatusName,
+                        role : this.data_local.role,
+                    })
+                .then(response => {
+
+                    console.log(response.data)
+                })
+      }
 }
 }
 

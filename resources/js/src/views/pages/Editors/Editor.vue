@@ -57,7 +57,7 @@
           <!-- /Information - Col 2 -->
           <div class="vx-col w-full flex" id="account-manage-buttons">
             <vs-button icon-pack="feather" icon="icon-edit" class="mr-4" :to="{name: 'editor-edit', params: { userId: user_data.slug }}">Edit</vs-button>
-            <vs-button v-if="user_not_admin" type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="confirmDeleteRecord">Delete</vs-button>
+            <vs-button v-if="user_not_admin" type="border" color="danger" icon-pack="feather" icon="icon-trash" >Delete</vs-button>
           </div>
 
         </div>

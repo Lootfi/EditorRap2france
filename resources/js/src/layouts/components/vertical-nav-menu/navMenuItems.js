@@ -52,7 +52,7 @@ export default [
         i18n: "Editors",
       },
       {
-        url: null,
+        url: 'create-editor',
         name: "Ajouter un editeur",
         slug: "ajouter-editeur",
         i18n: "Editors",

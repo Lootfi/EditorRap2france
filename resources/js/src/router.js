@@ -85,6 +85,14 @@ const router = new Router({
                 meta :{
                   requiresAuth :true,
                 }
+              },
+              {
+                path: '/create-editor',
+                name: 'editor-create',
+                component: () => import('@/views/pages/Editors/EditorCreate.vue'),
+                meta :{
+                  requiresAuth :true,
+                }
               }
 
             ],

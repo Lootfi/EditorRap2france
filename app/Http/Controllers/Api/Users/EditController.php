@@ -10,17 +10,17 @@ class EditController extends Controller
 {
     public function editUser($slug){
 
-    	$payload = request(['full_name','username','email','password','role']);
+    	$payload = request(['full_name','username','email','password','role','status', 'mobile','country','adresse','gender']);
 
     	if($administrator = Administrator::fetchBySlug($slug)){
-    		if($payload{'full_name'}){
+    		if(request('full_name')){
     			$administrator->full_name = $payload['full_name'];
     		}
-    		if($payload{'username'}){
+    		if(request('username')){
 	    	$administrator->username = $payload['username'];
     		
     		}
-    		if($payload{'email'}){
+    		if(request('email')){
 	    	$administrator->email = $payload['email'];
     		
     		}
@@ -28,6 +28,34 @@ class EditController extends Controller
 	    	$administrator->password = Hash::make($payload['password']);
 
     		}
+            if(request('status')){
+                if(request('status')['label'] == "Activé"){
+                    $administrator->status = 1;
+                }
+                if(request('status')['label'] == "Suspendu") {
+                    $administrator->status = 2;
+                }
+            }
+
+            $details = $administrator->Details;
+            
+            if(request('mobile')){
+                $details->mobile = $payload['mobile'];
+            }
+            if(request('country')){
+                $details->country = $payload['country'];
+
+            }
+            if(request('adresse')){
+                $details->adresse = $payload['adresse'];
+
+            }
+            if(request('gender')){
+                $details->gender = $payload['gender'];
+
+            }
+            $details->updated_at = now();
+            $details->save();
 	    	$administrator->updated_at = now();
 	    	$administrator->save();
 	    	return response()->json([

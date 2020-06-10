@@ -5,11 +5,13 @@
     <div class="flex flex-wrap items-center mb-base">
       <vs-avatar :src="avatar" size="70px" class="mr-4 mb-4" />
       <div>
-        <input type="file" name="avatar" @change="onFileChange" />
+        <input type="file" class="hidden"  ref="update_avatar_input" name="avatar" @change="onFileChange" />
+        <vs-button type="border" class="mr-4" @click="$refs.update_avatar_input.click()">Change Avatar</vs-button>
+        <vs-button type="border" color="danger" @click="handleAvatarUpload">Apply</vs-button>
         <p class="text-sm mt-2">Accepte JPG, GIF or PNG. la taille maximale est 800kB</p>
+
       </div>
       <div>
-        <vs-button class="mx-2 " type="border" @click="handleAvatarUpload">Upload Image</vs-button >
       </div>
     </div>
 

@@ -38,7 +38,7 @@
   <div class="vx-row">
       <div class="vx-col w-full">
         <div class="mt-8 flex flex-wrap items-center justify-end">
-          <vs-button class="ml-auto mt-2">Save Changes</vs-button>
+          <vs-button class="ml-auto mt-2" @click="handleAccountSubmit">Save Changes</vs-button>
         </div>
       </div>
     </div>
@@ -63,18 +63,36 @@ export default {
   },
   data () {
     return {
-
       data_local: JSON.parse(JSON.stringify(this.data)),
+      authentificatedUser : this.$store.state.AppActiveUser.user,
 
     }
   },
 
   mounted(){
-    console.log(this.data_local.Details.gender);
   },
 
-
   methods: {
+     handleAccountSubmit(e){
+
+          console.log(this.data_local)
+
+                e.preventDefault();
+                this.$http.post(`/api/users/${this.data.slug}/edit`, {
+                        mobile: this.data_local.Details.mobile,
+                        country: this.data_local.Details.country,
+                        adresse: this.data_local.Details.adresse,
+                        gender: this.data_local.Details.gender,
+                    })
+                .then(response => {
+
+                    if(this.authentificatedUser.slug == response.data.user.slug){
+                      
+                      localStorage.setItem('user',JSON.stringify(response.data.user))
+                      this.$store.state.AppActiveUser.user = response.data.user;
+                    }
+                })
+      }
       }
 }
 </script>
