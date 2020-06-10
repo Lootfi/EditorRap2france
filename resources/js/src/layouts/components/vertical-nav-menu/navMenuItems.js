@@ -10,7 +10,7 @@
 
 export default [
   {
-    url: null,
+    url: '/dashboard',
     name: "Dashboard",
     slug: "dashboard",
     icon: "HomeIcon",
@@ -46,7 +46,7 @@ export default [
    i18n: "Editors",
    submenu: [
       {
-        url: null,
+        url: '/editors',
         name: "Liste des editeurs",
         slug: "listeediteurs",
         i18n: "Editors",

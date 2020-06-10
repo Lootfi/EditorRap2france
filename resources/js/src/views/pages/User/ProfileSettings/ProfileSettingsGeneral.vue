@@ -3,10 +3,13 @@
 
     <!-- Img Row -->
     <div class="flex flex-wrap items-center mb-base">
-      <vs-avatar :src="activeUserInfo.photoURL" size="70px" class="mr-4 mb-4" />
+      <vs-avatar :src="avatar" size="70px" class="mr-4 mb-4" />
       <div>
-        <vs-upload automatic action="https://jsonplaceholder.typicode.com/posts/" @on-success="successUpload" />
+        <input type="file" name="avatar" @change="onFileChange" />
         <p class="text-sm mt-2">Accepte JPG, GIF or PNG. la taille maximale est 800kB</p>
+      </div>
+      <div>
+        <vs-button class="mx-2 " type="border" @click="handleAvatarUpload">Upload Image</vs-button >
       </div>
     </div>
 
@@ -28,6 +31,7 @@ export default {
   data () {
 
     return {
+      avatar : this.$store.state.AppActiveUser.user.Avatar,
       username: this.$store.state.AppActiveUser.user.username,
       full_name: this.$store.state.AppActiveUser.user.Full_Name,
       email: this.$store.state.AppActiveUser.user.email,
@@ -41,7 +45,6 @@ export default {
 
   methods: {
     handleSubmit(e){
-      console.log('hey')
       e.preventDefault();
      this.$http.post(`/api/users/${this.$store.state.AppActiveUser.user.slug}/edit`, {
                         username: this.username,
@@ -52,11 +55,40 @@ export default {
                     .then(response => {
 
                       localStorage.setItem('user',JSON.stringify(response.data.user))
+                      this.$store.state.AppActiveUser.user = response.data.user;
 
                     }).catch(function (error) {
                         console.error(error.response);
                     });
 
-  }}
+  },
+        onFileChange(e) {
+                let files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+                this.createImage(files[0]);
+            },
+            createImage(file) {
+                let reader = new FileReader();
+                let vm = this;
+                reader.onload = (e) => {
+                    vm.avatar = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            },
+      handleAvatarUpload(e){
+
+                  
+                 this.$http.post(`api/users/${this.$store.state.AppActiveUser.user.slug}/uploadAvatar`,{avatar : this.avatar})
+                 .then(response => {
+                      localStorage.setItem('user',JSON.stringify(response.data.user))
+                      this.$store.state.AppActiveUser.user = response.data.user;
+
+                    }).catch(function (error) {
+                        console.error(error.response);
+                    });
+  
+              }
+}
 }
 </script>

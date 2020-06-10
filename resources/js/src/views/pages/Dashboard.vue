@@ -9,8 +9,7 @@
 
 
 		mounted(){
-
-			console.log('component mounted')
+		
 		}
 	}
 </script>

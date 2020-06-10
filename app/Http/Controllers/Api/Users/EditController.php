@@ -15,7 +15,6 @@ class EditController extends Controller
     	if($administrator = Administrator::fetchBySlug($slug)){
     		if($payload{'full_name'}){
     			$administrator->full_name = $payload['full_name'];
-    			$administrator->slug = str_slug($payload['full_name']) . "-" .mt_srand(6);
     		}
     		if($payload{'username'}){
 	    	$administrator->username = $payload['username'];

@@ -30,7 +30,7 @@ Route::group(['prefix' => 'users' ,'namespace' => 'Users'],function(){
 	Route::get('/{slug}/activate','StatusController@activateUser');
 	Route::get('/{slug}/suspend','StatusController@suspendUser');
 	Route::get('/{slug}/delete','DeleteController@deleteUser');
-
+	Route::post('/{slug}/uploadAvatar','AvatarController@uploadAvatar');
 });
 
 

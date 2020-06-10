@@ -17,11 +17,6 @@
         <profile-settings-info />
       </div>
     </vs-tab>
-    <vs-tab icon-pack="feather" icon="icon-github" :label="!isSmallerScreen ? 'Reseaux sociaux' : ''">
-      <div class="tab-social-links md:ml-4 md:mt-0 mt-4 ml-0">
-        <profile-settings-social-links />
-      </div>
-    </vs-tab>
   </vs-tabs>
 </template>
 
@@ -29,7 +24,6 @@
 import ProfileSettingsGeneral from './ProfileSettingsGeneral.vue'
 import ProfileSettingsChangePassword from './ProfileSettingsChangePassword.vue'
 import ProfileSettingsInfo from './ProfileSettingsInfo.vue'
-import ProfileSettingsSocialLinks from './ProfileSettingsSocialLinks.vue'
 
 
 export default {
@@ -37,7 +31,6 @@ export default {
     ProfileSettingsGeneral,
     ProfileSettingsChangePassword,
     ProfileSettingsInfo,
-    ProfileSettingsSocialLinks,
   },
   data () {
     return {

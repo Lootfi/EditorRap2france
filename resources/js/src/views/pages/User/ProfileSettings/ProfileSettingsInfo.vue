@@ -14,13 +14,14 @@
 
     <!-- Mobile Number -->
     <vs-input class="w-full mt-8" type="number" label-placeholder="Mobile" v-model="mobile" />
+    <vs-input class="w-full mt-8" type="text" label-placeholder="Adresse" v-model="adresse" />
+
     <!-- Gender -->
     <div class="mt-8 mb-base">
       <label class="text-sm">Gender</label>
       <div class="mt-2">
-        <vs-radio v-model="gender" vs-value="male" class="mr-4">Male</vs-radio>
-        <vs-radio v-model="gender" vs-value="female" class="mr-4">Female</vs-radio>
-        <vs-radio v-model="gender" vs-value="other">Other</vs-radio>
+        <vs-radio v-model="gender" vs-value="Male" class="mr-4">Male</vs-radio>
+        <vs-radio v-model="gender" vs-value="Female" class="mr-4">Female</vs-radio>
       </div>
     </div>
 

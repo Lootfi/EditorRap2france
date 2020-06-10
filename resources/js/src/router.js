@@ -60,6 +60,33 @@ const router = new Router({
                   requiresAuth :true,
                 }
               }
+              ,
+               {
+                path: '/editors',
+                name: 'editors',
+                component: () => import('@/views/pages/Editors/EditorIndex.vue'),
+                meta :{
+                  requiresAuth :true,
+                }
+              },
+              {
+                path: '/editors/:slug',
+                name: 'editor',
+                component: () => import('@/views/pages/Editors/Editor.vue'),
+                meta :{
+                  requiresAuth :true,
+                }
+              }
+              ,
+              {
+                path: '/editors/:slug/edit',
+                name: 'editor-edit',
+                component: () => import('@/views/pages/Editors/editor-edit/EditorEdit.vue'),
+                meta :{
+                  requiresAuth :true,
+                }
+              }
+
             ],
         },{
             path: '',
@@ -88,8 +115,6 @@ router.beforeEach((to, from, next) => {
   const publicPages = ['/login'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('jwt');
-  console.log(loggedIn);
-
   // trying to access a restricted page + not logged in
   // redirect to login page
   if (authRequired && !loggedIn) {

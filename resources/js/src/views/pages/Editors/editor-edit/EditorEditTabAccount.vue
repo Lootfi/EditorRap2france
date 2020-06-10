@@ -1,0 +1,136 @@
+<!-- =========================================================================================
+  File Name: UserEditTabInformation.vue
+  Description: User Edit Information Tab content
+  ----------------------------------------------------------------------------------------
+  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+  Author: Pixinvent
+  Author URL: http://www.themeforest.net/user/pixinvent
+========================================================================================== -->
+
+<template>
+  <div id="user-edit-tab-info">
+
+    <!-- Avatar Row -->
+    <div class="vx-row">
+      <div class="vx-col w-full">
+        <div class="flex items-start flex-col sm:flex-row">
+          <img :src="avatar" class="mr-8 rounded h-24 w-24" />
+          <!-- <vs-avatar :src="data.avatar" size="80px" class="mr-4" /> -->
+          <div>
+            <p class="text-lg font-medium mb-2 mt-4 sm:mt-0">{{ data_local.Full_Name  }}</p>
+            <input type="file" @change="onFileChange" accept="image/*" name="avatar">
+
+            <vs-button type="border" color="danger" @click="handleAvatarUpload">Apply</vs-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Row -->
+    <div class="vx-row">
+      <div class="vx-col md:w-1/2 w-full">
+        <vs-input class="w-full mt-4" label="Username" v-model="data_local.username" name="username" />
+       
+
+        <vs-input class="w-full mt-4" label="Name" v-model="data_local.Full_Name" name="name" />
+        
+
+        <vs-input class="w-full mt-4" label="Email" v-model="data_local.email" type="email"  name="email" />
+        
+      </div>
+
+      <div class="vx-col md:w-1/2 w-full">
+
+        <div class="mt-4">
+          <label class="vs-input--label">Status</label>
+          <v-select  v-model="data_local.StatusName" :clearable="false" :options="statusOptions" 
+           name="status" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+         
+        </div>
+
+        <div class="mt-4">
+          <label class="vs-input--label">Role</label>
+          <v-select v-model="data_local.role" :clearable="false" :options="roleOptions" name="role" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+          
+        </div>
+
+       
+      </div>
+    </div>
+
+    <!-- Permissions -->
+    <vx-card class="mt-base" no-shadow card-border>
+
+    </vx-card>
+
+    <!-- Save & Reset Button -->
+    <div class="vx-row">
+      <div class="vx-col w-full">
+        <div class="mt-8 flex flex-wrap items-center justify-end">
+          <vs-button class="ml-auto mt-2" >Save Changes</vs-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import vSelect from 'vue-select'
+
+export default {
+  components: {
+    vSelect
+  },
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
+  data () {
+    return {
+
+      data_local: JSON.parse(JSON.stringify(this.data)),
+      avatar : this.data.Avatar,
+
+      statusOptions: [
+        { label: 'Activé', value: 'Activé' },
+        { label: 'Suspendu', value: 'Suspendu' }
+      ],
+      roleOptions: [
+        { label: 'Administrateur', value: 'Admin' },
+        { label: 'Editeur', value: 'Editor' },
+      ]
+    }
+  },
+  methods: {
+          onFileChange(e) {
+                let files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+                this.createImage(files[0]);
+            },
+            createImage(file) {
+                let reader = new FileReader();
+                let vm = this;
+                reader.onload = (e) => {
+                    vm.data.avatar = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            },
+
+      handleAvatarUpload(e){
+
+                  
+                 this.$http.post(`/api/users/${this.data.slug}/uploadAvatar`,{avatar : this.avatar})
+                 .then(response => {
+                      this.data_local = response.data;
+                    }).catch(function (error) {
+                        console.error(error.response);
+                    });
+  
+              }
+}
+}
+
+</script>

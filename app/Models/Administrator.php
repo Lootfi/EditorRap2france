@@ -28,7 +28,7 @@ class Administrator extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-    protected $appends = ['Details','StatusName'];
+    protected $appends = ['Details','StatusName','Avatar'];
 
      /**
      * The attributes that should be hidden for arrays.
@@ -57,15 +57,20 @@ class Administrator extends Authenticatable implements JWTSubject
 
         if($this->status == 1){
 
-            return "Active";
+            return "Activé";
         }
 
         if($this->status == 2){
 
-            return "suspended";
+            return "Suspendu";
         }
     }
 
+    public function getAvatarAttribute(){
+
+        $detail = \App\Models\AdministratorDetail::where('admin_id',$this->id)->first();
+        return "/images/admin/users/avatars/" . $detail->picture; 
+    }
     public static function fetchBySlug($slug){
 
         return self::where('slug',$slug)->first();

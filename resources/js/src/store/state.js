@@ -20,19 +20,15 @@ import axios from 'axios'
 const userDefaults = {
   uid         : 0,          // From Auth
   user : {},
-  photoURL    : require('@assets/images/portrait/small/avatar-s-11.jpg'), // From Auth
   status      : 'online',
   
 }
-
-
 const userInfoLocalStorage = JSON.parse(localStorage.getItem('user')) || {};
-console.log(userInfoLocalStorage)
+
 const getUserInfo = () => {
 
   const userInfo = {uid: 0,
                     user : userInfoLocalStorage,
-                    photoURL: require('@assets/images/portrait/small/avatar-s-11.jpg'),
                     status : 'online',
                       }
 

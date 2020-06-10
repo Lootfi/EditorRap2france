@@ -32,7 +32,7 @@
 export default {
   data () {
     return {
-      email: 'admin@gmail.com',
+      email: 'karam.tenes@gmail.com',
       password: 'adminpassword',
       checkbox_remember_me: false
     }
@@ -49,8 +49,6 @@ export default {
                     })
 
                     .then(response => {
-                        let role = response.data.role
-                        console.log(role)
                         localStorage.setItem('user',JSON.stringify(response.data.user))
                         localStorage.setItem('jwt',response.data.access_token)
                         this.$router.push({path : '/dashboard'})
