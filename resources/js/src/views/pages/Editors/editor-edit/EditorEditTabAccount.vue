@@ -20,7 +20,7 @@
             <p class="text-lg font-medium mb-2 mt-4 sm:mt-0">{{ data_local.Full_Name  }}</p>
             <input type="file" class="hidden" ref="update_avatar_input" @change="onFileChange" accept="image/*" name="avatar">
             <vs-button type="border" class="mr-4" @click="$refs.update_avatar_input.click()">Change Avatar</vs-button>
-            <vs-button type="border" color="danger" @click="handleAvatarUpload">Apply</vs-button>
+          <vs-button type="border" color="danger" @click="handleAvatarUpload" :disabled="avatarIsSending">Apply</vs-button>
           </div>
         </div>
       </div>
@@ -29,13 +29,16 @@
     <!-- Content Row -->
     <div class="vx-row">
       <div class="vx-col md:w-1/2 w-full">
-        <vs-input class="w-full mt-4" label="Username" v-model="data_local.username" name="username" />
+        <vs-input class="w-full mt-4" label="Username" v-model="data_local.username" name="username" v-validate="'alpha_num|required'" />
+        <span class="text-danger text-sm" v-show="errors.has('username')">{{ errors.first('username') }}</span>
         
 
-        <vs-input class="w-full mt-4" label="Name" v-model="data_local.Full_Name" name="name" />
+        <vs-input class="w-full mt-4" label="Name" v-model="data_local.Full_Name" name="name" v-validate="'alpha_spaces|required'"  />
+        <span class="text-danger text-sm" v-show="errors.has('name')">{{ errors.first('name') }}</span>
         
 
-        <vs-input class="w-full mt-4" label="Email" v-model="data_local.email" type="email"  name="email" />
+        <vs-input class="w-full mt-4" label="Email" v-model="data_local.email" type="email"  name="email" v-validate="'email|required'"  />
+        <span class="text-danger text-sm" v-show="errors.has('email')">{{ errors.first('email') }}</span>
         
       </div>
 
@@ -43,14 +46,16 @@
 
         <div class="mt-4">
           <label class="vs-input--label">Status</label>
-          <v-select  v-model="data_local.StatusName" :clearable="false" :options="statusOptions" 
+          <v-select  v-validate="'required'" v-model="data_local.StatusName" :clearable="false" :options="statusOptions" 
            name="status" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+           <span class="text-danger text-sm" v-show="errors.has('status')">{{ errors.first('status') }}</span>
          
         </div>
 
         <div class="mt-4">
           <label class="vs-input--label">Role</label>
-          <v-select v-model="data_local.role" :clearable="false" :options="roleOptions" name="role" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+          <v-select v-validate="'required'" v-model="data_local.role" :clearable="false" :options="roleOptions" name="role" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+          <span class="text-danger text-sm" v-show="errors.has('role')">{{ errors.first('role') }}</span>
           
         </div>
 
@@ -67,7 +72,7 @@
     <div class="vx-row">
       <div class="vx-col w-full">
         <div class="mt-8 flex flex-wrap items-center justify-end">
-          <vs-button class="ml-auto mt-2" @click="handleAccountSubmit" >Save Changes</vs-button>
+          <vs-button class="ml-auto mt-2" @click="handleAccountSubmit" :disabled="ChangeIsSending" >Save Changes</vs-button>
         </div>
       </div>
     </div>
@@ -93,6 +98,8 @@ export default {
       data_local: JSON.parse(JSON.stringify(this.data)),
       avatar : JSON.parse(JSON.stringify(this.data.Avatar)),
       authentificatedUser : this.$store.state.AppActiveUser.user,
+      avatarIsSending : false,
+      ChangeIsSending : false,
 
 
       statusOptions: [
@@ -123,17 +130,35 @@ export default {
 
       handleAvatarUpload(e){
 
-                  
-                 this.$http.post(`/api/users/${this.data.slug}/uploadAvatar`,{avatar : this.avatar})
+
+                  this.avatarIsSending = true;
+                 this.$http.post(`/api/users/${this.data.slug}/uploadAvatar`,{avatar : this.avatar},{
+          headers : {
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+          }
+
+       })
                  .then(response => {
 
                     if(this.authentificatedUser.slug == response.data.user.slug){
-                      
                       localStorage.setItem('user',JSON.stringify(response.data.user))
                       this.$store.state.AppActiveUser.user = response.data.user;
                     }
+                    this.$vs.dialog({
+                          color:'primary',
+                          title: ``,
+                          text: 'La photo a été mise à jour!',
+                        })
+                  this.avatarIsSending = false;
+
                     }).catch(function (error) {
-                        console.error(error.response);
+                    
+                      this.avatarIsSending = false;
+                      this.$vs.dialog({
+                          color:'primary',
+                          title: ``,
+                          text: "La photo n'a pas été mise à jour!",
+                        })
                     });
   
               },
@@ -142,18 +167,42 @@ export default {
       handleAccountSubmit(e){
 
                 e.preventDefault();
+                this.$validator.validateAll().then(result => {
+                if (result) {
+                this.ChangeIsSending = true
                 this.$http.post(`/api/users/${this.data.slug}/edit`, {
                         username: this.data_local.username,
                         full_name: this.data_local.Full_Name,
                         email: this.data_local.email,
                         status: this.data_local.StatusName,
                         role : this.data_local.role,
-                    })
+                    },{
+          headers : {
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+          }
+
+       })
                 .then(response => {
 
-                    console.log(response.data)
-                })
+                    this.ChangeIsSending = false;
+                    this.$vs.dialog({
+                          color:'primary',
+                          title: ``,
+                          text: 'Modification complétée',
+                        })
+
+                }).catch(error =>  {
+
+                    this.ChangeIsSending = false;
+                    this.$vs.dialog({
+                          color:'danger',
+                          title: ``,
+                          text: 'Modification Non complétée',
+                        })
+                    });
       }
+})
+}
 }
 }
 

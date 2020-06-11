@@ -61,12 +61,21 @@ const router = new Router({
                 }
               }
               ,
+              {
+                path: '/articles',
+                name: 'articles',
+                component: () => import('@/views/pages/Articles/ArticleIndex.vue'),
+                meta :{
+                  requiresAuth :true,
+                }
+              },
                {
                 path: '/editors',
                 name: 'editors',
                 component: () => import('@/views/pages/Editors/EditorIndex.vue'),
                 meta :{
                   requiresAuth :true,
+                  requiresAdmin: true,
                 }
               },
               {
@@ -75,6 +84,8 @@ const router = new Router({
                 component: () => import('@/views/pages/Editors/Editor.vue'),
                 meta :{
                   requiresAuth :true,
+                  requiresAdmin: true,
+
                 }
               }
               ,
@@ -84,6 +95,8 @@ const router = new Router({
                 component: () => import('@/views/pages/Editors/editor-edit/EditorEdit.vue'),
                 meta :{
                   requiresAuth :true,
+                  requiresAdmin: true,
+
                 }
               },
               {
@@ -92,6 +105,8 @@ const router = new Router({
                 component: () => import('@/views/pages/Editors/EditorCreate.vue'),
                 meta :{
                   requiresAuth :true,
+                  requiresAdmin: true,
+
                 }
               }
 
@@ -122,13 +137,24 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   const publicPages = ['/login'];
   const authRequired = !publicPages.includes(to.path);
+  const LoggedInuser = localStorage.getItem('user')
   const loggedIn = localStorage.getItem('jwt');
   // trying to access a restricted page + not logged in
   // redirect to login page
   if (authRequired && !loggedIn) {
     next('/login');
   } else {
-    next();
+
+    if(to.matched.some(record => record.meta.requiresAdmin) && LoggedInuser.role != "Admin" ){
+
+        next('/dashboard')
+
+    }else{
+
+          next();
+
+
+    }
   }
 });
 

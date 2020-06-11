@@ -17,6 +17,31 @@ use Illuminate\Support\Facades\Route;
 Route::post('/auth/login', 'Auth\LoginController@login');
 Route::get('/auth/logout','Auth\LoginController@logout');
 
+Route::group(['middleware' => ['jwt.verify']],function(){
+
+	Route::post('/auth/password-reset','Auth\PasswordReset@reset');
+	// ** -- Routes accessible only for Admins role -- ** 
+	Route::group(['prefix' => 'users' ,'namespace' => 'Users'],function(){
+	Route::get('/' , 'IndexController@getAllUsers');
+	Route::post('/add-new-user', 'CreateController@createUser');
+	Route::get('/{slug}', 'ShowController@showUser');
+	Route::post('/{slug}/edit', 'EditController@editUser');
+	Route::get('/{slug}/activate','StatusController@activateUser');
+	Route::get('/{slug}/suspend','StatusController@suspendUser');
+	Route::get('/{slug}/delete','DeleteController@deleteUser');
+	Route::post('/{slug}/uploadAvatar','AvatarController@uploadAvatar');
+});
+
+
+Route::group(['prefix' => 'articles' ,'namespace' => 'Articles'],function(){
+
+	Route::get('/' , 'IndexController@getAllArticles');
+
+
+});
+
+});
+
 
 // ** -- Routes accessible only for Admins role -- ** 
 
@@ -32,7 +57,6 @@ Route::group(['prefix' => 'users' ,'namespace' => 'Users'],function(){
 	Route::get('/{slug}/delete','DeleteController@deleteUser');
 	Route::post('/{slug}/uploadAvatar','AvatarController@uploadAvatar');
 });
-
 
 
 Route::group(['prefix' => 'articles' ,'namespace' => 'Articles'],function(){

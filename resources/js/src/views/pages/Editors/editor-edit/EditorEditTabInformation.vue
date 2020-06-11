@@ -18,11 +18,11 @@
           <span class="leading-none font-medium">Personal Information</span>
         </div>
         <div>
-          <vs-input class="w-full mt-4" label="Mobile" v-model="data_local.Details.mobile" name="mobile" />
-          <vs-input class="w-full mt-4" label="Country" v-model="data_local.Details.country" name="country" data-vv-as="field" />
-          <vs-input class="w-full mt-4" label="Adresse" v-model="data_local.Details.adresse" name="adresse" data-vv-as="field" />
-          <!-- Gender -->
-          <div class="mt-4">
+          <vs-input class="w-full mt-4" label="Mobile" v-model="data_local.Details.mobile" name="mobile"/>
+          <vs-input class="w-full mt-4" label="Country" v-model="data_local.Details.country" name="country" data-vv-as="field"  />
+         
+          <vs-input class="w-full mt-4" label="Adresse" v-model="data_local.Details.adresse" name="adresse" data-vv-as="field"  />
+=          <div class="mt-4">
             <label class="text-sm">Gender</label>
             <div class="mt-2">
               <vs-radio v-model="data_local.Details.gender" vs-value="Male" class="mr-4">Male</vs-radio>
@@ -38,7 +38,7 @@
   <div class="vx-row">
       <div class="vx-col w-full">
         <div class="mt-8 flex flex-wrap items-center justify-end">
-          <vs-button class="ml-auto mt-2" @click="handleAccountSubmit">Save Changes</vs-button>
+          <vs-button class="ml-auto mt-2" @click="handleAccountSubmit" :disabled="ChangeIsSending">Save Changes</vs-button>
         </div>
       </div>
     </div>
@@ -65,34 +65,50 @@ export default {
     return {
       data_local: JSON.parse(JSON.stringify(this.data)),
       authentificatedUser : this.$store.state.AppActiveUser.user,
-
+      isSending : false,
     }
   },
-
-  mounted(){
-  },
-
   methods: {
      handleAccountSubmit(e){
 
-          console.log(this.data_local)
 
                 e.preventDefault();
+                this.$validator.validateAll().then(result => {
+                if (result) {
+                this.ChangeIsSending = true
                 this.$http.post(`/api/users/${this.data.slug}/edit`, {
                         mobile: this.data_local.Details.mobile,
                         country: this.data_local.Details.country,
                         adresse: this.data_local.Details.adresse,
                         gender: this.data_local.Details.gender,
-                    })
-                .then(response => {
+                    },{
+          headers : {
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+          }
 
-                    if(this.authentificatedUser.slug == response.data.user.slug){
-                      
-                      localStorage.setItem('user',JSON.stringify(response.data.user))
-                      this.$store.state.AppActiveUser.user = response.data.user;
-                    }
-                })
+       })
+                .then(response => {
+                    this.isSending = false;
+                    this.$vs.dialog({
+                          color:'primary',
+                          title: ``,
+                          text: 'Modification complétée',
+                        })
+
+                }).catch(error =>  {
+
+                    this.isSending = false;
+                    this.$vs.dialog({
+                          color:'danger',
+                          title: ``,
+                          text: 'Modification Non complétée',
+                        })
+                    });
+
       }
-      }
+      })
+
+}
+}
 }
 </script>

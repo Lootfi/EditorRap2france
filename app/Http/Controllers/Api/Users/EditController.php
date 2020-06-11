@@ -10,7 +10,7 @@ class EditController extends Controller
 {
     public function editUser($slug){
 
-    	$payload = request(['full_name','username','email','password','role','status', 'mobile','country','adresse','gender']);
+    	$payload = request(['full_name','username','email','password','role','status', 'mobile','country','adresse','gender','biography']);
 
     	if($administrator = Administrator::fetchBySlug($slug)){
     		if(request('full_name')){
@@ -29,10 +29,10 @@ class EditController extends Controller
 
     		}
             if(request('status')){
-                if(request('status')['label'] == "Activé"){
+                if(request('status') == "Activé"){
                     $administrator->status = 1;
                 }
-                if(request('status')['label'] == "Suspendu") {
+                if(request('status') == "Suspendu") {
                     $administrator->status = 2;
                 }
             }
@@ -48,6 +48,10 @@ class EditController extends Controller
             }
             if(request('adresse')){
                 $details->adresse = $payload['adresse'];
+
+            }
+            if(request('biography')){
+                $details->biography = $payload['biography'];
 
             }
             if(request('gender')){

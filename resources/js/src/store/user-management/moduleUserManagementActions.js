@@ -22,7 +22,12 @@ export default {
   // },
   fetchUsers ({ commit }) {
     return new Promise((resolve, reject) => {
-      axios.get('/api/users')
+      axios.get('/api/users',{
+          headers : {
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+          }
+
+       })
         .then((response) => { 
           commit('SET_USERS', response.data)
           resolve(response)

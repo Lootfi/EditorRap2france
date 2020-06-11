@@ -12,29 +12,36 @@
      </div>
     <div class="vx-row">
       <div class="vx-col md:w-1/2 w-full">
-        <vs-input class="w-full mt-4" label="Nom d'utilisateur"  name="username" v-model="username" />
-        <vs-input class="w-full mt-4" label="Nom"  name="name" v-model="name" />
-        <vs-input class="w-full mt-4" label="Email" type="email"  name="email" v-model="email" />
-        <vs-input class="w-full mt-4" label="Mot de passe" type="password"  name="password" v-model="password" />
-        <vs-input class="w-full mt-4" label="Confirmation du mot de passe" type="password" v-model="confirmPassword"  name="confirmPassword" />
-        <vs-textarea  class="w-full mt-4" label="Bio" placeholder="Your bio..." v-model="biography"/>
+        <vs-input class="w-full mt-4" label="Nom d'utilisateur"  name="username" v-model="username" v-validate="'alpha_num|required'" />
+        <span class="text-danger text-sm" v-show="errors.has('username')">{{ errors.first('username') }}</span>
+        <vs-input class="w-full mt-4" label="Nom"  name="name" v-model="name" v-validate="'alpha_spaces|required'"  />
+        <span class="text-danger text-sm" v-show="errors.has('name')">{{ errors.first('name') }}</span>
+
+        <vs-input class="w-full mt-4" v-validate="'email|required'"  label="Email" type="email"  name="email" v-model="email" />
+        <span class="text-danger text-sm" v-show="errors.has('email')">{{ errors.first('email') }}</span>
+        <vs-input class="w-full mt-4" label="Mot de passe" ref="password" v-validate="'required|min:3|max:35'" type="password"  name="password" v-model="password" />
+        <span class="text-danger text-sm" v-show="errors.has('password')">{{ errors.first('password') }}</span>
+        <vs-input class="w-full mt-4" label="Confirmation du mot de passe" type="password" v-model="confirmPassword"  name="confirmPassword" v-validate="'required|confirmed:password'" />
+        <span class="text-danger text-sm" v-show="errors.has('confirmPassword')">{{ errors.first('confirmPassword') }}</span>
+        <vs-textarea  class="w-full mt-4" label="Bio" name="biography" v-validate="'required'" placeholder="Biographie" v-model="biography"/>
+        <span class="text-danger text-sm" v-show="errors.has('biography')">{{ errors.first('biography') }}</span>
       </div>
 
       <div class="vx-col md:w-1/2 w-full">
-		<vs-input class="w-full mt-4" label="Adresse" v-model="adresse"  name="adresse" />
+		    <vs-input class="w-full mt-4" label="Adresse" v-model="adresse"  name="adresse" />
         <vs-input class="w-full mt-4" label="Pays" v-model="country" name="country" />
         <vs-input class="w-full mt-4" label="Mobile" v-model="mobile"  name="mobile" />
         <div class="mt-4">
           <label class="vs-input--label">Etat</label>
           <v-select :clearable="false" :options="statusOptions" 
-           name="status" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="status" />
-         
+           name="status" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="status" v-validate="'required'" />
+         <span class="text-danger text-sm" v-show="errors.has('status')">{{ errors.first('status') }}</span>
         </div>
 
         <div class="mt-4">
           <label class="vs-input--label">Role</label>
-          <v-select :clearable="false" :options="roleOptions" name="role" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="role"/>
-          
+          <v-select :clearable="false" :options="roleOptions" name="role" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="role" v-validate="'required'"/>
+          <span class="text-danger text-sm" v-show="errors.has('role')">{{ errors.first('role') }}</span>
         </div>
         <div class="mt-4">
             <label class="text-sm">Sexe</label>
@@ -62,7 +69,7 @@
 <div class="vx-row">
       <div class="vx-col w-full">
         <div class="mt-8 flex flex-wrap items-center justify-end">
-          <vs-button class="ml-auto mt-2" @click="handleAccountSubmit" >Save Changes</vs-button>
+          <vs-button class="ml-auto mt-2" @click="handleAccountSubmit" :disable="isSending" >Save Changes</vs-button>
         </div>
       </div>
     </div>
@@ -99,6 +106,7 @@ export default {
       adresse:'',
       gender:'',
       avatar:'',
+      isSending: '',
       statusOptions: [
         { label: 'Activé', value: '1' },
         { label: 'Suspendu', value: '2' }
@@ -130,28 +138,50 @@ export default {
             },
 
             handleAccountSubmit(e){
-            	console.log('hey');
                 e.preventDefault();
+                this.$validator.validateAll().then(result => {
+                 if (result) {
+
+                this.isSending = true
                 this.$http.post(`/api/users/add-new-user`, {
-                        username: this.username,
-                        full_name: this.name,
-                        email: this.email,
-                        status: this.status,
-                        role : this.role,
-					    password: this.password,
-					    biography:this.biography,
-					    country :this.country,
-					    mobile:this.mobile,
-					    adresse:this.adresse,
-					    gender:this.gender,
-					    avatar:this.avatar,
-                    })
+                    username: this.username,
+                    full_name: this.name,
+                    email: this.email,
+                    status: this.status,
+                    role : this.role,
+      					    password: this.password,
+      					    biography:this.biography,
+      					    country :this.country,
+      					    mobile:this.mobile,
+      					    adresse:this.adresse,
+      					    gender:this.gender,
+      					    avatar:this.avatar,
+                    },{
+          headers : {
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+          }
+
+       })
                 .then(response => {
+                      this.isSending = false;
+                      this.$vs.dialog({
+                          color:'primary',
+                          title: ``,
+                          text: 'Editeur crée ! ',
+                        })
 
-                    console.log(response.data)
-                })
-      }
+                    }).catch(function (error) {
+                      this.isSending = false;
+                    this.$vs.dialog({
+                          color:'danger',
+                          title: ``,
+                          text: 'Erreur lors de la création',
+                        })
+                    });
+        }
 
-  }
+  })
+              }
+}
 }
 </script>

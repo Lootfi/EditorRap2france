@@ -16,14 +16,19 @@
     </div>
 
     <!-- Info -->
-    <vs-input class="w-full mb-base" label-placeholder="Nom d'utilisateur" v-model="username"></vs-input>
-    <vs-input class="w-full mb-base" label-placeholder="Nom" v-model="full_name"></vs-input>
-    <vs-input class="w-full" label-placeholder="Email" v-model="email"></vs-input>
+    <vs-input class="w-full "  name="username" v-validate="'alpha_num|required'"  label-placeholder="Nom d'utilisateur" v-model="username" />  
+      <span class="text-danger text-sm" v-show="errors.has('username')">{{ errors.first('username') }}</span>
+
+    <vs-input class="w-full mt-base" name="name" v-validate="'alpha_spaces|required'" label-placeholder="Nom" v-model="full_name" />
+    <span class="text-danger text-sm" v-show="errors.has('name')">{{ errors.first('name') }}</span>
+
+    <vs-input class="w-full mt-base" v-validate="'required|email'" label-placeholder="Email" v-model="email" name="email"/>
+    <span class="text-danger text-sm" v-show="errors.has('email')">{{ errors.first('email') }}</span>
 
 
     <!-- Save & Reset Button -->
     <div class="flex flex-wrap items-center justify-end">
-      <vs-button class="ml-auto mt-2" @click="handleSubmit">Enregistrer</vs-button>
+      <vs-button class="ml-auto mt-2" @click="handleSubmit" :disabled="isSending">Enregistrer</vs-button>
     </div>
   </vx-card>
 </template>
@@ -37,6 +42,7 @@ export default {
       username: this.$store.state.AppActiveUser.user.username,
       full_name: this.$store.state.AppActiveUser.user.Full_Name,
       email: this.$store.state.AppActiveUser.user.email,
+      isSending : false,
     }
   },
   computed: {
@@ -48,20 +54,42 @@ export default {
   methods: {
     handleSubmit(e){
       e.preventDefault();
+      this.$validator.validateAll().then(result => {
+      if (result) {
+      this.isSending = true
      this.$http.post(`/api/users/${this.$store.state.AppActiveUser.user.slug}/edit`, {
                         username: this.username,
                         full_name: this.full_name,
                         email: this.email
-                    })
+                    },{
+          headers : {
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+          }
+
+       })
 
                     .then(response => {
 
                       localStorage.setItem('user',JSON.stringify(response.data.user))
                       this.$store.state.AppActiveUser.user = response.data.user;
+                      this.isSending = false;
+                    this.$vs.dialog({
+                          color:'primary',
+                          title: ``,
+                          text: 'Modification complétée',
+                        })
 
                     }).catch(function (error) {
-                        console.error(error.response);
+                      this.isSending = false;
+                    this.$vs.dialog({
+                          color:'danger',
+                          title: ``,
+                          text: 'Modification non complétée',
+                        })
                     });
+                  }
+
+                })
 
   },
         onFileChange(e) {

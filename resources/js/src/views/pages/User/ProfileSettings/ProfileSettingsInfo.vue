@@ -2,19 +2,19 @@
   <vx-card no-shadow>
 
     <!-- Bio -->
-    <vs-textarea label="Bio" v-model="bio" placeholder="Your bio..." />
+    <vs-textarea label="Bio" v-validate="'required'" name="biography" v-model="biography" placeholder="Biographie ... " />
+    <span class="text-danger text-sm" v-show="errors.has('username')">{{ errors.first('username') }}</span>
 
     <!-- Country -->
     <div class="mt-8">
-      <label class="text-sm">Country</label>
-      <v-select v-model="country" :options="countryOptions" :dir="$vs.rtl ? 'rtl' : 'ltr'" />
+      <vs-input  name="country" v-model="country" type="text" label-placeholder="Pays" />
     </div>
-
+  
   
 
     <!-- Mobile Number -->
-    <vs-input class="w-full mt-8" type="number" label-placeholder="Mobile" v-model="mobile" />
-    <vs-input class="w-full mt-8" type="text" label-placeholder="Adresse" v-model="adresse" />
+    <vs-input class="w-full mt-8" name="mobile" type="number" label-placeholder="Mobile" v-model="mobile" />
+    <vs-input class="w-full mt-8" name="adresse" type="text" label-placeholder="Adresse" v-model="adresse" />
 
     <!-- Gender -->
     <div class="mt-8 mb-base">
@@ -27,8 +27,7 @@
 
     <!-- Save & Reset Button -->
     <div class="flex flex-wrap items-center justify-end">
-      <vs-button class="ml-auto mt-2">Save Changes</vs-button>
-      <vs-button class="ml-4 mt-2" type="border" color="warning">Reset</vs-button>
+      <vs-button class="ml-auto mt-2" @click="handleSubmit" :disable="isSending">Save Changes</vs-button>
     </div>
   </vx-card>
 </template>
@@ -45,10 +44,12 @@ export default {
   },
   data () {
     return {
-      bio: this.$store.state.AppActiveUser.user.Details.biography,
+      biography: this.$store.state.AppActiveUser.user.Details.biography,
       country: this.$store.state.AppActiveUser.user.Details.country,
+      adresse: this.$store.state.AppActiveUser.user.Details.adresse,
       gender: this.$store.state.AppActiveUser.user.Details.gender,
       mobile: this.$store.state.AppActiveUser.user.Details.mobile,
+      isSending:false,
       // Options
       countryOptions: [
         { label: 'Australia',  value: 'australia'  },
@@ -67,6 +68,54 @@ export default {
     activeUserInfo () {
       return this.$store.state.AppActiveUser
     }
+  },
+  methods : {
+
+      handleSubmit(e){
+
+        e.preventDefault();
+       this.$validator.validateAll().then(result => {
+       if (result) {
+      this.isSending = true
+      this.$http.post(`/api/users/${this.$store.state.AppActiveUser.user.slug}/edit`, {
+                        biography: this.biography,
+                        country: this.country,
+                        adresse: this.adresse,
+                        gender: this.gender,
+                        mobile: this.mobile,
+
+                    },{
+          headers : {
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+          }
+
+       })
+
+                    .then(response => {
+
+                      localStorage.setItem('user',JSON.stringify(response.data.user))
+                      this.$store.state.AppActiveUser.user = response.data.user;
+                      this.isSending = false;
+                      this.$vs.dialog({
+                          color:'primary',
+                          title: ``,
+                          text: 'Modification complétée',
+                        })
+
+                    }).catch(function (error) {
+                      this.isSending = false;
+                    this.$vs.dialog({
+                          color:'danger',
+                          title: ``,
+                          text: 'Modification non complétée',
+                        })
+                    });
+                  }
+
+                })
+
+  },
+      }
   }
-}
+
 </script>

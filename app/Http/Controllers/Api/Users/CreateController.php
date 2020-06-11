@@ -21,11 +21,11 @@ class CreateController extends Controller
 	    	$administrator->email = $payload['email'];
 	    	$administrator->password = Hash::make($payload['password']);	
 	    	$administrator->slug = str_slug($payload['full_name']) . "-" .substr(md5(mt_rand()), 0, 6);
-	    	$administrator->role = $payload['role'];
-             if(request('status') == "Activé"){
+	    	$administrator->role = $payload['role']['value'];
+             if(request('status')['label'] == "Activé"){
                     $administrator->status = 1;
                 }
-             if(request('status') == "Suspendu") {
+             if(request('status')['label'] == "Suspendu") {
                     $administrator->status = 2;
                 }
 	    	$administrator->created_at = now();

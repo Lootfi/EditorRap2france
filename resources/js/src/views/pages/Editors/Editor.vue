@@ -57,7 +57,7 @@
           <!-- /Information - Col 2 -->
           <div class="vx-col w-full flex" id="account-manage-buttons">
             <vs-button icon-pack="feather" icon="icon-edit" class="mr-4" :to="{name: 'editor-edit', params: { userId: user_data.slug }}">Edit</vs-button>
-            <vs-button v-if="user_not_admin" type="border" color="danger" icon-pack="feather" icon="icon-trash" >Delete</vs-button>
+            <vs-button v-if="user_not_admin" type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="handleDelete" :disable="isDeleting">Delete</vs-button>
           </div>
 
         </div>
@@ -75,25 +75,62 @@ data () {
       user_data: null,
       user_not_found: false,
       user_not_admin: true,
+      isDeleting :false,
     }
   },
 
 	mounted(){
 
-			 this.$http.get(`/api/users/${this.$route.params.slug}`)
+			 this.$http.get(`/api/users/${this.$route.params.slug}`,{
+          headers : {
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+          }
+
+       })
 			 .then(response => {
+        if(response.data == "User not found"){
+
+          this.$router.push('/editors')
+        }
+
 			 		this.user_data = response.data
+          
 			 		if(this.user_data.role == 'Admin'){
 			 			this.user_not_admin = false;
 			 		}
 			 	}).catch(function (error) {
-			 		this.user_not_found = true
-                        console.error(error.response);
+          
+          console.error(error);
                     });
 	},
 
 	methods: {
 
+      handleDelete(e){
+
+        e.preventDefault();
+        this.isDeleting = true
+        this.$http.get(`/api/users/${this.$route.params.slug}/delete`,{
+          headers : {
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+          }
+
+       })
+       .then(response => {
+
+          $router.push('/editors');
+        }).catch(function (error) {
+          
+          this.$vs.dialog({
+                          color:'danger',
+                          title: ``,
+                          text: "L'utilisateur n'a été pas supprimé!",
+                        })
+          this.isDeleting = false;
+                    
+                    });
+
+      }
 
 	}
 }

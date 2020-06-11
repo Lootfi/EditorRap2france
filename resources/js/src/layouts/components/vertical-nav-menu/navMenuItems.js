@@ -25,7 +25,7 @@ export default [
     i18n: "Actualité",
     submenu: [
       {
-        url: null,
+        url: '/articles',
         name: "Liste des articles",
         slug: "listearticles",
         i18n: "Articles",

@@ -69,7 +69,12 @@ export default {
   methods: {
     
     fetch_user_data (slug) {
-     this.$http.get(`/api/users/${slug}`)
+     this.$http.get(`/api/users/${slug}`,{
+          headers : {
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+          }
+
+       })
        .then(response => {
 
           this.user_data = response.data
