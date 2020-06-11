@@ -36,6 +36,7 @@ Route::group(['middleware' => ['jwt.verify']],function(){
 Route::group(['prefix' => 'articles' ,'namespace' => 'Articles'],function(){
 
 	Route::get('/' , 'IndexController@getAllArticles');
+	Route::get('/{tag}','ShowController@showArticle');
 
 
 });

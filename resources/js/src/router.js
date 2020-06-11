@@ -69,6 +69,14 @@ const router = new Router({
                   requiresAuth :true,
                 }
               },
+              {
+                path: '/articles/:tag',
+                name: 'article',
+                component: () => import('@/views/pages/Articles/Article.vue'),
+                meta :{
+                  requiresAuth :true,
+                }
+              },
                {
                 path: '/editors',
                 name: 'editors',

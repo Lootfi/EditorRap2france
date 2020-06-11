@@ -10,6 +10,7 @@
 
 import Vue from 'vue'
 import App from './App.vue'
+import $ from 'jquery'
 
 // Vuesax Component Framework
 import Vuesax from 'vuesax'
