@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe5fbe3a0cf386899e69d8cc4c3e68ce",
+    "content-hash": "5f3b1978e361652183adb4a153c76fed",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1392,6 +1392,69 @@
             "time": "2020-05-22T08:12:19+00:00"
         },
         {
+            "name": "motivo/editorjs-data-converter",
+            "version": "v1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MotivoZwolle/editorjs-data-converter.git",
+                "reference": "9b867599edf3eb043ce660a36a4d1d8913dbfee1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MotivoZwolle/editorjs-data-converter/zipball/9b867599edf3eb043ce660a36a4d1d8913dbfee1",
+                "reference": "9b867599edf3eb043ce660a36a4d1d8913dbfee1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/support": "~5.7.0|~5.8.0|^6.0|^7.0",
+                "php": "^7.1.3",
+                "spatie/laravel-html": "^2.24|^2.25|^2.26"
+            },
+            "require-dev": {
+                "beyondcode/laravel-dump-server": "^1.2|^1.3|^1.4",
+                "friendsofphp/php-cs-fixer": "^2.15",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Motivo\\EditorJsDataConverter\\EditorJsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Motivo\\EditorJsDataConverter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "mpl-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Wouter van Marrum",
+                    "email": "wouter@woutervm.com",
+                    "homepage": "https://motivo.nl",
+                    "role": "developer"
+                },
+                {
+                    "name": "Jelle",
+                    "email": "jelle@motivo.nl",
+                    "homepage": "https://motivo.nl"
+                }
+            ],
+            "description": "A package to convert JSON data that Editor.js generates back to html so it can be used.",
+            "keywords": [
+                "editorjs",
+                "laravel",
+                "motivo"
+            ],
+            "time": "2020-04-24T10:43:14+00:00"
+        },
+        {
             "name": "namshi/jose",
             "version": "7.2.3",
             "source": {
@@ -2188,6 +2251,75 @@
                 "uuid"
             ],
             "time": "2020-03-29T20:13:32+00:00"
+        },
+        {
+            "name": "spatie/laravel-html",
+            "version": "2.26.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-html.git",
+                "reference": "a9653c81c92fa008ad84d2a5c1c73ed94fc3357b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-html/zipball/a9653c81c92fa008ad84d2a5c1c73ed94fc3357b",
+                "reference": "a9653c81c92fa008ad84d2a5c1c73ed94fc3357b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": "^6.0|^7.0",
+                "illuminate/support": "^6.0|^7.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3",
+                "orchestra/testbench": "^4.0|^5.0",
+                "phpunit/phpunit": "^8.0|^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Html\\HtmlServiceProvider"
+                    ],
+                    "aliases": {
+                        "Html": "Spatie\\Html\\Facades\\Html"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Html\\": "src"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A fluent html builder",
+            "homepage": "https://github.com/spatie/laravel-html",
+            "keywords": [
+                "html",
+                "spatie"
+            ],
+            "time": "2020-04-20T09:18:16+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

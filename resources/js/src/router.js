@@ -77,6 +77,15 @@ const router = new Router({
                   requiresAuth :true,
                 }
               },
+              {
+                path: '/create-article',
+                name: 'article-create',
+                component: () => import('@/views/pages/Articles/ArticleCreate.vue'),
+                meta :{
+                  requiresAuth :true,
+
+                }
+              },
                {
                 path: '/editors',
                 name: 'editors',
@@ -145,7 +154,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   const publicPages = ['/login'];
   const authRequired = !publicPages.includes(to.path);
-  const LoggedInuser = localStorage.getItem('user')
+  const LoggedInuser = JSON.parse(localStorage.getItem('user'))
   const loggedIn = localStorage.getItem('jwt');
   // trying to access a restricted page + not logged in
   // redirect to login page

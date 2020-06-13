@@ -25,14 +25,14 @@ class Article extends Model
      *
      * @var array
      */
-    protected $appends = ['Creator','Category'];
+    protected $appends = ['Creator','Category','ContenuFormat'];
 
      /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = ['contenutext','id','idcat','admin_creator_id'];
+    protected $hidden = ['contenutext','contenu','contenuJson','id','idcat','admin_creator_id'];
     /**
     * The attributes that should be cast.
     *
@@ -41,7 +41,8 @@ class Article extends Model
     protected $casts = [
        'created_at' => 'datetime:Y-m-d',
        'updated_at' => 'datetime:Y-m-d',
-       'dateactu' =>'datetime:Y-m-d'
+       'dateactu' =>'datetime:Y-m-d',
+       'contenuJson' => 'array'
     ];
 
 
@@ -56,7 +57,18 @@ class Article extends Model
 
         return \App\Models\Category::findOrFail($this->idcat);
     }
-   
+    
+    public function getContenuFormatAttribute(){
+
+        if($this->contenuJson == null ){
+
+            return ['type' => "raw", 'contenu' => html_entity_decode($this->contenu)  ];
+       
+        }else{
+
+            return ['type' => "json" , 'contenu' => $this->contenuJson];
+        }
+    }
 
     public static function fetchByTag($tag){
 

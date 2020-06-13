@@ -10,9 +10,11 @@ class ShowController extends Controller
 {
     public function showArticle($tag){
 
+
     	if($article = Article::fetchByTag($tag)){
 
-    		return ['article' => $article ,'contenu' => html_entity_decode($article->contenu)] ;
+    		return $article;
+    		
     	}
 
     	return response()->json("Article not found");

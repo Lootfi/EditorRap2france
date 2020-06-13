@@ -131,7 +131,6 @@ export default {
                 let reader = new FileReader();
                 let vm = this;
                 reader.onload = (e) => {
-                	console.log(this.avatar);
                     this.avatar = e.target.result;
                 };
                 reader.readAsDataURL(file);

@@ -9,22 +9,53 @@
 
 <template>
   <div id="user-edit-tab-info">
-
-    <!-- Avatar Row -->
-    <div class="vx-row">
-      <div class="vx-col w-full">
-        <div class="flex items-start flex-col sm:flex-row">
-          <img :src="avatar" class="mr-8 rounded h-24 w-24" />
-          <!-- <vs-avatar :src="data.avatar" size="80px" class="mr-4" /> -->
-          <div>
-            <p class="text-lg font-medium mb-2 mt-4 sm:mt-0">{{ data_local.Full_Name  }}</p>
-            <input type="file" class="hidden" ref="update_avatar_input" @change="onFileChange" accept="image/*" name="avatar">
-            <vs-button type="border" class="mr-4" @click="$refs.update_avatar_input.click()">Change Avatar</vs-button>
-          <vs-button type="border" color="danger" @click="handleAvatarUpload" :disabled="avatarIsSending">Apply</vs-button>
-          </div>
+      
+        <vs-collapse>
+          <vs-collapse-item>
+            <div slot="header" class="flex items-center justify-between ">
+               <vs-avatar size="150px" :src="avatar"/>
+               <p class="px-2">Changer la photo de profile</p>
+              </div>
+      <div style="max-width: 100%;">
+          <v-card-text>
+            <v-file-input class="my-4" v-model="selectedFile" accept="image/png, image/jpeg" placeholder="Selectionner une image" :show-size="1024" @change="setupCropper"></v-file-input>
+            <div class="flex flex-wrap justify-around" v-if="objectUrl">
+              <div  class=" text-center">
+                <div class="image-container ">
+                  <img style="max-width:100%; max-height:100%;" class="image-preview" ref="source" :src="objectUrl"/>
+                </div>
+                <div class="d-flex justify-center">
+                  <v-btn icon="icon" small="small" @click="resetCropper">
+                    <v-icon small="small">mdi-aspect-ratio</v-icon>
+                  </v-btn>
+                  <div class="mx-2"></div>
+                  <v-btn icon="icon" small="small" @click="rotateLeft">
+                    <v-icon small="small">mdi-rotate-left</v-icon>
+                  </v-btn>
+                  <v-btn icon="icon" small="small" @click="rotateRight">
+                    <v-icon small="small">mdi-rotate-right</v-icon>
+                  </v-btn>
+                </div>
+              </div>
+              <div  class=" text-center" >
+                <div class="image-container ">
+                  <img class="image-preview" style="max-width:100%; max-height:100%;" :src="previewCropped"/>
+                </div>
+              </div>
+            </div>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <vs-button class="ml-auto mt-2 text-white" :disabled="!objectUrl"  @click="handleAvatarUpload">
+              <v-icon left="left">mdi-send</v-icon>
+              <span>Changer l'image</span>
+            </vs-button>
+          </v-card-actions>
         </div>
-      </div>
-    </div>
+
+    </vs-collapse-item>
+  </vs-collapse>
+        
 
     <!-- Content Row -->
     <div class="vx-row">
@@ -77,22 +108,17 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
 import vSelect from 'vue-select'
+import Cropper from 'cropperjs'
+import debounce from 'lodash/debounce'
 
 export default {
-  components: {
-    vSelect
-  },
-  props: {
-    data: {
-      type: Object,
-      required: true
-    }
-  },
   data () {
+
     return {
 
       data_local: JSON.parse(JSON.stringify(this.data)),
@@ -100,6 +126,11 @@ export default {
       authentificatedUser : this.$store.state.AppActiveUser.user,
       avatarIsSending : false,
       ChangeIsSending : false,
+      objectUrl:null,
+      previewCropped:null,
+      cropper: null,
+      selectedFile:null,
+      debouncedUpdatePreview: debounce(this.updatePreview, 257),
 
 
       statusOptions: [
@@ -112,27 +143,62 @@ export default {
       ]
     }
   },
+  components: {
+    vSelect
+  },
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
+  
   methods: {
-          onFileChange(e) {
-                let files = e.target.files || e.dataTransfer.files;
-                if (!files.length)
-                    return;
-                this.createImage(files[0]);
-            },
-            createImage(file) {
-                let reader = new FileReader();
-                let vm = this;
-                reader.onload = (e) => {
-                    this.avatar = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            },
+  
+    resetCropper () {
+      this.cropper.reset()
+    },
+    rotateLeft () {
+      console.log(this.cropper)
+      this.cropper.rotate(-90)
+    },
+    rotateRight () {
+      this.cropper.rotate(90)
+    },
+
+    setupCropper (selectedFile) {
+      if (this.cropper) {
+        this.cropper.destroy()
+      }
+
+      if (this.objectUrl) {
+        window.URL.revokeObjectURL(this.objectUrl)
+      }
+      if (!selectedFile) {
+        this.cropper = null
+        this.objectUrl = null
+        this.previewCropped = null
+        return
+      }
+      this.objectUrl = window.URL.createObjectURL(selectedFile)
+      this.$nextTick(this.setupCropperInstance)
+    },
+    setupCropperInstance () {
+      this.cropper = new Cropper(this.$refs.source, {
+        aspectRatio: 1,
+        crop: this.debouncedUpdatePreview
+      })
+    },
+    updatePreview (event) {
+      const canvas = this.cropper.getCroppedCanvas()
+      this.previewCropped = canvas.toDataURL('image/png')
+    },
 
       handleAvatarUpload(e){
 
 
                   this.avatarIsSending = true;
-                 this.$http.post(`/api/users/${this.data.slug}/uploadAvatar`,{avatar : this.avatar},{
+                 this.$http.post(`/api/users/${this.data.slug}/uploadAvatar`,{avatar : this.previewCropped},{
           headers : {
             'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
           }
@@ -144,6 +210,11 @@ export default {
                       localStorage.setItem('user',JSON.stringify(response.data.user))
                       this.$store.state.AppActiveUser.user = response.data.user;
                     }
+                    this.avatar = response.data.user.Avatar
+                    this.objectUrl =null
+                    this.previewCropped = null
+                    this.cropper = null
+                    this.selectedFile = null
                     this.$vs.dialog({
                           color:'primary',
                           title: ``,

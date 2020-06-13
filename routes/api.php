@@ -37,34 +37,14 @@ Route::group(['prefix' => 'articles' ,'namespace' => 'Articles'],function(){
 
 	Route::get('/' , 'IndexController@getAllArticles');
 	Route::get('/{tag}','ShowController@showArticle');
+	Route::get('/{tag}/edit','EditController@editArticle');
+	Route::post('/add-new-article','CreateController@createArticle');
+	Route::post('/uploadImageByFile','CreateController@uploadImageByFile');
 
 
 });
 
 });
 
-
-// ** -- Routes accessible only for Admins role -- ** 
-
-
-Route::group(['prefix' => 'users' ,'namespace' => 'Users'],function(){
-
-	Route::get('/' , 'IndexController@getAllUsers');
-	Route::post('/add-new-user', 'CreateController@createUser');
-	Route::get('/{slug}', 'ShowController@showUser');
-	Route::post('/{slug}/edit', 'EditController@editUser');
-	Route::get('/{slug}/activate','StatusController@activateUser');
-	Route::get('/{slug}/suspend','StatusController@suspendUser');
-	Route::get('/{slug}/delete','DeleteController@deleteUser');
-	Route::post('/{slug}/uploadAvatar','AvatarController@uploadAvatar');
-});
-
-
-Route::group(['prefix' => 'articles' ,'namespace' => 'Articles'],function(){
-
-	Route::get('/' , 'IndexController@getAllArticles');
-
-
-});
 
 

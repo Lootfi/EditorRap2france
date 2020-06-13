@@ -10,13 +10,15 @@
 
 import Vue from 'vue'
 import App from './App.vue'
-import $ from 'jquery'
-
 // Vuesax Component Framework
 import Vuesax from 'vuesax'
 
 Vue.use(Vuesax)
 
+import Vuetify from 'vuetify'
+Vue.use(Vuetify)
+
+import EditorJS from '@editorjs/editorjs';
 
 // axios
 import axios from './axios.js'
