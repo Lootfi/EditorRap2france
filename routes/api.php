@@ -37,9 +37,10 @@ Route::group(['prefix' => 'articles' ,'namespace' => 'Articles'],function(){
 
 	Route::get('/' , 'IndexController@getAllArticles');
 	Route::get('/{tag}','ShowController@showArticle');
-	Route::get('/{tag}/edit','EditController@editArticle');
+	Route::post('/{tag}/edit','EditController@editArticle');
 	Route::post('/add-new-article','CreateController@createArticle');
 	Route::post('/uploadImageByFile','CreateController@uploadImageByFile');
+	Route::get('/{tag}/delete','DeleteController@deleteArticle');
 
 
 });

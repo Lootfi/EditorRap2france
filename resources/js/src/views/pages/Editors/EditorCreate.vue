@@ -55,16 +55,35 @@
       </div>
     </div>
 
-    <!-- Avatar Row -->
-    <div class="vx-row my-4">
-      <div class="vx-col w-full">
-        <div class="flex items-start items-center flex-col sm:flex-row">
-          <vs-avatar :src="avatar" size="80px" class="mr-4" />
-            <input type="file" class="hidden" ref="update_avatar_input" @change="onFileChange" accept="image/*" name="avatar">
-            <vs-button type="border" class="mr-4" @click="$refs.update_avatar_input.click()" >Add Avatar</vs-button>
+    <div style="max-width: 100%;">
+          <v-card-text>
+            <v-file-input class="my-4" v-model="selectedFile" accept="image/png, image/jpeg" placeholder="Selectionner une image" :show-size="1024" @change="setupCropper"></v-file-input>
+            <div class="flex flex-wrap justify-around" v-if="objectUrl">
+              <div  class=" text-center">
+                <div class="image-container ">
+                  <img style="max-width:100%; max-height:100%;" class="image-preview" ref="source" :src="objectUrl"/>
+                </div>
+                <div class="d-flex justify-center">
+                  <v-btn icon="icon" small="small" @click="resetCropper">
+                    <v-icon small="small">mdi-aspect-ratio</v-icon>
+                  </v-btn>
+                  <div class="mx-2"></div>
+                  <v-btn icon="icon" small="small" @click="rotateLeft">
+                    <v-icon small="small">mdi-rotate-left</v-icon>
+                  </v-btn>
+                  <v-btn icon="icon" small="small" @click="rotateRight">
+                    <v-icon small="small">mdi-rotate-right</v-icon>
+                  </v-btn>
+                </div>
+              </div>
+              <div  class=" text-center" >
+                <div class="image-container ">
+                  <img class="image-preview" style="max-width:100%; max-height:100%;" :src="previewCropped"/>
+                </div>
+              </div>
+            </div>
+          </v-card-text>
         </div>
-      </div>
-    </div>
 </vs-card>
 <div class="vx-row">
       <div class="vx-col w-full">
@@ -80,9 +99,12 @@
 
 <script>
 	import vSelect from 'vue-select'
+  import Cropper from 'cropperjs'
+import debounce from 'lodash/debounce'
 
 export default {
   components: {
+    Cropper,
     vSelect
   },
   props: {
@@ -114,27 +136,56 @@ export default {
       roleOptions: [
         { label: 'Administrateur', value: 'Admin' },
         { label: 'Editeur', value: 'Editor' },
-      ]
+      ],
+      objectUrl:null,
+      previewCropped:null,
+      cropper: null,
+      selectedFile:null,
+      debouncedUpdatePreview: debounce(this.updatePreview, 257),
     }
   },
 
   methods :{
+     resetCropper () {
+      this.cropper.reset()
+    },
+    rotateLeft () {
+      console.log(this.cropper)
+      this.cropper.rotate(-90)
+    },
+    rotateRight () {
+      this.cropper.rotate(90)
+    },
 
-  	 onFileChange(e) {
-                let files = e.target.files || e.dataTransfer.files;
-                if (!files.length)
-                    return;
+    setupCropper (selectedFile) {
+      if (this.cropper) {
+        this.cropper.destroy()
+      }
 
-                this.createImage(files[0]);
-            },
-            createImage(file) {
-                let reader = new FileReader();
-                let vm = this;
-                reader.onload = (e) => {
-                    this.avatar = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            },
+      if (this.objectUrl) {
+        window.URL.revokeObjectURL(this.objectUrl)
+      }
+      if (!selectedFile) {
+        this.cropper = null
+        this.objectUrl = null
+        this.previewCropped = null
+        return
+      }
+      this.objectUrl = window.URL.createObjectURL(selectedFile)
+      this.$nextTick(this.setupCropperInstance)
+    },
+    setupCropperInstance () {
+      this.cropper = new Cropper(this.$refs.source, {
+        aspectRatio: 1,
+        crop: this.debouncedUpdatePreview
+      })
+    },
+    updatePreview (event) {
+      const canvas = this.cropper.getCroppedCanvas()
+      this.previewCropped = canvas.toDataURL('image/png')
+      this.avatar = this.previewCropped
+      console.log(this.avatar);
+    }, 
 
             handleAccountSubmit(e){
                 e.preventDefault();
@@ -168,7 +219,7 @@ export default {
                           title: ``,
                           text: 'Editeur crée ! ',
                         })
-
+                      this.$router.push('/editors')
                     }).catch(function (error) {
                       this.isSending = false;
                     this.$vs.dialog({

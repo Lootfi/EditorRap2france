@@ -31,7 +31,7 @@ export default [
         i18n: "Articles",
       },
       {
-        url: null,
+        url: '/create-article',
         name: "Ajouter un article",
         slug: "ajouter-article",
         i18n: "Articles",
@@ -52,7 +52,7 @@ export default [
         i18n: "Editors",
       },
       {
-        url: 'create-editor',
+        url: '/create-editor',
         name: "Ajouter un editeur",
         slug: "ajouter-editeur",
         i18n: "Editors",

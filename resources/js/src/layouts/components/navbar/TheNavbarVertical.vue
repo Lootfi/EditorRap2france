@@ -22,13 +22,13 @@
         <bookmarks :navbarColor="navbarColor" v-if="windowWidth >= 992" />
 
         <vs-spacer />
-
+        <div style="flex:0 0 auto;" class="flex items-center justify-end">
         <search-bar class="mr-4" />
 
         <notification-drop-down />
 
         <profile-drop-down />
-
+        </div>
       </vs-navbar>
     </div>
   </div>

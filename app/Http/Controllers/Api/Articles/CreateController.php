@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use Carbon\Carbon;
-use Motivo\EditorJsDataConverter\DataConverter;
 use JWTAuth;
 
 class CreateController extends Controller
@@ -29,6 +28,7 @@ class CreateController extends Controller
 			   
 			    }
 
+    
     public function uploadImageByFile(){
     	
     	$imageData = request('avatar');

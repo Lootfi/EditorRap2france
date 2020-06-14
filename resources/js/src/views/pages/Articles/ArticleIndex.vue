@@ -83,8 +83,8 @@
 
             </vs-td>
             <vs-td class="whitespace-no-wrap">
-              <feather-icon icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" />
-              <feather-icon icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2"/>
+              <feather-icon v-if="isJsonArticle(tr)" icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="$router.push(`/articles/${tr.tag}/edit`)"/>
+              <feather-icon @click="handleDelete" icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2"/>
             </vs-td>
 
           </vs-tr>
@@ -136,6 +136,37 @@ export default {
   },
   mounted () {
     this.isMounted = true
+  },
+  methods: {
+
+        isJsonArticle(row){
+
+              if(row.ContenuFormat.type == "raw"){
+
+                return false;
+
+              }
+
+              return true;
+        },
+        handleDelete(e){
+
+          e.preventDefault();
+          this.$http.get(`/api/articles/${this.$route.params.tag}/delete`,{
+          headers : {
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+          }
+       }).then(response => {
+
+              this.$router.push('/articles');
+
+       }).catch(error => {
+
+          console.error(error)
+       })
+          
+        }
+
   }
 }
 </script>
