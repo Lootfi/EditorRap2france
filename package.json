@@ -79,6 +79,7 @@
     },
     "devDependencies": {
         "@editorjs/image": "^2.4.1",
+        "@editorjs/marker": "^1.2.2",
         "@editorjs/quote": "^2.3.0",
         "@fullhuman/postcss-purgecss": "^1.2.0",
         "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",

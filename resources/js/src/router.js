@@ -12,6 +12,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Profile from './views/pages/User/Profile.vue'
 import ProfileSetting from './views/pages/User/ProfileSettings/ProfileSetting.vue'
+import axios from './axios.js'
 
 Vue.use(Router)
 
@@ -161,6 +162,14 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   const publicPages = ['/login'];
   const authRequired = !publicPages.includes(to.path);
+  axios.get('/api/auth/checkAuthToken').then(response => console.log(response)).catch(error => {
+
+        if(error == "Request failed with status code 401"){
+
+          localStorage.clear()
+        }
+  })
+  
   const LoggedInuser = JSON.parse(localStorage.getItem('user'))
   const loggedIn = localStorage.getItem('jwt');
   // trying to access a restricted page + not logged in

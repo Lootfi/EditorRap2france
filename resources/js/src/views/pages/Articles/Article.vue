@@ -28,6 +28,10 @@
                       </div>
                     </div>
                     </div>
+                    <p>Category : {{articleData.Category.nom}}</p>
+                    <div class="text-center  ">
+                    <img class="max-w-full h-auto mx-auto" v-if="articleData.image" :src="`/images/admin/articles/avatars/${articleData.image}`" />
+                  </div>
                     <vs-divider> L'article </vs-divider>
                 <div v-if="article_raw" >
                     <div v-html="articleData.ContenuFormat.contenu">

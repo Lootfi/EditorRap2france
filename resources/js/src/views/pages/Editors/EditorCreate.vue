@@ -184,7 +184,6 @@ export default {
       const canvas = this.cropper.getCroppedCanvas()
       this.previewCropped = canvas.toDataURL('image/png')
       this.avatar = this.previewCropped
-      console.log(this.avatar);
     }, 
 
             handleAccountSubmit(e){

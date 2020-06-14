@@ -38,4 +38,9 @@ class LoginController extends Controller
             'user' => Auth::guard('api')->user(),
         ]);
     }
+
+    public function checkAuth(){
+
+        return response()->json(['authentificated' => true],200);
+    }
 }

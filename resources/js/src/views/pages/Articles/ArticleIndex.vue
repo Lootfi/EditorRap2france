@@ -12,12 +12,12 @@
 
     <vs-table ref="table" multiple v-model="selected" pagination :max-items="itemsPerPage" search :data="products">
 
-      <div slot="header" class="flex flex-wrap-reverse items-center flex-grow justify-between">
+      <div slot="header" style="flex:0 0 auto;" class="flex flex-wrap-reverse items-center justify-between">
 
         <div class="flex flex-wrap-reverse items-center">
 
           <!-- ADD NEW -->
-          <div class="p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center justify-between text-lg font-medium text-base text-primary border border-solid border-primary" @click="$router.push('/create-article')">
+          <div class="p-3 mb-4 mr-4 rounded-lg cursor-pointer flex items-center text-lg font-medium text-base text-primary border border-solid border-primary" @click="$router.push('/create-article')">
               <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
               <span class="ml-2 text-base text-primary">Add New</span>
           </div >
@@ -63,7 +63,7 @@
           <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
 
             <vs-td class="img-container">
-              <img :src="tr.img" class="product-img" />
+              <vs-avatar v-if="tr.image" :src="`/images/admin/articles/avatars/${tr.image}`" size="large"/>
             </vs-td>
 
             <vs-td>

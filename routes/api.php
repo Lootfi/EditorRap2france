@@ -19,6 +19,7 @@ Route::get('/auth/logout','Auth\LoginController@logout');
 
 Route::group(['middleware' => ['jwt.verify']],function(){
 
+	Route::get('/auth/checkAuthToken','Auth\LoginController@checkAuth');
 	Route::post('/auth/password-reset','Auth\PasswordReset@reset');
 	// ** -- Routes accessible only for Admins role -- ** 
 	Route::group(['prefix' => 'users' ,'namespace' => 'Users'],function(){
@@ -45,7 +46,16 @@ Route::group(['prefix' => 'articles' ,'namespace' => 'Articles'],function(){
 
 });
 
+
+
 });
 
+Route::group(['prefix' => 'settings', 'namespace' =>'Settings'],function(){
 
+Route::group(['prefix' => 'categories', 'namespace' =>'Categories'],function(){
+
+		Route::get('/' , 'IndexController@getAllCategories');
+});
+
+});
 
