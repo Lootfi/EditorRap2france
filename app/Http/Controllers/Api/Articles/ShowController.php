@@ -11,7 +11,10 @@ class ShowController extends Controller
     public function showArticle($tag){
 
 
+
     	if($article = Article::fetchByTag($tag)){
+
+    
 
     		return $article;
     		

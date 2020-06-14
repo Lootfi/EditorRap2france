@@ -59,3 +59,4 @@ Route::group(['prefix' => 'categories', 'namespace' =>'Categories'],function(){
 
 });
 
+	Route::get('articles/{tag}','Articles\ShowController@showArticle');

@@ -25,7 +25,7 @@ class Article extends Model
      *
      * @var array
      */
-    protected $appends = ['Creator','Category','ContenuFormat'];
+    protected $appends = ['Creator','Category','ContenuFormat','Hashtags'];
 
      /**
      * The attributes that should be hidden for arrays.
@@ -68,6 +68,19 @@ class Article extends Model
 
             return ['type' => "json" , 'contenu' => $this->contenuJson];
         }
+    }
+
+    public function getHashtagsAttribute(){
+
+        $hashtags= [];
+
+        foreach(\App\Models\ArticleHashtag::where('actualite_id',$this->id)->get() as $hashtag){
+            array_push($hashtags,\App\Models\Hashtag::where('id',$hashtag->hashtag_id)->first());
+
+        }
+
+        return $hashtags;
+
     }
 
     public static function fetchByTag($tag){

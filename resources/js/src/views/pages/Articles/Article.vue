@@ -29,6 +29,11 @@
                     </div>
                     </div>
                     <p>Category : {{articleData.Category.nom}}</p>
+                    <div class="todo-tags my-4 flex">
+                    <vs-chip v-for="(tag, index) in articleData.Hashtags" :key="index">
+                        <span>{{ tag.nom }}</span>
+                    </vs-chip>
+                </div>
                     <div class="text-center  ">
                     <img class="max-w-full h-auto mx-auto" v-if="articleData.image" :src="`/images/admin/articles/avatars/${articleData.image}`" />
                   </div>
