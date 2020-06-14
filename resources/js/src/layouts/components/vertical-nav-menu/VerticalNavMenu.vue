@@ -13,7 +13,7 @@
   <div class="parentx">
 
     <vs-sidebar
-      class="v-nav-menu items-no-padding"
+      class="v-nav-menu pr-4"
       v-model="isVerticalNavMenuActive"
       ref="verticalNavMenu"
       default-index="-1"
@@ -27,12 +27,11 @@
       <div @mouseenter="mouseEnter" @mouseleave="mouseLeave">
 
         <!-- Header -->
-        <div class="header-sidebar flex items-end justify-between" slot="header">
+        <div class="header-sidebar flex items-center ustify-between " slot="header">
 
           <!-- Logo -->
           <router-link tag="div" class="vx-logo cursor-pointer flex items-center" to="/">
-            <logo class="w-10 mr-4 fill-current text-primary" />
-            <span class="vx-logo-text text-primary" v-show="isMouseEnter || !reduce" v-if="title">{{ title }}</span>
+            <img src="/images/logos/r2f_logo_black_450.png" />
           </router-link>
           <!-- /Logo -->
 
@@ -40,16 +39,16 @@
           <div>
             <!-- Close Button -->
             <template v-if="showCloseButton">
-              <feather-icon icon="XIcon" class="m-0 cursor-pointer" @click="$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', false)" />
+              <feather-icon icon="XIcon" class="mx-4 cursor-pointer" @click="$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', true)" />
             </template>
 
             <!-- Toggle Buttons -->
             <template v-else-if="!showCloseButton && !verticalNavMenuItemsMin">
               <feather-icon
                 id="btnVNavMenuMinToggler"
-                class="mr-0 cursor-pointer"
+                class="mr-0 cursor-pointer text-black"
                 :icon="reduce ? 'CircleIcon' : 'DiscIcon'"
-                svg-classes="stroke-current text-primary"
+                svg-classes="stroke-current text-black"
                 @click="toggleReduce(!reduce)" />
             </template>
           </div>
