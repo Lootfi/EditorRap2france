@@ -60,7 +60,18 @@
     </div>
     <div class="mt-4">
         <label class="vs-input--label">Categorie</label>
-        <v-select v-model="category" :selected="selected" :options="options" />
+        <v-select v-model="category" :options="options" />
+    </div>
+    <div class="mt-4">
+        <label class="vs-input--label">Hashtags</label>
+        <v-select
+          multiple
+          taggable
+          push-tags
+          :dir="$vs.rtl ? 'rtl' : 'ltr'"
+          v-model="hashtags"
+          :options="hashtagOptions"
+        />
     </div>
     <div class="vx-row">
       <div class="vx-col w-full">
@@ -103,6 +114,7 @@ export default {
       article_not_found: false,
       article_raw: false,
       category: null,
+      hashtags:null,
       isDeleting: false,
       isSending: false,
       objectUrl: null,
@@ -111,6 +123,7 @@ export default {
       selectedFile: null,
       selected: null,
       options: [],
+      hashtagOptions: [],
       debouncedUpdatePreview: debounce(this.updatePreview, 257),
     };
   },
@@ -126,6 +139,25 @@ export default {
           this.options = [
             ...this.options,
             { label: category.nom, value: category.id },
+          ];
+        });
+
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+      this.$http
+      .get(`/api/settings/hashtags`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      })
+      .then((response) => {
+        response.data.map((hashtag) => {
+          this.hashtagOptions = [
+            ...this.hashtagOptions,
+            { label: hashtag.nom, value: hashtag.id },
           ];
         });
 
@@ -151,15 +183,23 @@ export default {
           this.article_raw = true;
         } else {
           this.title = this.articleData.titre;
-          this.avatar = this.articleData.image;
           this.options.map(option => {
 
               if(option.value === this.articleData.Category.id){
 
-                this.selected = {label : option.label , value:option.value} 
+                this.category = {label : option.label , value:option.value} 
               }  
           })
-          console.log(this.selected)
+
+          this.articleData.Hashtags.map(hashtag => {
+
+            if(!this.hashtags){
+              this.hashtags= [{label : hashtag.nom , value:hashtag.id}]
+            }else{
+            this.hashtags =[...this.hashtags,{label : hashtag.nom , value:hashtag.id}] 
+            }
+
+          })
           this.editor = new EditorJS({
             data: this.articleData.ContenuFormat.contenu,
 
@@ -254,6 +294,7 @@ export default {
         if (result) {
           this.isSending = true;
           this.editor.save().then((outputData) => {
+            console.log(this.hashtags)
             this.$http
               .post(
                 `/api/articles/${this.$route.params.tag}/edit`,
@@ -262,6 +303,8 @@ export default {
                   title: this.title,
                   avatar: this.avatar,
                   category: this.category.value,
+                  hashtags: this.hashtags
+
 
                 },
                 {

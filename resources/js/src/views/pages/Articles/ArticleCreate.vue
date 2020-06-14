@@ -239,7 +239,7 @@ export default {
                 avatar: this.avatar,
                 title: this.title,
                 category: this.category.value,
-                hashtags: this.hashtags
+                hashtags: this.hashtags.value
               },
               {
                 headers: {

@@ -38,6 +38,7 @@ Route::group(['prefix' => 'articles' ,'namespace' => 'Articles'],function(){
 
 	Route::get('/' , 'IndexController@getAllArticles');
 	Route::get('/{tag}','ShowController@showArticle');
+	Route::get('articles/{tag}','Articles\ShowController@showArticle');
 	Route::post('/{tag}/edit','EditController@editArticle');
 	Route::post('/add-new-article','CreateController@createArticle');
 	Route::post('/uploadImageByFile','CreateController@uploadImageByFile');
@@ -57,6 +58,10 @@ Route::group(['prefix' => 'categories', 'namespace' =>'Categories'],function(){
 		Route::get('/' , 'IndexController@getAllCategories');
 });
 
+Route::group(['prefix' => 'hashtags', 'namespace' =>'Hashtags'],function(){
+
+		Route::get('/' , 'IndexController@getAllHashtags');
 });
 
-	Route::get('articles/{tag}','Articles\ShowController@showArticle');
+});
+
