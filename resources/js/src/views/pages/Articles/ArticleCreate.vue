@@ -72,6 +72,17 @@
           :options="hashtagOptions"
         />
       </div>
+      <div class="mt-4">
+        <label class="vs-input--label">Artists</label>
+        <v-select
+          multiple
+          taggable
+          push-tags
+          :dir="$vs.rtl ? 'rtl' : 'ltr'"
+          v-model="artists"
+          :options="artistOptions"
+        />
+    </div>
     </div>
     <div class="vx-row">
       <div class="vx-col w-full">
@@ -111,6 +122,7 @@ export default {
       avatar: "",
       category: null,
       hashtags: null,
+      artists: null,
       isSending: false,
       objectUrl: null,
       previewCropped: null,
@@ -119,6 +131,7 @@ export default {
       debouncedUpdatePreview: debounce(this.updatePreview, 257),
       selected: [],
       options: [],
+      artistOptions: [],
       hashtagOptions: [],
     };
   },
@@ -138,6 +151,44 @@ export default {
         });
 
         this.selected = this.options[0];
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+       this.$http
+      .get(`/api/settings/hashtags`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      })
+      .then((response) => {
+        response.data.map((hashtag) => {
+          this.hashtagOptions = [
+            ...this.hashtagOptions,
+            { label: hashtag.nom, value: hashtag.id },
+          ];
+        });
+
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+      this.$http
+      .get(`/api/settings/artists`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      })
+      .then((response) => {
+        response.data.map((artist) => {
+          this.artistOptions = [
+            ...this.artistOptions,
+            { label: artist.name, value: artist.id },
+          ];
+        });
+
       })
       .catch((error) => {
         console.error(error);
@@ -229,8 +280,9 @@ export default {
     handleSave(e) {
       e.preventDefault();
       this.$validator.validateAll().then((result) => {
+      this.isSending = true;
+
         if (result) {
-          this.isSending = true;
           this.editor.save().then((outputData) => {
             this.$http.post(
               `/api/articles/add-new-article`,
@@ -246,7 +298,10 @@ export default {
                   Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                 },
               }
-            );
+            ).then(response => {
+
+                 this.$router.push('/articles')
+            });
           });
         }
       });

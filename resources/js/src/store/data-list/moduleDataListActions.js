@@ -55,11 +55,14 @@ export default {
         .catch((error) => { reject(error) })
     })
   },
-  removeItem ({ commit }, itemId) {
+  removeItem ({ commit }, itemSlug) {
     return new Promise((resolve, reject) => {
-      axios.delete(`/api/data-list/products/${itemId}`)
+      axios.get(`/api/articles/${itemSlug}/delete`,{
+        headers : {
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+          }})
         .then((response) => {
-          commit('REMOVE_ITEM', itemId)
+          commit('REMOVE_ITEM', itemSlug)
           resolve(response)
         })
         .catch((error) => { reject(error) })

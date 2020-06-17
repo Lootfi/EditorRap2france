@@ -73,6 +73,17 @@
           :options="hashtagOptions"
         />
     </div>
+    <div class="mt-4">
+        <label class="vs-input--label">Artists</label>
+        <v-select
+          multiple
+          taggable
+          push-tags
+          :dir="$vs.rtl ? 'rtl' : 'ltr'"
+          v-model="artists"
+          :options="artistOptions"
+        />
+    </div>
     <div class="vx-row">
       <div class="vx-col w-full">
         <div class="mt-8 flex flex-wrap items-center justify-end">
@@ -115,6 +126,7 @@ export default {
       article_raw: false,
       category: null,
       hashtags:null,
+      artists: null,
       isDeleting: false,
       isSending: false,
       objectUrl: null,
@@ -124,10 +136,16 @@ export default {
       selected: null,
       options: [],
       hashtagOptions: [],
+      artistOptions: [],
       debouncedUpdatePreview: debounce(this.updatePreview, 257),
     };
   },
   mounted() {
+    this.$vs.loading({
+        type: 'corners',
+        text:"Patientez s'il vous plait"
+      })
+
      this.$http
       .get(`/api/settings/categories`, {
         headers: {
@@ -166,6 +184,25 @@ export default {
         console.error(error);
       });
 
+      this.$http
+      .get(`/api/settings/artists`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      })
+      .then((response) => {
+        response.data.map((artist) => {
+          this.artistOptions = [
+            ...this.artistOptions,
+            { label: artist.name, value: artist.id },
+          ];
+        });
+
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     this.$http
       .get(`/api/articles/${this.$route.params.tag}`, {
         headers: {
@@ -177,10 +214,12 @@ export default {
         if (response.data == "Article not found") {
           this.$router.push("/articles");
         }
+        this.$vs.loading.close()
         this.articleData = response.data;
 
         if (response.data.ContenuFormat.type == "raw") {
           this.article_raw = true;
+          this.$router.push(`/articles/${this.$route.params.tag}`)
         } else {
           this.title = this.articleData.titre;
           this.options.map(option => {
@@ -200,6 +239,17 @@ export default {
             }
 
           })
+
+          this.articleData.Artists.map(artist => {
+
+            if(!this.artists){
+              this.artists= [{label : artist.name , value:artist.id}]
+            }else{
+            this.artists =[...this.artists,{label : artist.name , value:artist.id}] 
+            }
+
+          })
+
           this.editor = new EditorJS({
             data: this.articleData.ContenuFormat.contenu,
 
@@ -290,6 +340,7 @@ export default {
 
     handleSave(e) {
       e.preventDefault();
+      console.log(this.artists);
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.isSending = true;
@@ -303,7 +354,8 @@ export default {
                   title: this.title,
                   avatar: this.avatar,
                   category: this.category.value,
-                  hashtags: this.hashtags
+                  hashtags: this.hashtags,
+                  artists : this.artists
 
 
                 },

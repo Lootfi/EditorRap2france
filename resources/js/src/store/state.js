@@ -65,7 +65,7 @@ const is_touch_device = () => {
 const state = {
     AppActiveUser           : getUserInfo(),
     bodyOverlay             : false,
-    isVerticalNavMenuActive : true,
+    isVerticalNavMenuActive : false,
     is_touch_device         : is_touch_device(),
     mainLayoutType          : themeConfig.mainLayoutType || "vertical",
     navbarSearchAndPinList  : navbarSearchAndPinList,

@@ -47,21 +47,22 @@ Route::group(['prefix' => 'articles' ,'namespace' => 'Articles'],function(){
 
 });
 
-
-
-});
-
 Route::group(['prefix' => 'settings', 'namespace' =>'Settings'],function(){
 
-Route::group(['prefix' => 'categories', 'namespace' =>'Categories'],function(){
+	Route::group(['prefix' => 'categories', 'namespace' =>'Categories'],function(){
+			Route::get('/' , 'IndexController@getAllCategories');
+	});
+	Route::group(['prefix' => 'hashtags', 'namespace' =>'Hashtags'],function(){
+			Route::get('/' , 'IndexController@getAllHashtags');
+	});
+	Route::group(['prefix' => 'artists', 'namespace' =>'Artists'],function(){
+			Route::get('/' , 'IndexController@getAllArtists');
+			Route::post('/add-new-artist','CreateController@createArtist');
+	});
 
-		Route::get('/' , 'IndexController@getAllCategories');
 });
 
-Route::group(['prefix' => 'hashtags', 'namespace' =>'Hashtags'],function(){
-
-		Route::get('/' , 'IndexController@getAllHashtags');
 });
 
-});
+
 

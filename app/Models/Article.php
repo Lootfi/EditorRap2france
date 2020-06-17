@@ -25,7 +25,7 @@ class Article extends Model
      *
      * @var array
      */
-    protected $appends = ['Creator','Category','ContenuFormat','Hashtags'];
+    protected $appends = ['Creator','Category','ContenuFormat','Hashtags','Artists'];
 
      /**
      * The attributes that should be hidden for arrays.
@@ -45,6 +45,10 @@ class Article extends Model
        'contenuJson' => 'array'
     ];
 
+    public function getArtistsAttribute(){
+
+        return $this->artists()->orderBy('rank')->get();
+    }
 
 
     public function getCreatorAttribute(){
@@ -86,5 +90,15 @@ class Article extends Model
     public static function fetchByTag($tag){
 
         return self::where('tag',$tag)->first();
+    }
+
+
+    public function artists()
+
+    {
+
+        return $this->belongsToMany(\App\Models\Artist::class, 'r2f_new_article_artist')
+                    ->withPivot('rank');
+
     }
 }

@@ -84,7 +84,7 @@
             </vs-td>
             <vs-td class="whitespace-no-wrap">
               <feather-icon v-if="isJsonArticle(tr)" icon="EditIcon" svgClasses="w-5 h-5 hover:text-primary stroke-current" @click="$router.push(`/articles/${tr.tag}/edit`)"/>
-              <feather-icon @click="handleDelete" icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2"/>
+              <feather-icon @click.stop="openDelete(tr.tag)" icon="TrashIcon" svgClasses="w-5 h-5 hover:text-danger stroke-current" class="ml-2"/>
             </vs-td>
 
           </vs-tr>
@@ -104,10 +104,11 @@ export default {
     return {
       selected: [],
       // products: [],
-      itemsPerPage: 4,
+      itemsPerPage: 10,
       isMounted: false,
       addNewDataSidebar: false,
-      sidebarData: {}
+      sidebarData: {},
+      activeConfirm: false
     }
   },
   computed: {
@@ -139,6 +140,16 @@ export default {
   },
   methods: {
 
+      openDelete(tag) {
+      this.$vs.dialog({
+        type: 'confirm',
+        color: 'danger',
+        title: `Suppression`,
+        text: 'Etes vous sur de vouloir supprimer le present article',
+        accept: this.handleDelete(tag)
+      })
+    },
+
         isJsonArticle(row){
 
               if(row.ContenuFormat.type == "raw"){
@@ -149,16 +160,16 @@ export default {
 
               return true;
         },
-        handleDelete(e){
-
-          e.preventDefault();
-          this.$http.get(`/api/articles/${this.$route.params.tag}/delete`,{
+        handleDelete(tag){
+          this.$http.get(`/api/articles/${tag}/delete`,{
           headers : {
             'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
           }
        }).then(response => {
 
-              this.$router.push('/articles');
+          const Item = this.$store.state.dataList.products.findIndex((p) => p.tag === tag)
+          this.$store.state.dataList.products.splice(Item, 1)
+
 
        }).catch(error => {
 

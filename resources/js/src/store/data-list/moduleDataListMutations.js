@@ -22,8 +22,8 @@ export default {
     const productIndex = state.products.findIndex((p) => p.id === product.id)
     Object.assign(state.products[productIndex], product)
   },
-  REMOVE_ITEM (state, itemId) {
-    const ItemIndex = state.products.findIndex((p) => p.id === itemId)
+  REMOVE_ITEM (state, itemSlug) {
+    const ItemIndex = state.products.findIndex((p) => p.tag === itemSlug)
     state.products.splice(ItemIndex, 1)
   }
 }

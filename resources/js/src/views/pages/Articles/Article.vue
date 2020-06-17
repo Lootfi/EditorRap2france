@@ -20,7 +20,7 @@
                          <vs-dropdown>
                           <vs-button class="btn-drop" color="rgba(0,0,0,0)" type="gradient" icon="more_horiz"></vs-button>
                           <vs-dropdown-menu>
-                          <vs-dropdown-item @click="$router.push(`/articles/${articleData.tag}/edit`)"> Modifier</vs-dropdown-item>
+                          <vs-dropdown-item v-if="isJsonArticle(articleData)" @click="$router.push(`/articles/${articleData.tag}/edit`)"> Modifier</vs-dropdown-item>
                           <vs-dropdown-item divider @click="handleDelete"> Supprimer </vs-dropdown-item>
                             </vs-dropdown-menu>
                           </vs-dropdown>
@@ -29,6 +29,8 @@
                     </div>
                     </div>
                     <p>Category : {{articleData.Category.nom}}</p>
+                    <p v-for="(artist,index) in articleData.Artists" :key="index">Artists : <span class="text-teal-600 pointer">{{artist.name}}</span></p>
+
                     <div class="todo-tags my-4 flex">
                     <vs-chip v-for="(tag, index) in articleData.Hashtags" :key="index">
                         <span>{{ tag.nom }}</span>
@@ -64,6 +66,12 @@ data () {
   },
 	mounted(){
 
+
+    this.$vs.loading({
+        type: 'corners',
+        text:"Patientez s'il vous plait"
+      })
+
 		this.$http.get(`/api/articles/${this.$route.params.tag}`,{
           headers : {
             'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
@@ -71,6 +79,7 @@ data () {
        })
 
 		.then(response => {
+        this.$vs.loading.close()
         if(response.data == "Article not found"){
 
           this.$router.push('/articles')
@@ -84,7 +93,8 @@ data () {
 
         }else{
           this.articleData.ContenuFormat.contenu = this.JsonFormatter(this.articleData)
-          console.log(this.articleData.ContenuFormat.contenu)
+
+          
         }
 			 	
 
@@ -95,6 +105,17 @@ data () {
 	},
   methods:{
 
+
+        isJsonArticle(row){
+
+              if(row.ContenuFormat.type == "raw"){
+
+                return false;
+
+              }
+
+              return true;
+        },
         handleDelete(e){
 
           e.preventDefault();

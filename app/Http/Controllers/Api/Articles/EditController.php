@@ -15,6 +15,7 @@ class EditController extends Controller
     public function editArticle($tag){
 
 
+
     	$article = Article::fetchByTag($tag);
     	$article->titre = request('title');
         $article->idcat= request('category');
@@ -57,6 +58,18 @@ class EditController extends Controller
                     
 
                 }
+            }
+            if(request('artists')){
+
+                $ArtistsWithRank = [];
+                
+                foreach(request('artists') as$key =>  $artist){
+
+                    array_push($ArtistsWithRank,['artist_id' => $artist['value'] , 'rank' => $key+1]);
+                }
+
+                $article->artists()->sync($ArtistsWithRank);
+
             }
 
         

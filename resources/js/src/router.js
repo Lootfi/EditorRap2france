@@ -133,6 +133,25 @@ const router = new Router({
                   requiresAdmin: true,
 
                 }
+              },
+               {
+                path: '/settings/artists',
+                name: 'artists',
+                component: () => import('@/views/pages/Settings/Artists/ArtistIndex.vue'),
+                meta :{
+                  requiresAuth :true,
+                  requiresAdmin: true,
+                }
+              }
+              ,
+               {
+                path: '/settings/create-artist',
+                name: 'artists',
+                component: () => import('@/views/pages/Settings/Artists/ArtistCreate.vue'),
+                meta :{
+                  requiresAuth :true,
+                  requiresAdmin: true,
+                }
               }
 
             ],
