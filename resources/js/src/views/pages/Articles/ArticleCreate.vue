@@ -76,8 +76,6 @@
         <label class="vs-input--label">Artists</label>
         <v-select
           multiple
-          taggable
-          push-tags
           :dir="$vs.rtl ? 'rtl' : 'ltr'"
           v-model="artists"
           :options="artistOptions"
@@ -136,6 +134,12 @@ export default {
     };
   },
   mounted() {
+
+    this.$vs.loading({
+        type: 'corners',
+        text:"Patientez s'il vous plait"
+      })
+
     this.$http
       .get(`/api/settings/categories`, {
         headers: {
@@ -187,13 +191,15 @@ export default {
             ...this.artistOptions,
             { label: artist.name, value: artist.id },
           ];
+
+            this.$vs.loading.close()
+
         });
 
       })
       .catch((error) => {
         console.error(error);
       });
-
     this.editor = new EditorJS({
       placeholder: "Start Writing here",
       tools: {
@@ -291,7 +297,8 @@ export default {
                 avatar: this.avatar,
                 title: this.title,
                 category: this.category.value,
-                hashtags: this.hashtags.value
+                hashtags: this.hashtags,
+                artists: this.artists
               },
               {
                 headers: {

@@ -32,30 +32,46 @@ class CreateController extends Controller
                 \Image::make(request('avatar'))->save($AvatarPath);
                 $article->image = $fileName;
             }
-    		$article->save();
+    		      $article->save();
 
             if(request('hashtags')){
                 
+
+                $hashtagArray = [];
+
                 foreach(request('hashtags') as $hashtag){
 
-                    $hashtag = preg_replace('/\s+/', '_', ucfirst($hashtag));
+                    $hashtag = preg_replace('/\s+/', '_', ucfirst($hashtag['label']));
+
                     if($hashtag[0] !="#"){
                         $hashtag = "#".$hashtag;
                     }
-                    if(!($dbHashtag  = Hashtag::where('nom',$hashtag)->first())){
 
+                if(!($dbHashtag  = Hashtag::where('nom',$hashtag)->first())){
                         $dbHashtag = new Hashtag();
                         $dbHashtag->nom = $hashtag;
                         $dbHashtag->save();
-                    }
 
-                    $hashInstance = new ArticleHashtag();
-                    $hashInstance->actualite_id = $article->id;
-                    $hashInstance->hashtag_id= $dbHashtag->id;
-                    $hashInstance->status = 1;
-                    $hashInstance->save();
+                    }
+                    
+                    array_push($hashtagArray,$dbHashtag['id']);
 
                 }
+                 $article->hashtags()->attach($hashtagArray);
+
+            }
+
+            if(request('artists')){
+
+                $ArtistsWithRank = [];
+                
+                foreach(request('artists') as$key =>  $artist){
+
+                    array_push($ArtistsWithRank,['artist_id' => $artist['value'] , 'rank' => $key+1]);
+                }
+
+                $article->artists()->attach($ArtistsWithRank);
+
             }
 
     		return $article;

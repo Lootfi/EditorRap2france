@@ -35,30 +35,31 @@ class EditController extends Controller
         }
         if(request('hashtags')){
                 
-          ArticleHashtag::where('actualite_id',$article->id)->delete();
+
+                $hashtagArray = [];
 
                 foreach(request('hashtags') as $hashtag){
 
                     $hashtag = preg_replace('/\s+/', '_', ucfirst($hashtag['label']));
+
                     if($hashtag[0] !="#"){
                         $hashtag = "#".$hashtag;
                     }
-                    if(!($dbHashtag  = Hashtag::where('nom',$hashtag)->first())){
+
+                if(!($dbHashtag  = Hashtag::where('nom',$hashtag)->first())){
                         $dbHashtag = new Hashtag();
                         $dbHashtag->nom = $hashtag;
                         $dbHashtag->save();
+
                     }
-        
-                    $hashInstance = new ArticleHashtag();
-                    $hashInstance->actualite_id = $article->id;
-                    $hashInstance->hashtag_id= $dbHashtag->id;
-                    $hashInstance->status = 1;
-                    $hashInstance->save();
                     
-                    
+                    array_push($hashtagArray,$dbHashtag['id']);
 
                 }
+                 $article->hashtags()->sync($hashtagArray);
+
             }
+            
             if(request('artists')){
 
                 $ArtistsWithRank = [];

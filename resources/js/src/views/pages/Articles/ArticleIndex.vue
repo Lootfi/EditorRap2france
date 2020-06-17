@@ -125,10 +125,8 @@ export default {
       return this.$refs.table ? this.$refs.table.queriedResults.length : this.products.length
     }
   },
-  methods: {
-   
-  },
   created () {
+
     if (!moduleDataList.isRegistered) {
       this.$store.registerModule('dataList', moduleDataList)
       moduleDataList.isRegistered = true
@@ -136,6 +134,7 @@ export default {
     this.$store.dispatch('dataList/fetchDataListItems')
   },
   mounted () {
+
     this.isMounted = true
   },
   methods: {
@@ -146,7 +145,8 @@ export default {
         color: 'danger',
         title: `Suppression`,
         text: 'Etes vous sur de vouloir supprimer le present article',
-        accept: this.handleDelete(tag)
+        accept: this.handleDelete,
+        parameters: tag,
       })
     },
 
@@ -160,21 +160,10 @@ export default {
 
               return true;
         },
-        handleDelete(tag){
-          this.$http.get(`/api/articles/${tag}/delete`,{
-          headers : {
-            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-          }
-       }).then(response => {
+        handleDelete(parameters){
+          
+          this.$store.dispatch('dataList/removeItem', parameters).catch(err => { console.error(err) })
 
-          const Item = this.$store.state.dataList.products.findIndex((p) => p.tag === tag)
-          this.$store.state.dataList.products.splice(Item, 1)
-
-
-       }).catch(error => {
-
-          console.error(error)
-       })
           
         }
 

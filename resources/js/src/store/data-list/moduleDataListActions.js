@@ -31,6 +31,7 @@ export default {
         .then((response) => {
           commit('SET_PRODUCTS', response.data)
           resolve(response)
+          
         })
         .catch((error) => { reject(error) })
     })

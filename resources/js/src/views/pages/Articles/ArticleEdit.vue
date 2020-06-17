@@ -77,8 +77,6 @@
         <label class="vs-input--label">Artists</label>
         <v-select
           multiple
-          taggable
-          push-tags
           :dir="$vs.rtl ? 'rtl' : 'ltr'"
           v-model="artists"
           :options="artistOptions"

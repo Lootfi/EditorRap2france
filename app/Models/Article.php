@@ -76,14 +76,7 @@ class Article extends Model
 
     public function getHashtagsAttribute(){
 
-        $hashtags= [];
-
-        foreach(\App\Models\ArticleHashtag::where('actualite_id',$this->id)->get() as $hashtag){
-            array_push($hashtags,\App\Models\Hashtag::where('id',$hashtag->hashtag_id)->first());
-
-        }
-
-        return $hashtags;
+        return $this->hashtags()->get();
 
     }
 
@@ -99,6 +92,14 @@ class Article extends Model
 
         return $this->belongsToMany(\App\Models\Artist::class, 'r2f_new_article_artist')
                     ->withPivot('rank');
+
+    }
+
+    public function hashtags()
+
+    {
+
+        return $this->belongsToMany(\App\Models\Hashtag::class, 'r2f_new_actualités-hashtags');
 
     }
 }

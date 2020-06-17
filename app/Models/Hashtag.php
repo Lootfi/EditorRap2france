@@ -20,4 +20,14 @@ class Hashtag extends Model
      */
     public $timestamps = false;
 
+    public function articles()
+
+    {
+
+        return $this->belongsToMany(\App\Models\Article::class, 'r2f_new_actualités-hashtags')
+                    ->withPivot('id');
+
+    }
+
+
 }
