@@ -16,6 +16,7 @@
 
 <script>
 import themeConfig from '@/../themeConfig.js'
+import axios from './axios.js'
 
 
 export default {
@@ -72,7 +73,8 @@ export default {
 
     window.addEventListener('resize', this.handleWindowResize)
     window.addEventListener('scroll', this.handleScroll)
-  },
+
+    },
   destroyed () {
     window.removeEventListener('resize', this.handleWindowResize)
     window.removeEventListener('scroll', this.handleScroll)

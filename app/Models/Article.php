@@ -25,7 +25,7 @@ class Article extends Model
      *
      * @var array
      */
-    protected $appends = ['Creator','Category','ContenuFormat','Hashtags','Artists'];
+    protected $appends = ['Creator','Category','ContenuFormat','Hashtags','Artists','Avatar'];
 
      /**
      * The attributes that should be hidden for arrays.
@@ -62,6 +62,13 @@ class Article extends Model
         return \App\Models\Category::findOrFail($this->idcat);
     }
     
+    public function getAvatarAttribute(){
+
+         
+        return "/images/admin/articles/avatars/" . $this->image; 
+    
+
+    }
     public function getContenuFormatAttribute(){
 
         if($this->contenuJson == null ){

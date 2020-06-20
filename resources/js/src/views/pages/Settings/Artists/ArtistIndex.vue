@@ -8,23 +8,31 @@
 ========================================================================================== -->
 
 <template>
-
   <div id="page-user-list">
-
     <div class="vx-card p-6">
-
       <div class="flex flex-wrap items-center">
-
         <!-- ITEMS PER PAGE -->
         <div class="flex-grow">
           <vs-dropdown vs-trigger-click class="cursor-pointer">
-            <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
-              <span class="mr-2">{{ currentPage * paginationPageSize - (paginationPageSize - 1) }} - {{ usersData.length - currentPage * paginationPageSize > 0 ? currentPage * paginationPageSize : usersData.length }} of {{ usersData.length }}</span>
+            <div
+              class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium"
+            >
+              <span class="mr-2"
+                >{{
+                  currentPage * paginationPageSize - (paginationPageSize - 1)
+                }}
+                -
+                {{
+                  usersData.length - currentPage * paginationPageSize > 0
+                    ? currentPage * paginationPageSize
+                    : usersData.length
+                }}
+                of {{ usersData.length }}</span
+              >
               <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
             </div>
             <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
             <vs-dropdown-menu>
-
               <vs-dropdown-item @click="gridApi.paginationSetPageSize(10)">
                 <span>10</span>
               </vs-dropdown-item>
@@ -41,17 +49,24 @@
           </vs-dropdown>
         </div>
 
-          <!-- ADD NEW -->
-          <div style="flex : 0 0 auto" class="p-3 mr-4 rounded-lg cursor-pointer flex items-center text-lg font-medium text-base text-primary border border-solid border-primary" @click="$router.push('/settings/create-artist')">
-              <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
-              <span class="ml-2 text-base text-primary">Add New Artist</span>
-          </div >
+        <!-- ADD NEW -->
+        <div
+          style="flex : 0 0 auto"
+          class="p-3 mr-4 rounded-lg cursor-pointer flex items-center text-lg font-medium text-base text-primary border border-solid border-primary"
+          @click="$router.push('/settings/create-artist')"
+        >
+          <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
+          <span class="ml-2 text-base text-primary">Add New Artist</span>
+        </div>
         <!-- TABLE ACTION COL-2: SEARCH & EXPORT AS CSV -->
-          <vs-input class="sm:mr-4 mr-0 sm:w-auto w-full sm:order-normal order-3 sm:mt-0 mt-4" v-model="searchQuery" @input="updateSearchQuery" placeholder="Search..." />
-          <!-- <vs-button class="mb-4 md:mb-0" @click="gridApi.exportDataAsCsv()">Export as CSV</vs-button> -->
-
+        <vs-input
+          class="sm:mr-4 mr-0 sm:w-auto w-full sm:order-normal order-3 sm:mt-0 mt-4"
+          v-model="searchQuery"
+          @input="updateSearchQuery"
+          placeholder="Search..."
+        />
+        <!-- <vs-button class="mb-4 md:mb-0" @click="gridApi.exportDataAsCsv()">Export as CSV</vs-button> -->
       </div>
-
 
       <!-- AgGrid Table -->
       <ag-grid-vue
@@ -69,33 +84,28 @@
         :pagination="true"
         :paginationPageSize="paginationPageSize"
         :suppressPaginationPanel="true"
-        :enableRtl="$vs.rtl">
+        :enableRtl="$vs.rtl"
+      >
       </ag-grid-vue>
 
-      <vs-pagination
-        :total="totalPages"
-        :max="7"
-        v-model="currentPage" />
-
+      <vs-pagination :total="totalPages" :max="7" v-model="currentPage" />
     </div>
   </div>
-
 </template>
 
 <script>
-import { AgGridVue } from 'ag-grid-vue'
-import '@sass/vuexy/extraComponents/agGridStyleOverride.scss'
-import vSelect from 'vue-select'
+import { AgGridVue } from "ag-grid-vue";
+import "@sass/vuexy/extraComponents/agGridStyleOverride.scss";
+import vSelect from "vue-select";
 
 // Store Module
-import moduleArtistManagement from '@/store/settings/artist-management/moduleArtistManagement.js'
+import moduleArtistManagement from "@/store/settings/artist-management/moduleArtistManagement.js";
 
 // Cell Renderer
-import CellRendererLink from './cell-renderer/CellRendererLink.vue'
-import CellRendererStatus from './cell-renderer/CellRendererStatus.vue'
-import CellRendererVerified from './cell-renderer/CellRendererVerified.vue'
-import CellRendererActions from './cell-renderer/CellRendererActions.vue'
-
+import CellRendererLink from "./cell-renderer/CellRendererLink.vue";
+import CellRendererStatus from "./cell-renderer/CellRendererStatus.vue";
+import CellRendererVerified from "./cell-renderer/CellRendererVerified.vue";
+import CellRendererActions from "./cell-renderer/CellRendererActions.vue";
 
 export default {
   components: {
@@ -106,19 +116,18 @@ export default {
     CellRendererLink,
     CellRendererStatus,
     CellRendererVerified,
-    CellRendererActions
+    CellRendererActions,
   },
-  data () {
+  data() {
     return {
-      statusFilter: { label: 'All', value: 'all' },
+      statusFilter: { label: "All", value: "all" },
       statusOptions: [
-        { label: 'All', value: 'all' },
-        { label: 'Activé', value: 'Activé' },
-        { label: 'Suspendu', value: 'Suspendu' },
+        { label: "All", value: "all" },
+        { label: "Activé", value: "Activé" },
+        { label: "Suspendu", value: "Suspendu" },
       ],
-  
 
-      searchQuery: '',
+      searchQuery: "",
 
       // AgGrid
       gridApi: null,
@@ -126,29 +135,29 @@ export default {
       defaultColDef: {
         sortable: true,
         resizable: true,
-        suppressMenu: true
+        suppressMenu: true,
       },
       columnDefs: [
         {
-          headerName: 'Avatar',
-          field: 'image',
+          headerName: "Avatar",
+          field: "image",
           filter: true,
           width: 100,
-          cellRendererFramework: 'CellRendererLink'
+          cellRendererFramework: "CellRendererLink",
         },
         {
-          headerName: 'Name',
-          field: 'name',
+          headerName: "Name",
+          field: "name",
           filter: true,
-          width: 400
+          width: 400,
         },
         {
-          headerName: 'Status',
-          field: 'StatusName',
+          headerName: "Status",
+          field: "StatusName",
           filter: true,
           width: 150,
-          cellRendererFramework: 'CellRendererStatus'
-        }
+          cellRendererFramework: "CellRendererStatus",
+        },
       ],
 
       // Cell Renderer Components
@@ -156,66 +165,65 @@ export default {
         CellRendererLink,
         CellRendererStatus,
         CellRendererVerified,
-        CellRendererActions
-      }
-    }
+        CellRendererActions,
+      },
+    };
   },
   watch: {
-
-    statusFilter (obj) {
-      this.setColumnFilter('status', obj.value)
+    statusFilter(obj) {
+      this.setColumnFilter("status", obj.value);
     },
   },
   computed: {
-    usersData () {
-      return this.$store.state.artistManagement.artists
+    usersData() {
+      return this.$store.state.artistManagement.artists;
     },
-    paginationPageSize () {
-      if (this.gridApi) return this.gridApi.paginationGetPageSize()
-      else return 10
+    paginationPageSize() {
+      if (this.gridApi) return this.gridApi.paginationGetPageSize();
+      else return 10;
     },
-    totalPages () {
-      if (this.gridApi) return this.gridApi.paginationGetTotalPages()
-      else return 0
+    totalPages() {
+      if (this.gridApi) return this.gridApi.paginationGetTotalPages();
+      else return 0;
     },
     currentPage: {
-      get () {
-        if (this.gridApi) return this.gridApi.paginationGetCurrentPage() + 1
-        else return 1
+      get() {
+        if (this.gridApi) return this.gridApi.paginationGetCurrentPage() + 1;
+        else return 1;
       },
-      set (val) {
-        this.gridApi.paginationGoToPage(val - 1)
-      }
-    }
+      set(val) {
+        this.gridApi.paginationGoToPage(val - 1);
+      },
+    },
   },
   methods: {
-    setColumnFilter (column, val) {
-      const filter = this.gridApi.getFilterInstance(column)
-      let modelObj = null
+    setColumnFilter(column, val) {
+      const filter = this.gridApi.getFilterInstance(column);
+      let modelObj = null;
 
-      if (val !== 'all') {
-        modelObj = { type: 'equals', filter: val }
+      if (val !== "all") {
+        modelObj = { type: "equals", filter: val };
       }
 
-      filter.setModel(modelObj)
-      this.gridApi.onFilterChanged()
+      filter.setModel(modelObj);
+      this.gridApi.onFilterChanged();
     },
-    resetColFilters () {
+    resetColFilters() {
       // Reset Grid Filter
-      this.gridApi.setFilterModel(null)
-      this.gridApi.onFilterChanged()
+      this.gridApi.setFilterModel(null);
+      this.gridApi.onFilterChanged();
 
       // Reset Filter Options
-      this.statusFilter = { label: 'All', value: 'all' }
+      this.statusFilter = { label: "All", value: "all" };
 
-      this.$refs.filterCard.removeRefreshAnimation()
+      this.$refs.filterCard.removeRefreshAnimation();
     },
-    updateSearchQuery (val) {
-      this.gridApi.setQuickFilter(val)
-    }
+    updateSearchQuery(val) {
+      this.gridApi.setQuickFilter(val);
+    },
   },
-  mounted () {
-    this.gridApi = this.gridOptions.api
+  mounted() {
+    this.gridApi = this.gridOptions.api;
 
     /* =================================================================
       NOTE:
@@ -223,19 +231,24 @@ export default {
       However, we given fix to this issue. If you want more robust solution please contact them at gitHub
     ================================================================= */
     if (this.$vs.rtl) {
-      const header = this.$refs.agGridTable.$el.querySelector('.ag-header-container')
-      header.style.left = `-${  String(Number(header.style.transform.slice(11, -3)) + 9)  }px`
+      const header = this.$refs.agGridTable.$el.querySelector(
+        ".ag-header-container"
+      );
+      header.style.left = `-${String(
+        Number(header.style.transform.slice(11, -3)) + 9
+      )}px`;
     }
   },
-  created () {
+  created() {
     if (!moduleArtistManagement.isRegistered) {
-      this.$store.registerModule('artistManagement', moduleArtistManagement)
-      moduleArtistManagement.isRegistered = true
+      this.$store.registerModule("artistManagement", moduleArtistManagement);
+      moduleArtistManagement.isRegistered = true;
     }
-    this.$store.dispatch('artistManagement/fetchArtists').catch(err => { console.error(err) })
-  }
-}
-
+    this.$store.dispatch("artistManagement/fetchArtists").catch((err) => {
+      console.error(err);
+    });
+  },
+};
 </script>
 
 <style lang="scss">

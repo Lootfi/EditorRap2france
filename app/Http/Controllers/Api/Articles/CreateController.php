@@ -9,7 +9,6 @@ use Carbon\Carbon;
 use App\Models\Hashtag;
 use App\Models\ArticleHashtag;
 use JWTAuth;
-
 class CreateController extends Controller
 {
     public function createArticle(){
@@ -21,6 +20,7 @@ class CreateController extends Controller
     		$article->created_at = now();
     		$article->updated_at = now();
     		$article->dateactu = now();
+            $article->contenu = request('formattedJsonContent');
     		$article->url = '/news/'.str_slug(request('title'));
     		$article->tag = str_slug(request('title'));
     		$article->admin_creator_id = JWTAuth::parseToken()->authenticate()->id;
@@ -80,12 +80,13 @@ class CreateController extends Controller
 
     
     public function uploadImageByFile(){
+
     	
     	$imageData = request('avatar');
        	$fileName = Carbon::now()->timestamp ."-".$imageData->getClientOriginalName();
     	$ImagePath =public_path('images/admin/articles/').$fileName;
 		\Image::make(request('avatar'))->save($ImagePath);
-		$ImageUrl = "/images/admin/articles/".$fileName;
+        $ImageUrl = "/images/admin/articles/".$fileName;
 		return response()->JSON(['success' => 1 , "file" => ["url" => $ImageUrl]]);
 
 

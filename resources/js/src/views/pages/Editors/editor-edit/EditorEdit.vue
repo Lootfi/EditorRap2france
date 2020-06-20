@@ -9,11 +9,19 @@
 
 <template>
   <div id="page-user-edit">
-
-    <vs-alert color="danger" title="User Not Found" :active.sync="user_not_found">
+    <vs-alert
+      color="danger"
+      title="User Not Found"
+      :active.sync="user_not_found"
+    >
       <span>User record with id: {{ $route.params.userId }} not found. </span>
       <span>
-        <span>Check </span><router-link :to="{name:'page-user-list'}" class="text-inherit underline">All Users</router-link>
+        <span>Check </span
+        ><router-link
+          :to="{ name: 'page-user-list' }"
+          class="text-inherit underline"
+          >All Users</router-link
+        >
       </span>
     </vs-alert>
 
@@ -31,23 +39,21 @@
             </div>
           </vs-tab>
         </vs-tabs>
-
       </div>
-
     </vx-card>
   </div>
 </template>
 
 <script>
-import EditorEditTabAccount     from './EditorEditTabAccount.vue'
-import EditorEditTabInformation from './EditorEditTabInformation.vue'
+import EditorEditTabAccount from "./EditorEditTabAccount.vue";
+import EditorEditTabInformation from "./EditorEditTabInformation.vue";
 
 export default {
   components: {
     EditorEditTabAccount,
     EditorEditTabInformation,
   },
-  data () {
+  data() {
     return {
       user_data: null,
       user_not_found: false,
@@ -57,34 +63,27 @@ export default {
 
         Please check it's watcher
       */
-      activeTab: 1
-    }
+      activeTab: 1,
+    };
   },
-  mounted(){
-
+  mounted() {
     this.fetch_user_data(this.$route.params.slug);
-
-  }
- ,
-  methods: {
-    
-    fetch_user_data (slug) {
-     this.$http.get(`/api/users/${slug}`,{
-          headers : {
-            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-          }
-
-       })
-       .then(response => {
-
-          this.user_data = response.data
-      
-        }).catch(function (error) {
-          this.user_not_found = true
-                    });
-    }
   },
-
-}
-
+  methods: {
+    fetch_user_data(slug) {
+      this.$http
+        .get(`/api/users/${slug}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+          },
+        })
+        .then((response) => {
+          this.user_data = response.data;
+        })
+        .catch(function(error) {
+          this.user_not_found = true;
+        });
+    },
+  },
+};
 </script>

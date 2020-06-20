@@ -16,10 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/login', 'Auth\LoginController@login');
 Route::get('/auth/logout','Auth\LoginController@logout');
+Route::get('/auth/checkAuthToken','Auth\LoginController@checkAuth');
+
 
 Route::group(['middleware' => ['jwt.verify']],function(){
 
-	Route::get('/auth/checkAuthToken','Auth\LoginController@checkAuth');
 	Route::post('/auth/password-reset','Auth\PasswordReset@reset');
 	// ** -- Routes accessible only for Admins role -- ** 
 	Route::group(['prefix' => 'users' ,'namespace' => 'Users'],function(){
@@ -32,7 +33,15 @@ Route::group(['middleware' => ['jwt.verify']],function(){
 	Route::get('/{slug}/delete','DeleteController@deleteUser');
 	Route::post('/{slug}/uploadAvatar','AvatarController@uploadAvatar');
 });
+	
+Route::group(['prefix' => 'analytics' ,'namespace' => 'Analytics'],function(){
+	Route::get('/{analyticType}/{maxResults}', 'AnalyticController@getMostViewedPages')->name('analytics');
+});
 
+Route::group(['prefix' => 'user', 'namespace' => 'User'],function(){
+
+	Route::get('/my-article','ArticleController@index');
+});
 
 Route::group(['prefix' => 'articles' ,'namespace' => 'Articles'],function(){
 
@@ -65,4 +74,4 @@ Route::group(['prefix' => 'settings', 'namespace' =>'Settings'],function(){
 });
 
 
-
+	Route::get('/{slug}/exportToFacebookArticle','Facebook\InstantController@exportMarkup');

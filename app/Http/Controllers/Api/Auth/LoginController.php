@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Http\Request;
+use JWTAuth;
 
 class LoginController extends Controller
 {
@@ -41,6 +42,12 @@ class LoginController extends Controller
 
     public function checkAuth(){
 
+        if(JWTAuth::parseToken()->authenticate()){
+
         return response()->json(['authentificated' => true],200);
+
+
+        }
+        return response()->json(['NonToken' => true],401);
     }
 }

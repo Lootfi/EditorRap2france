@@ -1,193 +1,209 @@
 <template>
-    <div id="knowledge-base-article">
-        <div  >
-            <div class="vx-col w-full  mt-12 md:mt-0 ">
-                <vx-card>
-                    <!-- Title -->
-                    <div class="article-title   mb-6 py-4">
-                      
-                        <h1 class="text-5xl text-center my-2" style="font-family:times new roman">{{articleData.titre}}</h1>
-                        <div class="flex items-center">
-                        <div class="flex items-center ">
-                          <vs-avatar size="large" :src="`/images/admin/users/avatars/${articleData.Creator.Details.picture}`" @click="$router.push(`/editors/${articleData.Creator.slug}`)"/>
-                        <div class="ml-2">
-                        <p class="font-bold text-teal-600" @click="$router.push(`/editors/${articleData.Creator.slug}`)">{{articleData.Creator.Full_Name}}</p>
-                        <p >Last updated on {{articleData.updated_at}}</p>
-                      </div>
-                      </div>
-                      <div v-if="isUserEditor">
-                        <div class="dropdown-button-container">
-                         <vs-dropdown>
-                          <vs-button class="btn-drop" color="rgba(0,0,0,0)" type="gradient" icon="more_horiz"></vs-button>
-                          <vs-dropdown-menu>
-                          <vs-dropdown-item v-if="isJsonArticle(articleData)" @click="$router.push(`/articles/${articleData.tag}/edit`)"> Modifier</vs-dropdown-item>
-                          <vs-dropdown-item divider @click="handleDelete"> Supprimer </vs-dropdown-item>
-                            </vs-dropdown-menu>
-                          </vs-dropdown>
-                        </div>
-                      </div>
-                    </div>
-                    </div>
-                    <p>Category : {{articleData.Category.nom}}</p>
-                    <p v-for="(artist,index) in articleData.Artists" :key="index">Artists : <span class="text-teal-600 pointer">{{artist.name}}</span></p>
-
-                    <div class="todo-tags my-4 flex">
-                    <vs-chip v-for="(tag, index) in articleData.Hashtags" :key="index">
-                        <span>{{ tag.nom }}</span>
-                    </vs-chip>
-                </div>
-                    <div class="text-center  ">
-                    <img class="max-w-full h-auto mx-auto" v-if="articleData.image" :src="`/images/admin/articles/avatars/${articleData.image}`" />
-                  </div>
-                    <vs-divider> L'article </vs-divider>
-                <div v-if="article_raw" >
-                    <div v-html="articleData.ContenuFormat.contenu">
+  <div id="knowledge-base-article">
+    <div>
+      <div class="vx-col w-full  mt-12 md:mt-0 ">
+        <vx-card>
+          <!-- Title -->
+          <div class="article-title   mb-6 py-4">
+            <h1
+              class="text-5xl text-center my-2"
+              style="font-family:times new roman"
+            >
+              {{ articleData.titre }}
+            </h1>
+            <div class="flex items-center">
+              <div class="flex items-center ">
+                <vs-avatar
+                  size="large"
+                  :src="
+                    `/images/admin/users/avatars/${articleData.Creator.Details.picture}`
+                  "
+                  @click="$router.push(`/editors/${articleData.Creator.slug}`)"
+                />
+                <div class="ml-2">
+                  <p
+                    class="font-bold text-teal-600"
+                    @click="
+                      $router.push(`/editors/${articleData.Creator.slug}`)
+                    "
+                  >
+                    {{ articleData.Creator.Full_Name
+                    }}{{ showActions(articleData) }}
+                  </p>
+                  <p>Last updated on {{ articleData.updated_at }}</p>
                 </div>
               </div>
-                <div v-else>
-                    <div v-html="articleData.ContenuFormat.contenu"></div>
+              <div v-if="showActions(articleData)">
+                <div class="dropdown-button-container">
+                  <vs-dropdown>
+                    <vs-button
+                      class="btn-drop"
+                      color="rgba(0,0,0,0)"
+                      type="gradient"
+                      icon="more_horiz"
+                    ></vs-button>
+                    <vs-dropdown-menu>
+                      <vs-dropdown-item
+                        v-if="isJsonArticle(articleData)"
+                        @click="
+                          $router.push(`/articles/${articleData.tag}/edit`)
+                        "
+                      >
+                        Modifier</vs-dropdown-item
+                      >
+                      <vs-dropdown-item divider @click="handleDelete">
+                        Supprimer
+                      </vs-dropdown-item>
+                    </vs-dropdown-menu>
+                  </vs-dropdown>
                 </div>
-                     
-                </vx-card>
+              </div>
             </div>
-        </div>
+          </div>
+          <p>Category : {{ articleData.Category.nom }}</p>
+          <p v-for="(artist, index) in articleData.Artists" :key="index">
+            Artists :
+            <span class="text-teal-600 pointer">{{ artist.name }}</span>
+          </p>
+
+          <div class="todo-tags my-4 flex">
+            <vs-chip v-for="(tag, index) in articleData.Hashtags" :key="index">
+              <span>{{ tag.nom }}</span>
+            </vs-chip>
+          </div>
+          <div class="text-center  ">
+            <img
+              class="max-w-full h-auto mx-auto"
+              v-if="articleData.image"
+              :src="`/images/admin/articles/avatars/${articleData.image}`"
+            />
+          </div>
+          <vs-divider> L'article </vs-divider>
+          <div v-if="article_raw">
+            <div v-html="articleData.ContenuFormat.contenu"></div>
+          </div>
+          <div v-else>
+            <div v-html="articleData.ContenuFormat.contenu"></div>
+          </div>
+        </vx-card>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-data () {
+  data() {
     return {
-      articleData : null,
+      articleData: null,
       article_not_found: false,
       article_raw: false,
-      isDeleting :false,
-    }
+      isDeleting: false,
+    };
   },
-	mounted(){
-
-
+  computed: {
+    activeUserInfo() {
+      return this.$store.state.AppActiveUser;
+    },
+  },
+  mounted() {
     this.$vs.loading({
-        type: 'corners',
-        text:"Patientez s'il vous plait"
+      type: "corners",
+      text: "Patientez s'il vous plait",
+    });
+
+    this.$http
+      .get(`/api/articles/${this.$route.params.tag}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
       })
 
-		this.$http.get(`/api/articles/${this.$route.params.tag}`,{
-          headers : {
-            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-          }
-       })
-
-		.then(response => {
-        this.$vs.loading.close()
-        if(response.data == "Article not found"){
-
-          this.$router.push('/articles')
+      .then((response) => {
+        this.$vs.loading.close();
+        if (response.data == "Article not found") {
+          this.$router.push("/articles");
         }
 
-          this.articleData = response.data
-          console.log(this.articleData.ContenuFormat.type)
-        if(response.data.ContenuFormat.type == "raw"){
-
+        this.articleData = response.data;
+        if (response.data.ContenuFormat.type == "raw") {
           this.article_raw = true;
-
-        }else{
-          this.articleData.ContenuFormat.contenu = this.JsonFormatter(this.articleData)
-
-          
+        } else {
+          this.articleData.ContenuFormat.contenu = this.JsonFormatter(
+            this.articleData
+          );
         }
-			 	
+      })
+      .catch(function(error) {
+        console.error(error);
+      });
+  },
+  methods: {
+    showActions(articleData) {
+      if (
+        this.activeUserInfo.user.role == "Admin" ||
+        this.activeUserInfo.user.email == articleData.Creator.email
+      ) {
+        return true;
+      }
 
-			 	}).catch(function (error) {
-          
+      return false;
+    },
+
+    isJsonArticle(row) {
+      if (row.ContenuFormat.type == "raw") {
+        return false;
+      }
+
+      return true;
+    },
+    handleDelete(e) {
+      e.preventDefault();
+      this.$http
+        .get(`/api/articles/${this.$route.params.tag}/delete`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+          },
+        })
+        .then((response) => {
+          this.$router.push("/articles");
+        })
+        .catch((error) => {
           console.error(error);
-                    });
-	},
-  methods:{
+        });
+    },
 
+    JsonFormatter(Data) {
+      var content = Data.ContenuFormat.contenu;
+      var rawHtml = "";
+      content.blocks.map((block) => {
+        if (block.type == "paragraph") {
+          rawHtml = `${rawHtml}<div class="my-4"><p>${block.data.text}</p></div>`;
+        }
+        if (block.type == "list") {
+          if (block.data.style == "ordered") {
+            var listItems = "";
+            block.data.items.map((item) => {
+              listItems = `${listItems}<li>${item}</li>`;
+            });
 
-        isJsonArticle(row){
-
-              if(row.ContenuFormat.type == "raw"){
-
-                return false;
-
-              }
-
-              return true;
-        },
-        handleDelete(e){
-
-          e.preventDefault();
-          this.$http.get(`/api/articles/${this.$route.params.tag}/delete`,{
-          headers : {
-            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+            rawHtml = `${rawHtml}<div class="m-4"><ol style="list-style-type:decimal;" >${listItems}</ol></div>`;
           }
-       }).then(response => {
+          if (block.data.style == "unordered") {
+            var listItems = "";
+            block.data.items.map((item) => {
+              listItems = `${listItems}<li>${item}</li>`;
+            });
 
-              this.$router.push('/articles');
-
-       }).catch(error => {
-
-          console.error(error)
-       })
-          
+            rawHtml = `${rawHtml}<div class="m-4"><ul style="list-style-type:disc;">${listItems}</ul></div>`;
+          }
         }
 
-      ,isUserEditor(){
-
-          if(this.$store.state.AppActiveUser == this.articleData.Creator){
-
-            return true
-          }
-
-          return false
-
-      },
-
-      JsonFormatter(Data){
-
-        var content = Data.ContenuFormat.contenu
-        var rawHtml = ""
-        content.blocks.map((block) => {
-
-            if(block.type == "paragraph"){
-              rawHtml = `${rawHtml}<div class="my-4"><p>${block.data.text}</p></div>`
-            }
-            if(block.type == "list"){
-
-              if(block.data.style =="ordered"){
-
-                var listItems = "";
-                block.data.items.map(item => {
-
-                    listItems = `${listItems}<li>${item}</li>`
-
-                })
-
-               rawHtml = `${rawHtml}<div class="m-4"><ol style="list-style-type:decimal;" >${listItems}</ol></div>`
-               console.log(rawHtml)
-
-              }
-              if(block.data.style =="unordered"){
-
-                var listItems = "";
-                block.data.items.map(item => {
-
-                    listItems = `${listItems}<li>${item}</li>`
-
-                })
-
-               rawHtml = `${rawHtml}<div class="m-4"><ul style="list-style-type:disc;">${listItems}</ul></div>`
-
-              }
-            }
-
-            if(block.type =="header"){
-              rawHtml = `${rawHtml}<div class="my-4"><h${block.data.level}>${block.data.text}</h${block.data.level}></div>`
-            }
-            if(block.type =="quote"){
-              rawHtml = `${rawHtml}<div class="my-4">
+        if (block.type == "header") {
+          rawHtml = `${rawHtml}<div class="my-4"><h${block.data.level}>${block.data.text}</h${block.data.level}></div>`;
+        }
+        if (block.type == "quote") {
+          rawHtml = `${rawHtml}<div class="my-4">
                 <blockquote class="relative p-4 text-xl italic border-l-4 bg-neutral-100 text-neutral-600 border-neutral-500 quote">
                        <div style="font-size: 5rem; right: 100%;" class="mr-2 font-dank-mono text-neutral-500 absolute top-0 leading-none;" aria-hidden="true">
                          &ldquo;
@@ -201,49 +217,41 @@ data () {
                                 </span>
                               </div>
                               </cite>
-                      </blockquote></div>`
-            }
-             if(block.type == "image"){
-              if(block.data.file){
-              rawHtml = `${rawHtml}<div class="my-4 "><img style="max-width:100%;" src="${block.data.file.url}" />
+                      </blockquote></div>`;
+        }
+        if (block.type == "image") {
+          if (block.data.file) {
+            rawHtml = `${rawHtml}<div class="my-4 "><img style="max-width:100%;" src="${block.data.file.url}" />
               <p class="text-center mt-2 font-bold">${block.data.caption}</p>
-              </div>`
-              }
-              if(block.data.url){
-                rawHtml = `${rawHtml}<div class="my-4 "><img style="max-width:100%;" src="${block.data.url}" />
+              </div>`;
+          }
+          if (block.data.url) {
+            rawHtml = `${rawHtml}<div class="my-4 "><img style="max-width:100%;" src="${block.data.url}" />
               <p class="text-center mt-2 font-bold">${block.data.caption}</p>
-              </div>`
-              }
-              
-            }
+              </div>`;
+          }
+        }
 
-            if(block.type=="embed"){
-              if(block.data.service == "instagram"){
+        if (block.type == "embed") {
+          if (block.data.service == "instagram") {
+            const embedInstagram = `<iframe width="${block.data.width}" height="${block.data.height}" src="${block.data.embed}" frameborder="0"></iframe><p class="text-center mt-2 font-bold">${block.data.caption}</p>`;
+            rawHtml = `${rawHtml}<div class="my-4 text-center">${embedInstagram}</div>`;
+          }
+          if (block.data.service == "youtube") {
+            const embedYoutube = `<iframe width="${block.data.width}" height="${block.data.height}" src="${block.data.embed}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><p class="text-center font-bold">${block.data.caption}</p>`;
+            rawHtml = `${rawHtml}<div class="my-4 mx-auto text-center">${embedYoutube}</div>`;
+          }
 
-                const embedInstagram = `<iframe width="${block.data.width}" height="${block.data.height}" src="${block.data.embed}" frameborder="0"></iframe><p class="text-center mt-2 font-bold">${block.data.caption}</p>`
-                  rawHtml = `${rawHtml}<div class="my-4 text-center">${embedInstagram}</div>`
-             
-              }
-              if(block.data.service == "youtube"){
+          if (block.data.service == "twitter") {
+            const embedTwitter = `<iframe border=0 frameborder=0 height=${block.data.height} width=${block.data.width}
+                    src=${block.data.embed}></iframe><p class="text-center mt-2 font-bold">${block.data.caption}</p>`;
+            rawHtml = `${rawHtml}<div class="my-4 mx-auto text-center">${embedTwitter}</div>`;
+          }
+        }
+      });
 
-                const embedYoutube = `<iframe width="${block.data.width}" height="${block.data.height}" src="${block.data.embed}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><p class="text-center font-bold">${block.data.caption}</p>`
-                 rawHtml = `${rawHtml}<div class="my-4 mx-auto text-center">${embedYoutube}</div>`
-
-              }
-
-              if(block.data.service == "twitter"){
-
-                  const embedTwitter=`<iframe border=0 frameborder=0 height=${block.data.height} width=${block.data.width}
-                    src=${block.data.embed}></iframe><p class="text-center mt-2 font-bold">${block.data.caption}</p>`
-                 rawHtml = `${rawHtml}<div class="my-4 mx-auto text-center">${embedTwitter}</div>`
-
-              }
-            }
-        })
-
-        return rawHtml;
-      }
-  }
-}
-
+      return rawHtml;
+    },
+  },
+};
 </script>
