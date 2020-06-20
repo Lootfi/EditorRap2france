@@ -88,6 +88,7 @@
               <!-- Nav-Group -->
               <template v-else>
                 <v-nav-menu-group
+                  v-if="showGroup(item.admin)"
                   :key="`group-${index}`"
                   :openHover="openGroupHover"
                   :group="item"
@@ -221,6 +222,16 @@ export default {
         // Swipe Left
         if (this.isVerticalNavMenuActive && this.showCloseButton) this.isVerticalNavMenuActive = false
       }
+    },
+
+    showGroup(meta){
+
+      if((meta == true && this.$store.state.AppActiveUser.user.role == "Admin") || meta == false){
+
+        return true
+      }
+
+      return false
     },
     onSwipeAreaSwipe (event) {
 

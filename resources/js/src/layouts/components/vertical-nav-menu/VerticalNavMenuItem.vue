@@ -49,7 +49,7 @@ export default {
     index       : { type: [String, Number],       default: null             },
     featherIcon : { type: Boolean,                default: true             },
     target      : { type: String,                 default: '_self'          },
-    isDisabled  : { type: Boolean,                default: false            }
+    isDisabled  : { type: Boolean,                default: false            },
   },
   computed: {
     activeLink () {

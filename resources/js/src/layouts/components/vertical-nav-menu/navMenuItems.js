@@ -15,6 +15,7 @@ export default [
     slug: "dashboard",
     icon: "HomeIcon",
     i18n: "Dashboard",
+    admin: false,
 
   },
   {
@@ -23,12 +24,14 @@ export default [
     slug: "actualite",
     icon: "EditIcon",
     i18n: "Actualité",
+    admin: false,
     submenu: [
       {
         url: '/articles',
         name: "Liste des articles",
         slug: "listearticles",
         i18n: "Articles",
+
       },
       {
         url: '/create-article',
@@ -44,12 +47,15 @@ export default [
    slug: "users",
    icon: "UserIcon",
    i18n: "Editors",
+   admin: true,
+
    submenu: [
       {
         url: '/editors',
         name: "Liste des editeurs",
         slug: "listeediteurs",
         i18n: "Editors",
+
       },
       {
         url: '/create-editor',
@@ -65,6 +71,7 @@ export default [
    slug: "settings",
    icon: "SettingsIcon",
    i18n: "settings",
+   admin: true,
    submenu: [
       {
         url: '/settings/artists',

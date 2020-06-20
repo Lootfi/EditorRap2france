@@ -91,7 +91,9 @@ export default {
     openHover  : { type: Boolean, default: false },
     open       : { type: Boolean, default: false },
     group      : { type: Object },
-    groupIndex : { type: Number }
+    groupIndex : { type: Number },
+    requiresAdmin: {type: Boolean, default:false }
+
   },
   components: {
     VNavMenuItem
