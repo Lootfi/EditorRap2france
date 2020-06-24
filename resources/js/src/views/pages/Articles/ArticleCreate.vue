@@ -57,6 +57,10 @@
           </div>
         </v-card-text>
       </div>
+        <div class="mt-4">
+        <label class="vs-input--label">Date de publication</label>
+        <flat-pickr class="block" :config="configdateTimePicker" v-model="datetime" placeholder="Date de publication" />
+      </div>
       <div class="mt-4">
         <label class="vs-input--label">Categorie</label>
         <v-select v-model="category" :selected="selected" :options="options" />
@@ -108,10 +112,13 @@ import Marker from "@editorjs/marker";
 import Cropper from "cropperjs";
 import debounce from "lodash/debounce";
 import vSelect from "vue-select";
+import flatPickr from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
 
 export default {
   components: {
     "v-select": vSelect,
+    flatPickr
   },
   data() {
     return {
@@ -119,6 +126,7 @@ export default {
       title: "",
       avatar: "",
       category: null,
+      text: "",
       hashtags: null,
       artists: null,
       isSending: false,
@@ -131,9 +139,18 @@ export default {
       options: [],
       artistOptions: [],
       hashtagOptions: [],
+      publishTime: null,
+          configdateTimePicker: {
+              enableTime: true,
+              dateFormat: 'Y-m-d H:i:s',
+              minDate: "today",
+              minTime: Date.now(),
+              enableSeconds: true,
+            }
     };
   },
   mounted() {
+
     this.$vs.loading({
       type: "corners",
       text: "Patientez s'il vous plait",
@@ -216,6 +233,21 @@ export default {
         embed: {
           class: Embed,
           inlineToolbar: false,
+          config: {
+
+            services: {
+
+              html: "<iframe height='900' scrolling='no' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'></iframe>",
+              height: 900,
+              width: 600,
+
+              
+            }
+              
+
+          }
+          
+
         },
         quote: {
           class: Quote,
@@ -284,6 +316,7 @@ export default {
       content.blocks.map((block) => {
         if (block.type == "paragraph") {
           rawHtml = `${rawHtml}<div class="my-4"><p>${block.data.text}</p></div>`;
+          this.text = `${this.text} ${block.data.text}`
         }
         if (block.type == "list") {
           if (block.data.style == "ordered") {
@@ -307,6 +340,7 @@ export default {
 
         if (block.type == "header") {
           rawHtml = `${rawHtml}<div class="my-4"><h${block.data.level}>${block.data.text}</h${block.data.level}></div>`;
+
         }
         if (block.type == "quote") {
           rawHtml = `${rawHtml}<div class="my-4">
@@ -340,7 +374,7 @@ export default {
 
         if (block.type == "embed") {
           if (block.data.service == "instagram") {
-            const embedInstagram = `<iframe width="${block.data.width}" height="${block.data.height}" src="${block.data.embed}" frameborder="0"></iframe><p class="text-center mt-2 font-bold">${block.data.caption}</p>`;
+            const embedInstagram = `<iframe width="${block.data.width}" height="900px" src="${block.data.embed}" frameborder="0"></iframe><p class="text-center mt-2 font-bold">${block.data.caption}</p>`;
             rawHtml = `${rawHtml}<div class="my-4 text-center">${embedInstagram}</div>`;
           }
           if (block.data.service == "youtube") {
@@ -349,7 +383,7 @@ export default {
           }
 
           if (block.data.service == "twitter") {
-            const embedTwitter = `<iframe border=0 frameborder=0 height=${block.data.height} width=${block.data.width}
+            const embedTwitter = `<iframe border=0 frameborder=0 height="${block.data.height}" width="${block.data.width}"
                     src=${block.data.embed}></iframe><p class="text-center mt-2 font-bold">${block.data.caption}</p>`;
             rawHtml = `${rawHtml}<div class="my-4 mx-auto text-center">${embedTwitter}</div>`;
           }
@@ -377,6 +411,8 @@ export default {
                   hashtags: this.hashtags,
                   artists: this.artists,
                   formattedJsonContent: this.JsonFormatter(outputData),
+                  text: this.text,
+                  dateactu : this.datetime
                 },
                 {
                   headers: {

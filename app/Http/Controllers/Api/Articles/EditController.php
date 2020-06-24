@@ -22,8 +22,10 @@ class EditController extends Controller
     	$article->updated_at = now();
     	$article->url = '/news/'.str_slug(request('title'));
     	$article->tag = str_slug(request('title'));
-    	$article->admin_creator_id = JWTAuth::parseToken()->authenticate()->id;
+        $article->contenutext = request('text');
     	$article->contenuJson = request('data');
+        $article->contenu = request('formattedJsonContent');
+
         if(request('avatar')){  
             $imageData = request('avatar');
             $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];

@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Feed\Feedable;
+use Spatie\Feed\FeedItem;
 
-class Article extends Model
+class Article extends Model implements Feedable
 {
 
 	 /**
@@ -25,7 +27,7 @@ class Article extends Model
      *
      * @var array
      */
-    protected $appends = ['Creator','Category','ContenuFormat','Hashtags','Artists','Avatar'];
+    protected $appends = ['Creator','Category','ContenuFormat','Hashtags','Artists','Avatar','StatusName'];
 
      /**
      * The attributes that should be hidden for arrays.
@@ -44,6 +46,39 @@ class Article extends Model
        'dateactu' =>'datetime:Y-m-d',
        'contenuJson' => 'array'
     ];
+
+    public function getStatusNameAttribute(){
+
+        if($this->status == 1){
+
+            return "Pending";
+        }
+        if($this->status == 2){
+
+            return "published";
+        }
+    }
+
+    public function toFeedItem()
+    {
+        return FeedItem::create()
+            ->id($this->id)
+            ->title($this->titre)
+            ->summary($this->contenu)
+            ->updated($this->updated_at)
+            ->link('/articles/'.$this->tag)
+            ->author($this->Creator->Full_Name);
+    }
+
+    public static function getFeedItems()
+            {
+               return static::all();
+            }
+
+    public function getLinkAttribute()
+{
+    return route('events.show', $this);
+}
 
     public function getArtistsAttribute(){
 
@@ -106,7 +141,7 @@ class Article extends Model
 
     {
 
-        return $this->belongsToMany(\App\Models\Hashtag::class, 'r2f_new_actualités-hashtags');
+        return $this->belongsToMany(\App\Models\Hashtag::class, 'r2f_new_actualités_hashtags');
 
     }
 }

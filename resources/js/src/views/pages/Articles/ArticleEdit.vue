@@ -118,6 +118,7 @@ export default {
       editor: null,
       title: "",
       avatar: "",
+      text: "",
       articleData: null,
       article_not_found: false,
       article_raw: false,
@@ -132,6 +133,7 @@ export default {
       selectedFile: null,
       selected: null,
       options: [],
+      formattedJsonContent:null,
       hashtagOptions: [],
       artistOptions: [],
       debouncedUpdatePreview: debounce(this.updatePreview, 257),
@@ -340,15 +342,94 @@ export default {
       this.previewCropped = canvas.toDataURL("image/png");
       this.avatar = this.previewCropped;
     },
+     JsonFormatter(Data) {
+      var content = Data;
+      var rawHtml = "";
+      content.blocks.map((block) => {
+        if (block.type == "paragraph") {
+          rawHtml = `${rawHtml}<div class="my-4"><p>${block.data.text}</p></div>`;
+          this.text = `${this.text} ${block.data.text}`
 
+        }
+        if (block.type == "list") {
+          if (block.data.style == "ordered") {
+            var listItems = "";
+            block.data.items.map((item) => {
+              listItems = `${listItems}<li>${item}</li>`;
+            });
+
+            rawHtml = `${rawHtml}<div class="m-4"><ol style="list-style-type:decimal;" >${listItems}</ol></div>`;
+            console.log(rawHtml);
+          }
+          if (block.data.style == "unordered") {
+            var listItems = "";
+            block.data.items.map((item) => {
+              listItems = `${listItems}<li>${item}</li>`;
+            });
+
+            rawHtml = `${rawHtml}<div class="m-4"><ul style="list-style-type:disc;">${listItems}</ul></div>`;
+          }
+        }
+
+        if (block.type == "header") {
+          rawHtml = `${rawHtml}<div class="my-4"><h${block.data.level}>${block.data.text}</h${block.data.level}></div>`;
+        }
+        if (block.type == "quote") {
+          rawHtml = `${rawHtml}<div class="my-4">
+                <blockquote class="relative p-4 text-xl italic border-l-4 bg-neutral-100 text-neutral-600 border-neutral-500 quote">
+                       <div style="font-size: 5rem; right: 100%;" class="mr-2 font-dank-mono text-neutral-500 absolute top-0 leading-none;" aria-hidden="true">
+                         &ldquo;
+                      </div>
+                              <p class="mb-4 text-3xl italic">${block.data.text}</p>
+                              <cite class="flex items-center">
+                              <div class="flex flex-col items-start">
+                                <span class="mb-1 text-sm italic font-bold">
+                                Said By 
+                                  ${block.data.caption}
+                                </span>
+                              </div>
+                              </cite>
+                      </blockquote></div>`;
+        }
+        if (block.type == "image") {
+          if (block.data.file) {
+            rawHtml = `${rawHtml}<div class="my-4 "><img style="max-width:100%;" src="${block.data.file.url}" />
+              <p class="text-center mt-2 font-bold">${block.data.caption}</p>
+              </div>`;
+          }
+          if (block.data.url) {
+            rawHtml = `${rawHtml}<div class="my-4 "><img style="max-width:100%;" src="${block.data.url}" />
+              <p class="text-center mt-2 font-bold">${block.data.caption}</p>
+              </div>`;
+          }
+        }
+
+        if (block.type == "embed") {
+          if (block.data.service == "instagram") {
+            const embedInstagram = `<iframe src="${block.data.embed}" width="${block.data.width}" height="${block.data.height}" frameborder="0"></iframe><p class="text-center mt-2 font-bold">${block.data.caption}</p>`;
+            rawHtml = `${rawHtml}<div class="my-4 text-center">${embedInstagram}</div>`;
+          }
+          if (block.data.service == "youtube") {
+            const embedYoutube = `<iframe src="${block.data.embed}" width="${block.data.width}" height="${block.data.height}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><p class="text-center font-bold">${block.data.caption}</p>`;
+            rawHtml = `${rawHtml}<div class="my-4 mx-auto text-center">${embedYoutube}</div>`;
+          }
+
+          if (block.data.service == "twitter") {
+            const embedTwitter = `<iframe border=0 frameborder=0 width="${block.data.width}" height="${block.data.height}"
+                    src=${block.data.embed}></iframe><p class="text-center mt-2 font-bold">${block.data.caption}</p>`;
+            rawHtml = `${rawHtml}<div class="my-4 mx-auto text-center">${embedTwitter}</div>`;
+          }
+        }
+      });
+
+      return rawHtml;
+    },
     handleSave(e) {
       e.preventDefault();
-      console.log(this.artists);
       this.$validator.validateAll().then((result) => {
         if (result) {
           this.isSending = true;
           this.editor.save().then((outputData) => {
-            console.log(this.hashtags);
             this.$http
               .post(
                 `/api/articles/${this.$route.params.tag}/edit`,
@@ -358,7 +439,11 @@ export default {
                   avatar: this.avatar,
                   category: this.category.value,
                   hashtags: this.hashtags,
+                  formattedJsonContent : this.JsonFormatter(outputData),
                   artists: this.artists,
+                  text: this.text,
+
+
                 },
                 {
                   headers: {

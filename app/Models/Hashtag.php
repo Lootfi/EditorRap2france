@@ -11,7 +11,7 @@ class Hashtag extends Model
      *
      * @var string
      */
-    protected $table = 'r2f_new_actualité-hashtag';
+    protected $table = 'r2f_new_actualité_hashtag';
     
     /**
      * Indicates if the model should be timestamped.
@@ -24,7 +24,7 @@ class Hashtag extends Model
 
     {
 
-        return $this->belongsToMany(\App\Models\Article::class, 'r2f_new_actualités-hashtags')
+        return $this->belongsToMany(\App\Models\Article::class, 'r2f_new_actualités_hashtags')
                     ->withPivot('id');
 
     }

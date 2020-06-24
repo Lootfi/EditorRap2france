@@ -1,0 +1,68 @@
+<feed>
+<id>http://rapvue.test/api/articles.rss</id>
+<link href="http://rapvue.test/api/articles.rss"/>
+<title>My feed</title>
+<description>The description of the feed.</description>
+<language>en-US</language>
+<updated>Sat, 20 Jun 2020 10:08:15 +0000</updated>
+<entry>
+<title>Rim-K se livre sur Afrik.com</title>
+<link rel="alternate" href="http://rapvue.test/articles/rim-k-l-interview-sur-africk"/>
+<id>http://rapvue.test/6907</id>
+<author>
+<name> Karam Henni</name>
+</author>
+<summary type="html">
+&lt;p&gt;&lt;span style=&quot;color: #000000;&quot;&gt;Rim-K r&eacute;pond pour le site d&#039;actualit&eacute;s africaines Afrik.com &agrave; quelques questions au sujet de Maghreb United. &lt;br /&gt;&lt;br /&gt;&quot;&lt;strong&gt;&lt;span style=&quot;color: #000000;&quot;&gt;J&rsquo;ai eu les Victoires de la musique, j&rsquo;ai vendu des millions de disque dans ma vie, mais quand je sors un album je ne suis pas re&ccedil;u dans tous les talk-shows, alors que Patrick Fiori, qui depuis quatre ans n&rsquo;a pas vendu trois disques, vous le voyez partout !&lt;/span&gt;&lt;/strong&gt; &quot;&lt;br /&gt;&lt;br /&gt;La suite &lt;a href=&quot;http://www.afrik.com/article17266.html&quot;&gt;ici&lt;/a&gt;. &lt;br /&gt;&lt;/span&gt;&lt;/p&gt;
+</summary>
+<updated>Thu, 11 Jun 2020 15:51:35 +0000</updated>
+</entry>
+<entry>
+<title>This is a title</title>
+<link rel="alternate" href="http://rapvue.test/articles/this-is-a-title"/>
+<id>http://rapvue.test/6934</id>
+<author>
+<name> Karam Henni</name>
+</author>
+<summary type="html">
+<div class="my-4"><p>This is a content<br></p></div>
+</summary>
+<updated>Fri, 19 Jun 2020 09:03:32 +0000</updated>
+</entry>
+<entry>
+<title>This is a title for your post</title>
+<link rel="alternate" href="http://rapvue.test/articles/this-is-a-title-for-your-post"/>
+<id>http://rapvue.test/6935</id>
+<author>
+<name> Karam Henni</name>
+</author>
+<summary type="html">
+<div class="my-4"><p>TitledPost</p></div>
+</summary>
+<updated>Fri, 19 Jun 2020 15:25:34 +0000</updated>
+</entry>
+<entry>
+<title>This is a new article from editor</title>
+<link rel="alternate" href="http://rapvue.test/articles/this-is-a-new-article-from-editor"/>
+<id>http://rapvue.test/6936</id>
+<author>
+<name> Karam Henni</name>
+</author>
+<summary type="html">
+<div class="my-4"><p>Editor Article<br></p></div>
+</summary>
+<updated>Sat, 20 Jun 2020 10:07:00 +0000</updated>
+</entry>
+<entry>
+<title>Editor Article</title>
+<link rel="alternate" href="http://rapvue.test/articles/editor-article"/>
+<id>http://rapvue.test/6937</id>
+<author>
+<name> Abdellah Lotfi</name>
+</author>
+<summary type="html">
+<div class="my-4"><p>This is an editor article<br></p></div>
+</summary>
+<updated>Sat, 20 Jun 2020 10:08:15 +0000</updated>
+</entry>
+</feed>

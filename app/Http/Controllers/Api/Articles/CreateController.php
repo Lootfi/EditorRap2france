@@ -13,14 +13,21 @@ class CreateController extends Controller
 {
     public function createArticle(){
 
-
     		$article = new Article();
     		$article->titre = request('title');
     		$article->idcat = request('category');
     		$article->created_at = now();
     		$article->updated_at = now();
-    		$article->dateactu = now();
+            if(request('dateactu')){
+                $article->dateactu = request('dateactu');
+                $article->status = 1;
+            }else{
+                $article->dateactu = now();
+                $article->status = 2;
+            }
+            
             $article->contenu = request('formattedJsonContent');
+            $article->contenutext = request('text');
     		$article->url = '/news/'.str_slug(request('title'));
     		$article->tag = str_slug(request('title'));
     		$article->admin_creator_id = JWTAuth::parseToken()->authenticate()->id;
