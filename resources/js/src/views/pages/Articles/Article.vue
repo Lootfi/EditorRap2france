@@ -28,9 +28,10 @@
                     "
                   >
                     {{ articleData.Creator.Full_Name
-                    }}{{ showActions(articleData) }}
+                    }}
                   </p>
                   <p>Last updated on {{ articleData.updated_at }}</p>
+                  <p><span v-if="isPublished">Publié</span><span v-else>À Publier</span> Le :{{articleData.dateactu}} </p>
                 </div>
               </div>
               <div v-if="showActions(articleData)">
@@ -99,6 +100,7 @@ export default {
       article_not_found: false,
       article_raw: false,
       isDeleting: false,
+      isPublished: false,
     };
   },
   computed: {
@@ -126,6 +128,12 @@ export default {
         }
 
         this.articleData = response.data;
+        if(this.articleData.status == 1){
+
+          this.isPublished = false;
+        }else{
+          this.isPublished = true;
+        }
         if (response.data.ContenuFormat.type == "raw") {
           this.article_raw = true;
         } else {

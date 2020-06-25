@@ -27,10 +27,9 @@
             ></v-file-input>
             <div class="flex flex-wrap justify-around" v-if="objectUrl">
               <div class=" text-center">
-                <div class="image-container ">
-                  <img
-                    style="max-width:100%; max-height:100%;"
-                    class="image-preview"
+                <div class="inline-block">
+                <img
+                  style="max-height: 299px;"
                     ref="source"
                     :src="objectUrl"
                   />
@@ -49,10 +48,10 @@
                 </div>
               </div>
               <div class=" text-center">
-                <div class="image-container ">
-                  <img
-                    class="image-preview"
-                    style="max-width:100%; max-height:100%;"
+                <div class="inline-block ">
+                <img
+                  style="max-height: 299px;"
+                  class="block max-w-full"
                     :src="previewCropped"
                   />
                 </div>

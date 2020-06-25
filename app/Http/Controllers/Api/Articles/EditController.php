@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use Carbon\Carbon;
 use JWTAuth;
+use ImageOptimizer;
 use App\Models\Hashtag;
 use App\Models\ArticleHashtag;
 use File;
@@ -25,7 +26,10 @@ class EditController extends Controller
         $article->contenutext = request('text');
     	$article->contenuJson = request('data');
         $article->contenu = request('formattedJsonContent');
+        if(request('dateactu')){
 
+            $article->dateactu = request('dateactu');
+        }
         if(request('avatar')){  
             $imageData = request('avatar');
             $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
@@ -33,8 +37,24 @@ class EditController extends Controller
             File::delete($oldAvatar);
             $AvatarPath =public_path('images/admin/articles/avatars/').$fileName;
             \Image::make(request('avatar'))->save($AvatarPath);
+            ImageOptimizer::optimize($AvatarPath);
+
             $article->image = $fileName;
         }
+
+        if(request('featured')){
+
+                $daterange = explode(" ",request('featured'));
+                if(! $featured = \App\Models\FeaturedArticle::where('article_id',$article->id)->first()){
+                  $featured = new FeaturedArticle();
+                }
+                $featured->article_id = $article->id;
+                $featured->date_start = $daterange[0]." ".$daterange[1];
+                $featured->date_end = $daterange[3]." ".$daterange[4];
+                $featured->save();
+
+            }
+
         if(request('hashtags')){
                 
 

@@ -27,7 +27,7 @@ class Article extends Model implements Feedable
      *
      * @var array
      */
-    protected $appends = ['Creator','Category','ContenuFormat','Hashtags','Artists','Avatar','StatusName'];
+    protected $appends = ['Creator','Category','ContenuFormat','Hashtags','Artists','Avatar','StatusName','IsFeatured'];
 
      /**
      * The attributes that should be hidden for arrays.
@@ -59,6 +59,37 @@ class Article extends Model implements Feedable
         }
     }
 
+    public function getIsFeaturedAttribute(){
+
+        if($featured = \App\Models\FeaturedArticle::where('article_id',$this->id)->first()){
+
+            return ['date_start' => $featured->date_start, 'date_end' => $featured->date_end];
+
+        }else{
+
+            return null;
+
+        }
+    }
+
+   public static function published(){
+
+        return self::where('status',2);
+    }
+
+    public static function Pending(){
+
+        return self::where('status',1);
+    }
+
+    public function publish(){
+
+        $this->status = 2;
+        $this->updated_at = now();
+        $this->save();
+        return $this;
+
+    }
     public function toFeedItem()
     {
         return FeedItem::create()

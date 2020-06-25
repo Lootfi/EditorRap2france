@@ -8,6 +8,8 @@ use App\Models\Article;
 use Carbon\Carbon;
 use App\Models\Hashtag;
 use App\Models\ArticleHashtag;
+use ImageOptimizer;
+use App\Models\FeaturedArticle;
 use JWTAuth;
 class CreateController extends Controller
 {
@@ -21,6 +23,7 @@ class CreateController extends Controller
             if(request('dateactu')){
                 $article->dateactu = request('dateactu');
                 $article->status = 1;
+
             }else{
                 $article->dateactu = now();
                 $article->status = 2;
@@ -37,10 +40,22 @@ class CreateController extends Controller
                 $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
                 $AvatarPath =public_path('images/admin/articles/avatars/').$fileName;
                 \Image::make(request('avatar'))->save($AvatarPath);
+                ImageOptimizer::optimize($AvatarPath);
+
                 $article->image = $fileName;
             }
     		      $article->save();
 
+            if(request('featured')){
+
+                $daterange = explode(" ",request('featured'));
+                $featured = new FeaturedArticle();
+                $featured->article_id = $article->id;
+                $featured->date_start = $daterange[0]." ".$daterange[1];
+                $featured->date_end = $daterange[3]." ".$daterange[4];
+                $featured->save();
+
+            }
             if(request('hashtags')){
                 
 
@@ -94,6 +109,7 @@ class CreateController extends Controller
     	$ImagePath =public_path('images/admin/articles/').$fileName;
 		\Image::make(request('avatar'))->save($ImagePath);
         $ImageUrl = "/images/admin/articles/".$fileName;
+        ImageOptimizer::optimize($ImagePath);
 		return response()->JSON(['success' => 1 , "file" => ["url" => $ImageUrl]]);
 
 

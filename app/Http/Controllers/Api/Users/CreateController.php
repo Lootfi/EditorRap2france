@@ -8,6 +8,7 @@ use App\Models\Administrator;
 use App\Models\AdministratorDetail;
 use Carbon\Carbon;
 use Hash;
+use ImageOptimizer;
 class CreateController extends Controller
 {
     public function createUser(){
@@ -55,6 +56,8 @@ class CreateController extends Controller
        			$fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
     			$AvatarPath =public_path('images/admin/users/avatars/').$fileName;
     			\Image::make(request('avatar'))->save($AvatarPath);
+                ImageOptimizer::optimize($AvatarPath);
+
     			$details->picture = $fileName;
     		}
 	    	$details->created_at = now();

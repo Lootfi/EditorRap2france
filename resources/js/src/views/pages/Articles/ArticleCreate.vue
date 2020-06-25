@@ -24,10 +24,10 @@
           ></v-file-input>
           <div class="flex flex-wrap justify-around" v-if="objectUrl">
             <div class=" text-center">
-              <div class="image-container ">
+              <div class="inline-block">
                 <img
-                  style="max-width:100%; height:auto;"
-                  class="image-preview"
+                  style="max-height: 299px;"
+                  class="block max-w-full"
                   ref="source"
                   :src="objectUrl"
                 />
@@ -46,20 +46,16 @@
               </div>
             </div>
             <div class=" text-center">
-              <div class="image-container ">
+              <div class="inline-block ">
                 <img
-                  class="image-preview"
-                  style="max-width:100%; height:auto;"
+                  style="max-height: 299px;"
+                  class="block max-w-full"
                   :src="previewCropped"
                 />
               </div>
             </div>
           </div>
         </v-card-text>
-      </div>
-        <div class="mt-4">
-        <label class="vs-input--label">Date de publication</label>
-        <flat-pickr class="block" :config="configdateTimePicker" v-model="datetime" placeholder="Date de publication" />
       </div>
       <div class="mt-4">
         <label class="vs-input--label">Categorie</label>
@@ -85,6 +81,34 @@
           :options="artistOptions"
         />
       </div>
+      <vs-collapse>
+
+    <vs-collapse-item>
+    <div slot="header">
+      Réglages avancés 
+    </div>
+      <div class="flex items-center ">
+      <div class="col-md-4">
+        <label class="vs-input--label">Programmer La publication</label>
+        <vs-switch v-model="Scheduled" />
+      </div>
+      <div class="ml-5 col-md-6"">
+        <label class="vs-input--label">Date de publication</label>
+        <flat-pickr class="block w-full" :disabled="!Scheduled" :config="configdateTimePickerPublish" v-model="publishTime" placeholder="Date de publication" />
+      </div>
+      </div>
+      <div class="flex items-center ">
+      <div class="col-md-4">
+        <label class="vs-input--label">Publication à la une </label>
+        <vs-switch v-model="Featured" />
+      </div>
+      <div class="ml-5 col-md-6"">
+        <label class="vs-input--label">Date de la promotion</label>
+        <flat-pickr class="block w-full" :disabled="!Featured" :config="configdateTimePickerfeatured" v-model="featuredRange" placeholder="Date de promotion" />
+      </div>
+      </div>
+      </vs-collapse-item>
+  </vs-collapse>
     </div>
     <div class="vx-row">
       <div class="vx-col w-full">
@@ -125,6 +149,8 @@ export default {
       editor: null,
       title: "",
       avatar: "",
+      Scheduled:false,
+      Featured:false,
       category: null,
       text: "",
       hashtags: null,
@@ -140,7 +166,16 @@ export default {
       artistOptions: [],
       hashtagOptions: [],
       publishTime: null,
-          configdateTimePicker: {
+          configdateTimePickerPublish: {
+              enableTime: true,
+              dateFormat: 'Y-m-d H:i:s',
+              minDate: "today",
+              minTime: Date.now(),
+              enableSeconds: true,
+            },
+      featuredRange: null,
+      configdateTimePickerfeatured: {
+              mode:"range",
               enableTime: true,
               dateFormat: 'Y-m-d H:i:s',
               minDate: "today",
@@ -148,6 +183,7 @@ export default {
               enableSeconds: true,
             }
     };
+
   },
   mounted() {
 
@@ -275,7 +311,6 @@ export default {
       this.cropper.reset();
     },
     rotateLeft() {
-      console.log(this.cropper);
       this.cropper.rotate(-90);
     },
     rotateRight() {
@@ -412,7 +447,8 @@ export default {
                   artists: this.artists,
                   formattedJsonContent: this.JsonFormatter(outputData),
                   text: this.text,
-                  dateactu : this.datetime
+                  dateactu : this.publishTime,
+                  featured : this.featuredRange
                 },
                 {
                   headers: {

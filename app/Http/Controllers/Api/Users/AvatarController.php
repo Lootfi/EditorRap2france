@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Administrator;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use ImageOptimizer;
 use File;
 
 class AvatarController extends Controller
@@ -20,6 +21,7 @@ class AvatarController extends Controller
                 $oldAvatar = public_path('images/admin/users/avatars/').$administrator->Details->picture;
                 File::delete($oldAvatar);
     			\Image::make($request->get('avatar'))->save($AvatarPath);
+                ImageOptimizer::optimize($AvatarPath);
     			$details = $administrator->Details;
     			$details->picture = $fileName;
     			$details->updated_at = now();

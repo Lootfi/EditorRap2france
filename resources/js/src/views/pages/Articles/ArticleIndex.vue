@@ -74,6 +74,7 @@
         <vs-th sort-key="category">Categorie</vs-th>
         <vs-th sort-key="popularity">Ecrit par</vs-th>
         <vs-th sort-key="order_status">Ecrit le</vs-th>
+        <vs-th sort-key="order_status">Order Status</vs-th>
         <vs-th>Actions</vs-th>
       </template>
 
@@ -109,6 +110,9 @@
 
             <vs-td>
               <p class="product-name font-medium truncate">{{ tr.dateactu }}</p>
+            </vs-td>
+             <vs-td>
+              <vs-chip class="product-order-status">{{ tr.StatusName  }}</vs-chip>
             </vs-td>
             <vs-td class="whitespace-no-wrap">
               <div v-if="showArticle(tr)">

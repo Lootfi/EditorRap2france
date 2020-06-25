@@ -82,6 +82,34 @@
         :options="artistOptions"
       />
     </div>
+
+    <vs-collapse>
+    <vs-collapse-item>
+    <div slot="header">
+      Réglages avancés 
+    </div>
+      <div class="flex items-center ">
+      <div class="col-md-4">
+        <label class="vs-input--label">Programmer La publication</label>
+        <vs-switch v-model="Scheduled" />
+      </div>
+      <div class="ml-5 col-md-6">
+        <label class="vs-input--label">Date de publication</label>
+        <flat-pickr class="block w-full" :disabled="!Scheduled" :config="configdateTimePickerPublish" v-model="publishTime" placeholder="Date de publication" />
+      </div>
+      </div>
+      <div class="flex items-center ">
+      <div class="col-md-4">
+        <label class="vs-input--label">Publication à la une </label>
+        <vs-switch v-model="Featured" />
+      </div>
+      <div class="ml-5 col-md-6"">
+        <label class="vs-input--label">Date de la promotion</label>
+        <flat-pickr class="block w-full" :disabled="!Featured" :config="configdateTimePickerfeatured" v-model="featuredRange" placeholder="Date de promotion" />
+      </div>
+      </div>
+      </vs-collapse-item>
+  </vs-collapse>
     <div class="vx-row">
       <div class="vx-col w-full">
         <div class="mt-8 flex flex-wrap items-center justify-end">
@@ -108,10 +136,15 @@ import List from "@editorjs/list";
 import Cropper from "cropperjs";
 import debounce from "lodash/debounce";
 import vSelect from "vue-select";
+import flatPickr from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
 
 export default {
   components: {
     "v-select": vSelect,
+    flatPickr
+
+
   },
   data() {
     return {
@@ -130,12 +163,31 @@ export default {
       objectUrl: null,
       previewCropped: null,
       cropper: null,
+      Scheduled:false,
+      Featured:false,
       selectedFile: null,
       selected: null,
       options: [],
       formattedJsonContent:null,
       hashtagOptions: [],
       artistOptions: [],
+      publishTime: null,
+      configdateTimePickerPublish: {
+              enableTime: true,
+              dateFormat: 'Y-m-d H:i:s',
+              minDate: "today",
+              minTime: Date.now(),
+              enableSeconds: true,
+            },
+      featuredRange: null,
+      configdateTimePickerfeatured: {
+              mode:"range",
+              enableTime: true,
+              dateFormat: 'Y-m-d H:i:s',
+              minDate: "today",
+              minTime: Date.now(),
+              enableSeconds: true,
+            },
       debouncedUpdatePreview: debounce(this.updatePreview, 257),
     };
   },
@@ -227,6 +279,19 @@ export default {
           this.$router.push(`/articles/${this.$route.params.tag}`);
         } else {
           this.title = this.articleData.titre;
+          if(this.articleData.status == 1){
+
+            this.publishTime = this.articleData.dateactu
+            this.Scheduled = true
+          }
+          if(this.articleData.IsFeatured){
+
+            this.featuredRange = `${this.articleData.IsFeatured['date_start']} to ${this.articleData.IsFeatured['date_end']}`
+            console.log(this.Featured);
+            this.Featured = true
+
+          }
+
           this.options.map((option) => {
             if (option.value === this.articleData.Category.id) {
               this.category = { label: option.label, value: option.value };
@@ -442,6 +507,8 @@ export default {
                   formattedJsonContent : this.JsonFormatter(outputData),
                   artists: this.artists,
                   text: this.text,
+                  dateactu : this.publishTime,
+                  featured : this.featuredRange
 
 
                 },

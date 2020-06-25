@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateArticleArtistsTable extends Migration
+class AddFeaturedTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateArticleArtistsTable extends Migration
      */
     public function up()
     {
-        Schema::create('r2f_new_article_artist', function (Blueprint $table) {
+        Schema::create('r2f_new_article_featured', function (Blueprint $table) {
+                $table->id();
                 $table->integer('article_id')->unsigned();
-                $table->integer('artist_id')->unsigned();
-                $table->integer('rank');
+                $table->datetime('date_start');
+                $table->datetime('date_end');
+                
 
         });
     }
@@ -28,6 +30,6 @@ class CreateArticleArtistsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('article_artists');
+        //
     }
 }
