@@ -5,7 +5,7 @@
       label="Titre"
       name="title"
       v-model="title"
-      v-validate="'alpha_spaces|required'"
+      v-validate="'required'"
     />
     <span class="text-danger text-sm" v-show="errors.has('title')">{{
       errors.first("title")

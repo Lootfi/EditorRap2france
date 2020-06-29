@@ -91,6 +91,7 @@ const router = new Router({
           component: () => import("@/views/pages/Articles/ArticleEdit.vue"),
           meta: {
             requiresAuth: true,
+            activated : true
           },
         },
         {
@@ -99,6 +100,8 @@ const router = new Router({
           component: () => import("@/views/pages/Articles/ArticleCreate.vue"),
           meta: {
             requiresAuth: true,
+            activated : true
+
           },
         },
         {
@@ -158,6 +161,16 @@ const router = new Router({
             requiresAdmin: true,
           },
         },
+        {
+          path: "/artists/:slug",
+          name: "artist",
+          component: () =>
+            import("@/views/pages/Settings/Artists/Artist.vue"),
+          meta: {
+            requiresAuth: true,
+            requiresAdmin: true,
+          },
+        }
       ],
     },
     {
@@ -205,8 +218,8 @@ router.beforeEach((to, from, next) => {
     next("/login");
   } else {
     if (
-      to.matched.some((record) => record.meta.requiresAdmin) &&
-      LoggedInuser.role != "Admin"
+     (to.matched.some((record) => record.meta.requiresAdmin) &&
+      LoggedInuser.role != "Admin" ) || (to.matched.some((record) => record.meta.activated) && LoggedInuser.StatusName =="Suspendu")
     ) {
       next("/dashboard");
     } else {

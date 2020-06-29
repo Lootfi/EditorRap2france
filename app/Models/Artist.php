@@ -44,18 +44,18 @@ class Artist extends Model
 
         return "/images/admin/artists/avatars/" . $this->image; 
     }
+
     public static function fetchBySlug($slug){
 
         return self::where('slug',$slug)->first();
     }
 
+
      public function articles()
 
     {
-
-        return $this->belongsToMany(\App\Models\Article::class, 'r2f_new_article_artist')
-                    ->withPivot('id');
-
+        return $this->belongsToMany(\App\Models\Article::class, 'r2f_new_article_artist');
+                    
     }
 
 }

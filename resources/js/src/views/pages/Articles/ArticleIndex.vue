@@ -189,10 +189,12 @@ export default {
     this.isMounted = true;
   },
   methods: {
+
+
     showArticle(row) {
       if (
-        this.activeUserInfo.user.role == "Admin" ||
-        this.activeUserInfo.user.email == row.Creator.email
+       (this.activeUserInfo.user.role == "Admin" ||
+        this.activeUserInfo.user.email == row.Creator.email) && this.activeUserInfo.user.StatusName =="Activé"
       ) {
         return true;
       }

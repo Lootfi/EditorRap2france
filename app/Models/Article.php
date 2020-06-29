@@ -34,7 +34,7 @@ class Article extends Model implements Feedable
      *
      * @var array
      */
-    protected $hidden = ['contenutext','contenu','contenuJson','id','idcat','admin_creator_id'];
+    protected $hidden = ['contenu','contenuJson','id','idcat','admin_creator_id'];
     /**
     * The attributes that should be cast.
     *
@@ -131,7 +131,7 @@ class Article extends Model implements Feedable
     public function getAvatarAttribute(){
 
          
-        return "/images/admin/articles/avatars/" . $this->image; 
+        return "/images/admin/articles/avatars/optimized/" . $this->image; 
     
 
     }

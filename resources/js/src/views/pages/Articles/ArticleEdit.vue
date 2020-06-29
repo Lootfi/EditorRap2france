@@ -5,7 +5,7 @@
       label="Titre"
       name="title"
       v-model="title"
-      v-validate="'alpha_spaces|required'"
+      v-validate="'required'"
     />
     <span class="text-danger text-sm" v-show="errors.has('title')">{{
       errors.first("title")
@@ -24,10 +24,10 @@
           ></v-file-input>
           <div class="flex flex-wrap justify-around" v-if="objectUrl">
             <div class=" text-center">
-              <div class="image-container ">
+              <div class="inline-block">
                 <img
-                  style="max-width:100%; height:auto;"
-                  class="image-preview"
+                  style="max-height: 299px;"
+                  class="block max-w-full"
                   ref="source"
                   :src="objectUrl"
                 />
@@ -46,10 +46,10 @@
               </div>
             </div>
             <div class=" text-center">
-              <div class="image-container ">
+              <div class="inline-block ">
                 <img
-                  class="image-preview"
-                  style="max-width:100%; height:auto;"
+                  style="max-height: 299px;"
+                  class="block max-w-full"
                   :src="previewCropped"
                 />
               </div>

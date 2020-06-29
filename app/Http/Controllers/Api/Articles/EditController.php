@@ -11,6 +11,7 @@ use ImageOptimizer;
 use App\Models\Hashtag;
 use App\Models\ArticleHashtag;
 use File;
+use LaravelShortPixel;
 class EditController extends Controller
 {
     public function editArticle($tag){
@@ -34,9 +35,13 @@ class EditController extends Controller
             $imageData = request('avatar');
             $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
             $oldAvatar = public_path('images/admin/articles/avatars/').$article->image;
+            $oldOptimizedAvatar = public_path('images/admin/articles/avatars/optimized').$article->image;
             File::delete($oldAvatar);
-            $AvatarPath =public_path('images/admin/articles/avatars/').$fileName;
+            File::delete($oldOptimizedAvatar);
+            $AvatarPath = public_path('images/admin/articles/avatars/').$fileName;
+            $optimized = "/images/admin/articles/avatars/optimized";
             \Image::make(request('avatar'))->save($AvatarPath);
+            $result = LaravelShortPixel::fromFiles($AvatarPath,$optimized, [$compression_level = 1, $width = 200, $height = 300, $maxDimension = true]);
             ImageOptimizer::optimize($AvatarPath);
 
             $article->image = $fileName;

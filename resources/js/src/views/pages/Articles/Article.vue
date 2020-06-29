@@ -149,8 +149,8 @@ export default {
   methods: {
     showActions(articleData) {
       if (
-        this.activeUserInfo.user.role == "Admin" ||
-        this.activeUserInfo.user.email == articleData.Creator.email
+        (this.activeUserInfo.user.role == "Admin" ||
+    this.activeUserInfo.user.email == articleData.Creator.email) && this.activeUserInfo.user.StatusName =="Activé"
       ) {
         return true;
       }
