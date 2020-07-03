@@ -36,8 +36,8 @@
 export default {
   data() {
     return {
-      email: "karam.tenes@gmail.com",
-      password: "adminpassword",
+      email: "",
+      password: "",
       checkbox_remember_me: false,
       isSending: false,
     };
