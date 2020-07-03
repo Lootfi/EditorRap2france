@@ -39,7 +39,7 @@ class EditController extends Controller
             File::delete($oldAvatar);
             File::delete($oldOptimizedAvatar);
             $AvatarPath = public_path('images/admin/articles/avatars/').$fileName;
-            $optimized = "public/images/admin/articles/avatars/optimized";
+            $optimized = "/images/admin/articles/avatars/optimized";
             \Image::make(request('avatar'))->save($AvatarPath);
             $result = LaravelShortPixel::fromFiles($AvatarPath,$optimized, [$compression_level = 1, $width = 200, $height = 300, $maxDimension = true]);
             ImageOptimizer::optimize($AvatarPath);
