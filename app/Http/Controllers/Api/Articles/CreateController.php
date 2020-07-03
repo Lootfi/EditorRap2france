@@ -40,7 +40,7 @@ class CreateController extends Controller
                 $imageData = request('avatar');
                 $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
                 $AvatarPath =public_path('images/admin/articles/avatars/').$fileName;
-                $optimized = "/images/admin/articles/avatars/optimized";
+                $optimized = "public/images/admin/articles/avatars/optimized";
                 \Image::make(request('avatar'))->save($AvatarPath);
                 $result = LaravelShortPixel::fromFiles($AvatarPath,$optimized,[$compression_level = 1, $width = 200, $height = 200, $maxDimension = true]);
                 
@@ -111,9 +111,9 @@ class CreateController extends Controller
     	$imageData = request('avatar');
        	$fileName = Carbon::now()->timestamp ."-".$imageData->getClientOriginalName();
     	$ImagePath = public_path('images/admin/articles/').$fileName;
-        $optimized = "/images/admin/articles/optimized";
+        $optimized = "public/images/admin/articles/optimized";
 		\Image::make(request('avatar'))->save($ImagePath);
-        $ImageUrl = "/images/admin/articles/optimized/".$fileName;
+        $ImageUrl = "public/images/admin/articles/optimized/".$fileName;
         $result = LaravelShortPixel::fromFiles($ImagePath,$optimized, [$compression_level = 2, $width = 1000, $height = 1200, $maxDimension = true]);
         ImageOptimizer::optimize($ImagePath);
 		return response()->JSON(['success' => 1 , "file" => ["url" => $ImageUrl]]);
