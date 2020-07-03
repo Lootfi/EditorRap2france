@@ -521,9 +521,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
       e.preventDefault();
       this.$validator.validateAll().then(function (result) {
-        if (result) {
-          _this3.isSending = true;
+        _this3.isSending = true;
 
+        if (result) {
           _this3.editor.save().then(function (outputData) {
             _this3.$http.post("/api/articles/".concat(_this3.$route.params.tag, "/edit"), {
               data: outputData,
@@ -924,10 +924,10 @@ var render = function() {
                 "vs-button",
                 {
                   staticClass: "ml-auto mt-2",
-                  attrs: { disable: _vm.isSending },
+                  attrs: { disabled: _vm.isSending },
                   on: { click: _vm.handleSave }
                 },
-                [_vm._v("Save Article")]
+                [_vm._v("Save Article\n        ")]
               )
             ],
             1

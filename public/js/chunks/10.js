@@ -77,8 +77,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -239,18 +237,22 @@ var render = function() {
                           _c(
                             "vs-dropdown-menu",
                             [
-                              _c("vs-dropdown-item", [
-                                _vm._v(
-                                  "\n                      Modifier\n                    "
-                                )
-                              ]),
-                              _vm._v(" "),
                               _c(
                                 "vs-dropdown-item",
-                                { attrs: { divider: "" } },
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.$router.push(
+                                        "/artists/" +
+                                          _vm.artist_data.slug +
+                                          "/edit"
+                                      )
+                                    }
+                                  }
+                                },
                                 [
                                   _vm._v(
-                                    "\n                      Supprimer\n                    "
+                                    "\n                      Modifier\n                    "
                                   )
                                 ]
                               )

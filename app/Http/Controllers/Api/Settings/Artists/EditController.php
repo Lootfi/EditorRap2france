@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Api\Settings\Artists;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Artist
+use App\Models\Artist;
 use LaravelShortPixel;
-
+use Carbon\Carbon;
 
 class EditController extends Controller
 {
-    public function createArtist(){
+    public function EditArtist($slug){
 
-    		if($artist = Artist::fetchBySlug(str_slug(request('name')))){
+    		if($artist = Artist::fetchBySlug($slug)){
 
     			$artist->name = request('name');
     			$artist->slug = str_slug(request('name'));

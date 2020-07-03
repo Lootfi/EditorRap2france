@@ -30,11 +30,9 @@
                       icon="more_horiz"
                     ></vs-button>
                     <vs-dropdown-menu>
-                      <vs-dropdown-item>
+                      <vs-dropdown-item
+                       @click="$router.push(`/artists/${artist_data.slug}/edit`)">
                         Modifier
-                      </vs-dropdown-item>
-                      <vs-dropdown-item divider>
-                        Supprimer
                       </vs-dropdown-item>
                     </vs-dropdown-menu>
                   </vs-dropdown>
@@ -103,6 +101,7 @@
         console.error(error);
       });
   },
+
 }
 
 </script>

@@ -62,7 +62,8 @@
         <div class="mt-8 flex flex-wrap items-center justify-end">
           <vs-button
             class="ml-auto mt-2"
-            :disable="isSending"
+            @click="handleSave"
+            :disabled="isSending"
             >Sauvegarder l'artiste</vs-button
           >
         </div>
@@ -71,6 +72,9 @@
   </div>
 </template>
 <script>
+import Cropper from "cropperjs";
+import debounce from "lodash/debounce";
+
 export default {
    data() {
     return {
@@ -83,9 +87,15 @@ export default {
       cropper: null,
       selectedFile: null,
       debouncedUpdatePreview: debounce(this.updatePreview, 257),
+      isSending:false,
     };
   },
   mounted() {
+    this.$vs.loading({
+      type: "corners",
+      text: "Patientez s'il vous plait",
+    });
+
     this.$http
       .get(`/api/settings/artists/${this.$route.params.slug}`, {
         headers: {
@@ -94,8 +104,9 @@ export default {
       })
       .then((response) => {
         if (response.data == "Artist not found") {
-          this.$router.push("/artists");
+          this.$router.push("/settings/artists");
         }
+        this.$vs.loading.close();
 
         this.artistData = response.data;
         this.name = this.artistData.name;
@@ -143,7 +154,40 @@ export default {
       const canvas = this.cropper.getCroppedCanvas();
       this.previewCropped = canvas.toDataURL("image/png");
       this.avatar = this.previewCropped;
-    }
+    },
+    handleSave(e) {
+      e.preventDefault();
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+            this.isSending = true;
+            this.$http
+              .post(
+                `/api/settings/artists/${this.$route.params.slug}/edit`,
+                {
+                  name: this.name,
+                  avatar: this.avatar,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+                  },
+                }
+              )
+              .then((response) => {
+                this.isSending = false;
+                this.$router.push(`/artists/${response.data.slug}`);
+              })
+              .catch(function(error) {
+                this.isSending = false;
+                this.$vs.dialog({
+                  color: "danger",
+                  title: ``,
+                  text: "Erreur lors de la modification",
+                });
+              });
+        }
+      });
+    },
 }
 }
 </script>

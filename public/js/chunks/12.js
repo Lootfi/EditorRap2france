@@ -103,6 +103,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -426,14 +429,43 @@ var render = function() {
                 _vm._v("Category : " + _vm._s(_vm.articleData.Category.nom))
               ]),
               _vm._v(" "),
-              _vm._l(_vm.articleData.Artists, function(artist, index) {
-                return _c("p", { key: index }, [
-                  _vm._v("\n          Artists :\n          "),
-                  _c("span", { staticClass: "text-teal-600 pointer" }, [
-                    _vm._v(_vm._s(artist.name))
-                  ])
-                ])
-              }),
+              _c("div", { staticClass: "flex items-center my-4" }, [
+                _c("div", [_vm._v("Artists :")]),
+                _vm._v(" "),
+                _c(
+                  "ul",
+                  { staticClass: "users-liked user-list ml-3 sm:ml-6" },
+                  _vm._l(_vm.articleData.Artists, function(artist, index) {
+                    return _c(
+                      "li",
+                      { key: index },
+                      [
+                        _c(
+                          "vx-tooltip",
+                          { attrs: { text: artist.name, position: "bottom" } },
+                          [
+                            _c("vs-avatar", {
+                              staticClass:
+                                "border-2 border-white border-solid -m-1",
+                              attrs: { src: artist.Avatar, size: "large" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$router.push(
+                                    "/artists/" + artist.slug
+                                  )
+                                }
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  }),
+                  0
+                )
+              ]),
               _vm._v(" "),
               _c(
                 "div",
@@ -477,7 +509,7 @@ var render = function() {
                     })
                   ])
             ],
-            2
+            1
           )
         ],
         1

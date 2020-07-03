@@ -27,8 +27,8 @@ class CreateController extends Controller
        			$fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
     			$AvatarPath =public_path('images/admin/artists/avatars/').$fileName;
                 $optimized = "/images/admin/artists/avatars/optimized";
+                \Image::make(request('avatar'))->save($AvatarPath);
                 $result = LaravelShortPixel::fromFiles($AvatarPath,$optimized,[$compression_level = 1, $width = 200, $height = 200, $maxDimension = true]);
-    			\Image::make(request('avatar'))->save($AvatarPath);
                 ImageOptimizer::optimize($AvatarPath);
 
     			$artist->image = $fileName;

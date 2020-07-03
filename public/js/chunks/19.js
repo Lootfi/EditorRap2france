@@ -1,5 +1,16 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[19],{
 
+/***/ "./node_modules/@babel/runtime/core-js/object/define-property.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/core-js/object/define-property.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! core-js/library/fn/object/define-property */ "./node_modules/core-js/library/fn/object/define-property.js");
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/views/pages/Settings/Artists/ArtistEdit.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/views/pages/Settings/Artists/ArtistEdit.vue?vue&type=script&lang=js& ***!
@@ -9,6 +20,16 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/core-js/object/define-property */ "./node_modules/@babel/runtime/core-js/object/define-property.js");
+/* harmony import */ var _babel_runtime_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var cropperjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cropperjs */ "./node_modules/cropperjs/dist/cropper.js");
+/* harmony import */ var cropperjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(cropperjs__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash/debounce */ "./node_modules/lodash/debounce.js");
+/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function _defineProperty(obj, key, value) { if (key in obj) { _babel_runtime_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default()(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -81,9 +102,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
+    return _defineProperty({
       name: "",
       avatar: "",
       artistData: null,
@@ -92,20 +116,26 @@ __webpack_require__.r(__webpack_exports__);
       previewCropped: null,
       cropper: null,
       selectedFile: null,
-      debouncedUpdatePreview: debounce(this.updatePreview, 257)
-    };
+      debouncedUpdatePreview: lodash_debounce__WEBPACK_IMPORTED_MODULE_2___default()(this.updatePreview, 257)
+    }, "isSending", false);
   },
   mounted: function mounted() {
     var _this = this;
 
+    this.$vs.loading({
+      type: "corners",
+      text: "Patientez s'il vous plait"
+    });
     this.$http.get("/api/settings/artists/".concat(this.$route.params.slug), {
       headers: {
         Authorization: "Bearer ".concat(localStorage.getItem("jwt"))
       }
     }).then(function (response) {
       if (response.data == "Artist not found") {
-        _this.$router.push("/artists");
+        _this.$router.push("/settings/artists");
       }
+
+      _this.$vs.loading.close();
 
       _this.artistData = response.data;
       _this.name = _this.artistData.name;
@@ -144,7 +174,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$nextTick(this.setupCropperInstance);
     },
     setupCropperInstance: function setupCropperInstance() {
-      this.cropper = new Cropper(this.$refs.source, {
+      this.cropper = new cropperjs__WEBPACK_IMPORTED_MODULE_1___default.a(this.$refs.source, {
         aspectRatio: 1,
         crop: this.debouncedUpdatePreview
       });
@@ -153,9 +183,69 @@ __webpack_require__.r(__webpack_exports__);
       var canvas = this.cropper.getCroppedCanvas();
       this.previewCropped = canvas.toDataURL("image/png");
       this.avatar = this.previewCropped;
+    },
+    handleSave: function handleSave(e) {
+      var _this2 = this;
+
+      e.preventDefault();
+      this.$validator.validateAll().then(function (result) {
+        if (result) {
+          _this2.isSending = true;
+
+          _this2.$http.post("/api/settings/artists/".concat(_this2.$route.params.slug, "/edit"), {
+            name: _this2.name,
+            avatar: _this2.avatar
+          }, {
+            headers: {
+              Authorization: "Bearer ".concat(localStorage.getItem("jwt"))
+            }
+          }).then(function (response) {
+            _this2.isSending = false;
+
+            _this2.$router.push("/artists/".concat(response.data.slug));
+          }).catch(function (error) {
+            this.isSending = false;
+            this.$vs.dialog({
+              color: "danger",
+              title: "",
+              text: "Erreur lors de la modification"
+            });
+          });
+        }
+      });
     }
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/fn/object/define-property.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/core-js/library/fn/object/define-property.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! ../../modules/es6.object.define-property */ "./node_modules/core-js/library/modules/es6.object.define-property.js");
+var $Object = __webpack_require__(/*! ../../modules/_core */ "./node_modules/core-js/library/modules/_core.js").Object;
+module.exports = function defineProperty(it, key, desc) {
+  return $Object.defineProperty(it, key, desc);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/library/modules/es6.object.define-property.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/core-js/library/modules/es6.object.define-property.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $export = __webpack_require__(/*! ./_export */ "./node_modules/core-js/library/modules/_export.js");
+// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
+$export($export.S + $export.F * !__webpack_require__(/*! ./_descriptors */ "./node_modules/core-js/library/modules/_descriptors.js"), 'Object', { defineProperty: __webpack_require__(/*! ./_object-dp */ "./node_modules/core-js/library/modules/_object-dp.js").f });
+
 
 /***/ }),
 
@@ -336,7 +426,8 @@ var render = function() {
                 "vs-button",
                 {
                   staticClass: "ml-auto mt-2",
-                  attrs: { disable: _vm.isSending }
+                  attrs: { disabled: _vm.isSending },
+                  on: { click: _vm.handleSave }
                 },
                 [_vm._v("Sauvegarder l'artiste")]
               )

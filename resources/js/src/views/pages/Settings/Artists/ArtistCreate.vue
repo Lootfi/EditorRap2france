@@ -73,7 +73,7 @@
           <vs-button
             class="ml-auto mt-2"
             @click="handleAccountSubmit"
-            :disable="isSending"
+            :disabled="isSending"
             >Save Changes</vs-button
           >
         </div>

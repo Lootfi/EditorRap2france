@@ -933,7 +933,7 @@ var render = function() {
                 "vs-button",
                 {
                   staticClass: "ml-auto mt-2",
-                  attrs: { disable: _vm.isSending },
+                  attrs: { disabled: _vm.isSending },
                   on: { click: _vm.handleAccountSubmit }
                 },
                 [_vm._v("Save Changes")]

@@ -24,11 +24,8 @@
                   <p
                     class="font-bold text-teal-600"
                     @click="
-                      $router.push(`/editors/${articleData.Creator.slug}`)
-                    "
-                  >
-                    {{ articleData.Creator.Full_Name
-                    }}
+                      $router.push(`/editors/${articleData.Creator.slug}`)">
+                    {{ articleData.Creator.Full_Name}}
                   </p>
                   <p>Last updated on {{ articleData.updated_at }}</p>
                   <p><span v-if="isPublished">Publié</span><span v-else>À Publier</span> Le :{{articleData.dateactu}} </p>
@@ -62,10 +59,16 @@
             </div>
           </div>
           <p>Category : {{ articleData.Category.nom }}</p>
-          <p v-for="(artist, index) in articleData.Artists" :key="index">
-            Artists :
-            <span class="text-teal-600 pointer">{{ artist.name }}</span>
-          </p>
+          <div class="flex items-center my-4">
+                       <div >Artists :</div>
+                            <ul class="users-liked user-list ml-3 sm:ml-6">
+                            <li v-for="(artist, index) in articleData.Artists" :key="index">
+                                <vx-tooltip :text="artist.name" position="bottom">
+                                <vs-avatar @click="$router.push(`/artists/${artist.slug}`)" :src="artist.Avatar" size="large" class="border-2 border-white border-solid -m-1"></vs-avatar>
+                                </vx-tooltip>
+                            </li>
+                            </ul>
+          </div>
 
           <div class="todo-tags my-4 flex">
             <vs-chip v-for="(tag, index) in articleData.Hashtags" :key="index">

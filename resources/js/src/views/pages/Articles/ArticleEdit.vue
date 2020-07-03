@@ -116,9 +116,9 @@
           <vs-button
             class="ml-auto mt-2"
             @click="handleSave"
-            :disable="isSending"
-            >Save Article</vs-button
-          >
+            :disabled="isSending"
+            >Save Article
+          </vs-button>
         </div>
       </div>
     </div>
@@ -492,8 +492,8 @@ export default {
     handleSave(e) {
       e.preventDefault();
       this.$validator.validateAll().then((result) => {
+        this.isSending = true;
         if (result) {
-          this.isSending = true;
           this.editor.save().then((outputData) => {
             this.$http
               .post(

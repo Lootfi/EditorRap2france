@@ -68,7 +68,7 @@ Route::group(['prefix' => 'settings', 'namespace' =>'Settings'],function(){
 			Route::get('/' , 'IndexController@getAllArtists');
 			Route::post('/add-new-artist','CreateController@createArtist');
 			Route::get('/{slug}','ShowController@showArtist');
-			Route::get('/{slug}/edit','EditController@EditArtist');
+			Route::post('/{slug}/edit','EditController@EditArtist');
 	});
 
 });
