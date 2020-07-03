@@ -42,7 +42,7 @@ class Artist extends Model
     }
     public function getAvatarAttribute(){
 
-        return "/images/admin/artists/avatars/optimized/" . $this->image; 
+        return "/images/admin/artists/avatars/" . $this->image; 
     }
 
     public static function fetchBySlug($slug){
