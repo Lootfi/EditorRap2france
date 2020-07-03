@@ -10,6 +10,7 @@
 <template>
   <div id="page-user-list">
     <div class="vx-card p-6">
+      <h1 class="pb-4">Liste des artistes</h1>
       <div class="flex flex-wrap items-center">
         <!-- ITEMS PER PAGE -->
         <div class="flex-grow">
@@ -27,7 +28,7 @@
                     ? currentPage * paginationPageSize
                     : usersData.length
                 }}
-                of {{ usersData.length }}</span
+                de {{ usersData.length }}</span
               >
               <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
             </div>
@@ -56,14 +57,14 @@
           @click="$router.push('/settings/create-artist')"
         >
           <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
-          <span class="ml-2 text-base text-primary">Add New Artist</span>
+          <span class="ml-2 text-base text-primary">Ajouter un artiste</span>
         </div>
         <!-- TABLE ACTION COL-2: SEARCH & EXPORT AS CSV -->
         <vs-input
           class="sm:mr-4 mr-0 sm:w-auto w-full sm:order-normal order-3 sm:mt-0 mt-4"
           v-model="searchQuery"
           @input="updateSearchQuery"
-          placeholder="Search..."
+          placeholder="Rechercher..."
         />
         <!-- <vs-button class="mb-4 md:mb-0" @click="gridApi.exportDataAsCsv()">Export as CSV</vs-button> -->
       </div>

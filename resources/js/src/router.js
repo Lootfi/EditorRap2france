@@ -170,6 +170,16 @@ const router = new Router({
             requiresAuth: true,
             requiresAdmin: true,
           },
+        },
+        {
+          path: "/artists/:slug/edit",
+          name: "artist-edit",
+          component: () =>
+            import("@/views/pages/Settings/Artists/ArtistEdit.vue"),
+          meta: {
+            requiresAuth: true,
+            requiresAdmin: true,
+          },
         }
       ],
     },
