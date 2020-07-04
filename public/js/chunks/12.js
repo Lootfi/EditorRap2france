@@ -139,6 +139,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -320,6 +321,14 @@ var render = function() {
                                         "/images/admin/articles/avatars/" +
                                         tr.image,
                                       size: "large"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        $event.stopPropagation()
+                                        return _vm.$router.push(
+                                          "/articles/" + tr.tag
+                                        )
+                                      }
                                     }
                                   })
                                 : _vm._e()

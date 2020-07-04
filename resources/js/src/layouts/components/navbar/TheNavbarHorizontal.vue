@@ -14,8 +14,6 @@
   <div class=" vx-navbar-wrapper navbar-full p-0">
     <vs-navbar class="navbar-custom navbar-skelton" :class="navbarClasses"  :style="navbarStyle" :color="navbarColor">
 
-      <bookmarks :navbarColor="navbarColor" v-if="windowWidth >= 992" />
-
       <router-link tag="div" to="/" class="vx-logo cursor-pointer mx-auto flex items-center">
         <logo class="w-10 mr-4 fill-current text-primary" />
         <span class="vx-logo-text text-primary">Vuexy</span>
@@ -24,7 +22,6 @@
 
       <search-bar class="mr-4" />
 
-      <notification-drop-down />
 
       <profile-drop-down />
     </div>

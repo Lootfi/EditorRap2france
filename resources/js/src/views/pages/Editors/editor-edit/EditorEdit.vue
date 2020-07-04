@@ -38,6 +38,11 @@
               <editor-edit-tab-information class="mt-4" :data="user_data" />
             </div>
           </vs-tab>
+          <vs-tab label="Réseaux Sociaux" icon-pack="feather" icon="icon-share-2">
+            <div class="tab-text">
+              <editor-edit-tab-links class="mt-4" :data="user_data" />
+            </div>
+          </vs-tab>
         </vs-tabs>
       </div>
     </vx-card>
@@ -47,11 +52,14 @@
 <script>
 import EditorEditTabAccount from "./EditorEditTabAccount.vue";
 import EditorEditTabInformation from "./EditorEditTabInformation.vue";
+import EditorEditTabLinks from "./EditorEditTabLinks.vue";
+
 
 export default {
   components: {
     EditorEditTabAccount,
     EditorEditTabInformation,
+    EditorEditTabLinks
   },
   data() {
     return {

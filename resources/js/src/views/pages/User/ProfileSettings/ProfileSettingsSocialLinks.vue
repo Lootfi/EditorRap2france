@@ -1,9 +1,15 @@
 <template>
   <vx-card no-shadow>
 
-    <vs-input class="w-full mb-base" v-model="facebook" icon-pack="feather" icon="icon-facebook" label="Facebook" icon-no-border name="facebook" />
-    <vs-input class="w-full mb-base" v-model="twitter" icon-pack="feather" icon="icon-twitter" label="Twitter" icon-no-border name="twitter" />
-    <vs-input class="w-full mb-base" v-model="instagram" icon-pack="feather" icon="icon-instagram" label="Instagram" icon-no-border name="instagram" />
+    <vs-input class="w-full mb-base" v-model="facebook" icon-pack="feather" icon="icon-facebook" label="Facebook" icon-no-border name="facebook"  v-validate="'url:require_protocol'"
+ />
+  <span class="text-danger text-sm"  v-show="errors.has('facebook')">{{ errors.first('facebook') }}</span>
+    <vs-input class="w-full mb-base" v-model="twitter" icon-pack="feather" icon="icon-twitter" label="Twitter" icon-no-border name="twitter" v-validate="'url:require_protocol'"
+ />
+  <span class="text-danger text-sm"  v-show="errors.has('twitter')">{{ errors.first('twitter') }}</span>
+    <vs-input class="w-full mb-base" v-model="instagram" icon-pack="feather" icon="icon-instagram" label="Instagram" v-validate="'url:require_protocol'"
+ icon-no-border name="instagram" />
+  <span class="text-danger text-sm"  v-show="errors.has('instagram')">{{ errors.first('instagram') }}</span>
 
     <!-- Save & Reset Button -->
     <div class="flex flex-wrap items-center justify-end">

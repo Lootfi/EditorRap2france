@@ -86,6 +86,7 @@
                 v-if="tr.image"
                 :src="`/images/admin/articles/avatars/${tr.image}`"
                 size="large"
+                @click.stop="$router.push(`/articles/${tr.tag}`)"
               />
             </vs-td>
 

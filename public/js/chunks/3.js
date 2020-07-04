@@ -1010,9 +1010,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 
@@ -1093,9 +1090,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_SearchBar_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/SearchBar.vue */ "./resources/js/src/layouts/components/navbar/components/SearchBar.vue");
 /* harmony import */ var _components_NotificationDropDown_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/NotificationDropDown.vue */ "./resources/js/src/layouts/components/navbar/components/NotificationDropDown.vue");
 /* harmony import */ var _components_ProfileDropDown_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/ProfileDropDown.vue */ "./resources/js/src/layouts/components/navbar/components/ProfileDropDown.vue");
-//
-//
-//
 //
 //
 //
@@ -4034,10 +4028,6 @@ var render = function() {
             attrs: { color: _vm.navbarColor }
           },
           [
-            _vm.windowWidth >= 992
-              ? _c("bookmarks", { attrs: { navbarColor: _vm.navbarColor } })
-              : _vm._e(),
-            _vm._v(" "),
             _c(
               "router-link",
               {
@@ -4060,8 +4050,6 @@ var render = function() {
               "div",
               [
                 _c("search-bar", { staticClass: "mr-4" }),
-                _vm._v(" "),
-                _c("notification-drop-down"),
                 _vm._v(" "),
                 _c("profile-drop-down")
               ],
@@ -4121,10 +4109,6 @@ var render = function() {
               }
             }),
             _vm._v(" "),
-            _vm.windowWidth >= 992
-              ? _c("bookmarks", { attrs: { navbarColor: _vm.navbarColor } })
-              : _vm._e(),
-            _vm._v(" "),
             _c("vs-spacer"),
             _vm._v(" "),
             _c(
@@ -4135,8 +4119,6 @@ var render = function() {
               },
               [
                 _c("search-bar", { staticClass: "mr-4" }),
-                _vm._v(" "),
-                _c("notification-drop-down"),
                 _vm._v(" "),
                 _c("profile-drop-down")
               ],
