@@ -15,6 +15,10 @@ import Vuesax from 'vuesax'
 
 Vue.use(Vuesax)
 
+import VuejsClipper from 'vuejs-clipper'
+Vue.use(VuejsClipper)
+
+
 import Vuetify from 'vuetify'
 Vue.use(Vuetify)
 

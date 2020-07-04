@@ -29,16 +29,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _editorjs_underline__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_editorjs_underline__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _editorjs_list__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @editorjs/list */ "./node_modules/@editorjs/list/dist/bundle.js");
 /* harmony import */ var _editorjs_list__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_editorjs_list__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var cropperjs__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! cropperjs */ "./node_modules/cropperjs/dist/cropper.js");
-/* harmony import */ var cropperjs__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(cropperjs__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! lodash/debounce */ "./node_modules/lodash/debounce.js");
-/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
-/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vue-flatpickr-component */ "./node_modules/vue-flatpickr-component/dist/vue-flatpickr.min.js");
-/* harmony import */ var vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var flatpickr_dist_flatpickr_css__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! flatpickr/dist/flatpickr.css */ "./node_modules/flatpickr/dist/flatpickr.css");
-/* harmony import */ var flatpickr_dist_flatpickr_css__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(flatpickr_dist_flatpickr_css__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vue-flatpickr-component */ "./node_modules/vue-flatpickr-component/dist/vue-flatpickr.min.js");
+/* harmony import */ var vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var flatpickr_dist_flatpickr_css__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! flatpickr/dist/flatpickr.css */ "./node_modules/flatpickr/dist/flatpickr.css");
+/* harmony import */ var flatpickr_dist_flatpickr_css__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(flatpickr_dist_flatpickr_css__WEBPACK_IMPORTED_MODULE_12__);
 
 
 
@@ -146,38 +142,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
 
 
 
@@ -191,8 +155,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    "v-select": vue_select__WEBPACK_IMPORTED_MODULE_12___default.a,
-    flatPickr: vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_13___default.a
+    "v-select": vue_select__WEBPACK_IMPORTED_MODULE_10___default.a,
+    flatPickr: vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_11___default.a
   },
   data: function data() {
     return {
@@ -207,13 +171,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       hashtags: null,
       artists: null,
       isDeleting: false,
+      imgURL: '',
+      rotation: 0,
       isSending: false,
-      objectUrl: null,
-      previewCropped: null,
-      cropper: null,
       Scheduled: false,
       Featured: false,
-      selectedFile: null,
       selected: null,
       options: [],
       formattedJsonContent: null,
@@ -236,7 +198,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         minTime: Date.now(),
         enableSeconds: true
       },
-      debouncedUpdatePreview: lodash_debounce__WEBPACK_IMPORTED_MODULE_11___default()(this.updatePreview, 257)
+      debouncedUpdatePreview: debounce(this.updatePreview, 257)
     };
   },
   computed: {
@@ -409,46 +371,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     });
   },
   methods: {
-    resetCropper: function resetCropper() {
-      this.cropper.reset();
-    },
-    rotateLeft: function rotateLeft() {
-      console.log(this.cropper);
-      this.cropper.rotate(-90);
-    },
-    rotateRight: function rotateRight() {
-      this.cropper.rotate(90);
-    },
-    setupCropper: function setupCropper(selectedFile) {
-      if (this.cropper) {
-        this.cropper.destroy();
-      }
-
-      if (this.objectUrl) {
-        window.URL.revokeObjectURL(this.objectUrl);
-      }
-
-      if (!selectedFile) {
-        this.cropper = null;
-        this.objectUrl = null;
-        this.previewCropped = null;
-        return;
-      }
-
-      this.objectUrl = window.URL.createObjectURL(selectedFile);
-      this.$nextTick(this.setupCropperInstance);
-    },
-    setupCropperInstance: function setupCropperInstance() {
-      this.cropper = new cropperjs__WEBPACK_IMPORTED_MODULE_10___default.a(this.$refs.source, {
-        aspectRatio: 1,
-        crop: this.debouncedUpdatePreview
-      });
-    },
-    updatePreview: function updatePreview(event) {
-      var canvas = this.cropper.getCroppedCanvas();
-      this.previewCropped = canvas.toDataURL("image/png");
-      this.avatar = this.previewCropped;
-    },
     JsonFormatter: function JsonFormatter(Data) {
       var _this2 = this;
 
@@ -525,10 +447,14 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
         if (result) {
           _this3.editor.save().then(function (outputData) {
+            var canvas = _this3.$refs.clipper.clip();
+
+            var ResultAvatar = canvas.toDataURL("image/jpeg", 1);
+
             _this3.$http.post("/api/articles/".concat(_this3.$route.params.tag, "/edit"), {
               data: outputData,
               title: _this3.title,
-              avatar: _this3.avatar,
+              avatar: ResultAvatar,
               category: _this3.category.value,
               hashtags: _this3.hashtags,
               formattedJsonContent: _this3.JsonFormatter(outputData),
@@ -618,117 +544,75 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "bg-white py-4", attrs: { id: "editorjs" } }),
       _vm._v(" "),
-      _c("div", [
-        _c(
-          "div",
-          { staticStyle: { "max-width": "100%" } },
-          [
-            _c(
-              "v-card-text",
-              [
-                _c("v-file-input", {
-                  staticClass: "my-4",
-                  attrs: {
-                    accept: "image/png, image/jpeg",
-                    placeholder: "Modifier l'image principale de l'article ",
-                    "show-size": 1024
-                  },
-                  on: { change: _vm.setupCropper },
-                  model: {
-                    value: _vm.selectedFile,
-                    callback: function($$v) {
-                      _vm.selectedFile = $$v
+      _c(
+        "div",
+        { staticClass: "my-4" },
+        [
+          _c(
+            "clipper-upload",
+            {
+              staticClass:
+                "inline-block p-2 my-2 bg-primary rounded text-white",
+              model: {
+                value: _vm.imgURL,
+                callback: function($$v) {
+                  _vm.imgURL = $$v
+                },
+                expression: "imgURL"
+              }
+            },
+            [_vm._v("Importer L'image de l'article")]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "flex", staticStyle: { "max-width": "100%" } },
+            [
+              _c("clipper-basic", {
+                ref: "clipper",
+                staticClass: " flex-grow-3",
+                attrs: {
+                  src: _vm.imgURL,
+                  preview: "my-preview",
+                  rotate: _vm.rotation
+                }
+              }),
+              _vm._v(" "),
+              _c("clipper-preview", {
+                staticClass: "flex-grow-2 ml-2 my-clipper",
+                attrs: { name: "my-preview" }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _vm.imgURL
+            ? _c(
+                "div",
+                { staticClass: "centerx" },
+                [
+                  _c("vs-input-number", {
+                    attrs: {
+                      min: "0",
+                      max: "360",
+                      step: "90",
+                      label: "Rotation"
                     },
-                    expression: "selectedFile"
-                  }
-                }),
-                _vm._v(" "),
-                _vm.objectUrl
-                  ? _c(
-                      "div",
-                      { staticClass: "flex flex-wrap justify-around" },
-                      [
-                        _c("div", { staticClass: " text-center" }, [
-                          _c("div", { staticClass: "inline-block" }, [
-                            _c("img", {
-                              ref: "source",
-                              staticClass: "block max-w-full",
-                              staticStyle: { "max-height": "299px" },
-                              attrs: { src: _vm.objectUrl }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "d-flex justify-center" },
-                            [
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { icon: "icon", small: "small" },
-                                  on: { click: _vm.resetCropper }
-                                },
-                                [
-                                  _c("v-icon", { attrs: { small: "small" } }, [
-                                    _vm._v("mdi-aspect-ratio")
-                                  ])
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "mx-2" }),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { icon: "icon", small: "small" },
-                                  on: { click: _vm.rotateLeft }
-                                },
-                                [
-                                  _c("v-icon", { attrs: { small: "small" } }, [
-                                    _vm._v("mdi-rotate-left")
-                                  ])
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { icon: "icon", small: "small" },
-                                  on: { click: _vm.rotateRight }
-                                },
-                                [
-                                  _c("v-icon", { attrs: { small: "small" } }, [
-                                    _vm._v("mdi-rotate-right")
-                                  ])
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: " text-center" }, [
-                          _c("div", { staticClass: "inline-block " }, [
-                            _c("img", {
-                              staticClass: "block max-w-full",
-                              staticStyle: { "max-height": "299px" },
-                              attrs: { src: _vm.previewCropped }
-                            })
-                          ])
-                        ])
-                      ]
-                    )
-                  : _vm._e()
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]),
+                    model: {
+                      value: _vm.rotation,
+                      callback: function($$v) {
+                        _vm.rotation = $$v
+                      },
+                      expression: "rotation"
+                    }
+                  })
+                ],
+                1
+              )
+            : _vm._e()
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "div",

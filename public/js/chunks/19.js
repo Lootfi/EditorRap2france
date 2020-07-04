@@ -74,31 +74,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -117,55 +92,12 @@ __webpack_require__.r(__webpack_exports__);
     return {
       name: "",
       avatar: "",
-      isSending: "",
-      objectUrl: null,
-      previewCropped: null,
-      cropper: null,
-      selectedFile: null,
-      debouncedUpdatePreview: lodash_debounce__WEBPACK_IMPORTED_MODULE_2___default()(this.updatePreview, 257)
+      isSending: false,
+      imgURL: "",
+      rotation: 0
     };
   },
   methods: {
-    resetCropper: function resetCropper() {
-      this.cropper.reset();
-    },
-    rotateLeft: function rotateLeft() {
-      console.log(this.cropper);
-      this.cropper.rotate(-90);
-    },
-    rotateRight: function rotateRight() {
-      this.cropper.rotate(90);
-    },
-    setupCropper: function setupCropper(selectedFile) {
-      if (this.cropper) {
-        this.cropper.destroy();
-      }
-
-      if (this.objectUrl) {
-        window.URL.revokeObjectURL(this.objectUrl);
-      }
-
-      if (!selectedFile) {
-        this.cropper = null;
-        this.objectUrl = null;
-        this.previewCropped = null;
-        return;
-      }
-
-      this.objectUrl = window.URL.createObjectURL(selectedFile);
-      this.$nextTick(this.setupCropperInstance);
-    },
-    setupCropperInstance: function setupCropperInstance() {
-      this.cropper = new cropperjs__WEBPACK_IMPORTED_MODULE_1___default.a(this.$refs.source, {
-        aspectRatio: 1,
-        crop: this.debouncedUpdatePreview
-      });
-    },
-    updatePreview: function updatePreview(event) {
-      var canvas = this.cropper.getCroppedCanvas();
-      this.previewCropped = canvas.toDataURL("image/png");
-      this.avatar = this.previewCropped;
-    },
     handleAccountSubmit: function handleAccountSubmit(e) {
       var _this = this;
 
@@ -174,9 +106,13 @@ __webpack_require__.r(__webpack_exports__);
         if (result) {
           _this.isSending = true;
 
+          var canvas = _this.$refs.clipper.clip();
+
+          var ResultAvatar = canvas.toDataURL("image/jpeg", 1);
+
           _this.$http.post("/api/settings/artists/add-new-artist", {
             name: _this.name,
-            avatar: _this.avatar
+            avatar: ResultAvatar
           }, {
             headers: {
               Authorization: "Bearer ".concat(localStorage.getItem("jwt"))
@@ -276,114 +212,77 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticStyle: { "max-width": "100%" } },
-          [
-            _c(
-              "v-card-text",
-              [
-                _c("v-file-input", {
-                  staticClass: "my-4",
-                  attrs: {
-                    accept: "image/png, image/jpeg",
-                    placeholder: "Selectionner une image",
-                    "show-size": 1024
-                  },
-                  on: { change: _vm.setupCropper },
+        _c("div", { staticStyle: { "max-width": "100%" } }, [
+          _c(
+            "div",
+            { staticClass: "my-4" },
+            [
+              _c(
+                "clipper-upload",
+                {
+                  staticClass:
+                    "inline-block p-2 my-2 bg-primary rounded text-white",
                   model: {
-                    value: _vm.selectedFile,
+                    value: _vm.imgURL,
                     callback: function($$v) {
-                      _vm.selectedFile = $$v
+                      _vm.imgURL = $$v
                     },
-                    expression: "selectedFile"
+                    expression: "imgURL"
                   }
-                }),
-                _vm._v(" "),
-                _vm.objectUrl
-                  ? _c(
-                      "div",
-                      { staticClass: "flex flex-wrap justify-around" },
-                      [
-                        _c("div", { staticClass: " text-center" }, [
-                          _c("div", { staticClass: "inline-block" }, [
-                            _c("img", {
-                              ref: "source",
-                              staticStyle: { "max-height": "299px" },
-                              attrs: { src: _vm.objectUrl }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "d-flex justify-center" },
-                            [
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { icon: "icon", small: "small" },
-                                  on: { click: _vm.resetCropper }
-                                },
-                                [
-                                  _c("v-icon", { attrs: { small: "small" } }, [
-                                    _vm._v("mdi-aspect-ratio")
-                                  ])
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "mx-2" }),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { icon: "icon", small: "small" },
-                                  on: { click: _vm.rotateLeft }
-                                },
-                                [
-                                  _c("v-icon", { attrs: { small: "small" } }, [
-                                    _vm._v("mdi-rotate-left")
-                                  ])
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { icon: "icon", small: "small" },
-                                  on: { click: _vm.rotateRight }
-                                },
-                                [
-                                  _c("v-icon", { attrs: { small: "small" } }, [
-                                    _vm._v("mdi-rotate-right")
-                                  ])
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: " text-center" }, [
-                          _c("div", { staticClass: "inline-block " }, [
-                            _c("img", {
-                              staticClass: "block max-w-full",
-                              staticStyle: { "max-height": "299px" },
-                              attrs: { src: _vm.previewCropped }
-                            })
-                          ])
-                        ])
-                      ]
-                    )
-                  : _vm._e()
-              ],
-              1
-            )
-          ],
-          1
-        )
+                },
+                [_vm._v("Importer La photo de l'éditeur")]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "flex", staticStyle: { "max-width": "100%" } },
+                [
+                  _c("clipper-basic", {
+                    ref: "clipper",
+                    staticClass: " flex-grow-3",
+                    attrs: {
+                      src: _vm.imgURL,
+                      preview: "my-preview",
+                      rotate: _vm.rotation
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("clipper-preview", {
+                    staticClass: "flex-grow-2 ml-2 my-clipper",
+                    attrs: { name: "my-preview" }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm.imgURL
+                ? _c(
+                    "div",
+                    { staticClass: "centerx" },
+                    [
+                      _c("vs-input-number", {
+                        attrs: {
+                          min: "0",
+                          max: "360",
+                          step: "90",
+                          label: "Rotation"
+                        },
+                        model: {
+                          value: _vm.rotation,
+                          callback: function($$v) {
+                            _vm.rotation = $$v
+                          },
+                          expression: "rotation"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          )
+        ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "vx-row" }, [

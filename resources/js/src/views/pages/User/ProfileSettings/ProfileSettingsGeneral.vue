@@ -1,71 +1,36 @@
 <template>
   <vx-card no-shadow>
-    <vs-collapse>
-      <vs-collapse-item>
-        <div slot="header" class="flex items-center justify-between ">
+        <div  style="margin-bottom:4rem;" class=" flex items-center justify-between ">
           <vs-avatar size="150px" :src="avatar" />
-          <p class="px-2">Changer la photo de profile</p>
+          <vs-button @click="activePrompt = true" >Changer la photo de profile</vs-button>
         </div>
-        <div style="max-width: 100%;">
-          <v-card-text>
-            <v-file-input
-              class="my-4"
-              v-model="selectedFile"
-              accept="image/png, image/jpeg"
-              placeholder="Selectionner une image"
-              :show-size="1024"
-              @change="setupCropper"
-            ></v-file-input>
-            <div class="flex flex-wrap justify-around" v-if="objectUrl">
-              <div class=" text-center">
-                <div class="inline-block">
-                <img
-                  style="max-height: 299px;"
-                  class="block max-w-full"
-                    ref="source"
-                    :src="objectUrl"
-                  />
-                </div>
-                <div class="d-flex justify-center">
-                  <v-btn icon="icon" small="small" @click="resetCropper">
-                    <v-icon small="small">mdi-aspect-ratio</v-icon>
-                  </v-btn>
-                  <div class="mx-2"></div>
-                  <v-btn icon="icon" small="small" @click="rotateLeft">
-                    <v-icon small="small">mdi-rotate-left</v-icon>
-                  </v-btn>
-                  <v-btn icon="icon" small="small" @click="rotateRight">
-                    <v-icon small="small">mdi-rotate-right</v-icon>
-                  </v-btn>
-                </div>
-              </div>
-              <div class=" text-center">
-                <div class="inline-block ">
-                <img
-                  style="max-height: 299px;"
-                  class="block max-w-full"
-                    :src="previewCropped"
-                  />
-                </div>
-              </div>
+        <vs-prompt
+            title="Changer La photo"
+            @cancel="val=''"
+            @accept="handleAvatarUpload"
+            @close="close"
+            :active.sync="activePrompt">
+            <div class="con-exemple-prompt">
+             <div class="my-4">
+              <clipper-upload class="inline-block p-2 my-2 bg-primary rounded text-white" v-model="imgURL">Importer La photo de l'éditeur</clipper-upload>
+              <div class="flex" style="max-width: 100%;">
+              <clipper-basic 
+              class=" flex-grow-3"
+              ref="clipper" 
+              :src="imgURL" 
+              preview="my-preview"
+              :rotate="rotation">
+              </clipper-basic>
+              <clipper-preview name="my-preview" class="flex-grow-2 ml-2 my-clipper" >
+              </clipper-preview>
             </div>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <vs-button
-              class="ml-auto mt-2 text-white"
-              :disabled="!objectUrl"
-              @click="handleAvatarUpload"
-            >
-              <v-icon left="left">mdi-send</v-icon>
-              <span>Changer l'image</span>
-            </vs-button>
-          </v-card-actions>
-        </div>
-      </vs-collapse-item>
-    </vs-collapse>
+             <div class="centerx" v-if="imgURL">
+       <vs-input-number min="0" max="360" step="90" v-model="rotation" label="Rotation"/>
+      </div>
+            </div>
+            </div>
+        </vs-prompt>
 
-    <!-- Info -->
     <vs-input
       class="w-full "
       name="username"
@@ -112,8 +77,6 @@
 </template>
 
 <script>
-import Cropper from "cropperjs";
-import debounce from "lodash/debounce";
 export default {
   data() {
     return {
@@ -122,11 +85,9 @@ export default {
       full_name: this.$store.state.AppActiveUser.user.Full_Name,
       email: this.$store.state.AppActiveUser.user.email,
       isSending: false,
-      objectUrl: null,
-      previewCropped: null,
-      cropper: null,
-      selectedFile: null,
-      debouncedUpdatePreview: debounce(this.updatePreview, 257),
+      imgURL: '',
+      activePrompt:false,
+      rotation:0,
     };
   },
   computed: {
@@ -136,44 +97,6 @@ export default {
   },
 
   methods: {
-    resetCropper() {
-      this.cropper.reset();
-    },
-    rotateLeft() {
-      console.log(this.cropper);
-      this.cropper.rotate(-90);
-    },
-    rotateRight() {
-      this.cropper.rotate(90);
-    },
-
-    setupCropper(selectedFile) {
-      if (this.cropper) {
-        this.cropper.destroy();
-      }
-
-      if (this.objectUrl) {
-        window.URL.revokeObjectURL(this.objectUrl);
-      }
-      if (!selectedFile) {
-        this.cropper = null;
-        this.objectUrl = null;
-        this.previewCropped = null;
-        return;
-      }
-      this.objectUrl = window.URL.createObjectURL(selectedFile);
-      this.$nextTick(this.setupCropperInstance);
-    },
-    setupCropperInstance() {
-      this.cropper = new Cropper(this.$refs.source, {
-        aspectRatio: 1,
-        crop: this.debouncedUpdatePreview,
-      });
-    },
-    updatePreview(event) {
-      const canvas = this.cropper.getCroppedCanvas();
-      this.previewCropped = canvas.toDataURL("image/png");
-    },
     handleSubmit(e) {
       e.preventDefault();
       this.$validator.validateAll().then((result) => {
@@ -216,10 +139,13 @@ export default {
       });
     },
     handleAvatarUpload(e) {
+      const canvas = this.$refs.clipper.clip();
+      const ResultAvatar = canvas.toDataURL("image/jpeg", 1);
       this.$http
         .post(
           `api/users/${this.$store.state.AppActiveUser.user.slug}/uploadAvatar`,
-          { avatar: this.previewCropped },
+          { avatar: ResultAvatar
+           },
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("jwt")}`,
@@ -227,10 +153,7 @@ export default {
           }
         )
         .then((response) => {
-          this.objectUrl = null;
-          this.previewCropped = null;
-          this.cropper = null;
-          this.selectedFile = null;
+        
           this.$vs.dialog({
             color: "success",
             title: ``,
@@ -238,6 +161,7 @@ export default {
           });
           localStorage.setItem("user", JSON.stringify(response.data.user));
           this.$store.state.AppActiveUser.user = response.data.user;
+          this.avatar = response.data.user.Avatar
         })
         .catch(function(error) {
           console.error(error.response);

@@ -1,16 +1,5 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[10],{
 
-/***/ "./node_modules/@babel/runtime/core-js/object/define-property.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/core-js/object/define-property.js ***!
-  \***********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(/*! core-js/library/fn/object/define-property */ "./node_modules/core-js/library/fn/object/define-property.js");
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/src/views/pages/Settings/Artists/ArtistEdit.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/src/views/pages/Settings/Artists/ArtistEdit.vue?vue&type=script&lang=js& ***!
@@ -20,41 +9,10 @@ module.exports = __webpack_require__(/*! core-js/library/fn/object/define-proper
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/core-js/object/define-property */ "./node_modules/@babel/runtime/core-js/object/define-property.js");
-/* harmony import */ var _babel_runtime_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var cropperjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cropperjs */ "./node_modules/cropperjs/dist/cropper.js");
-/* harmony import */ var cropperjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(cropperjs__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash/debounce */ "./node_modules/lodash/debounce.js");
-/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_2__);
-
-
-function _defineProperty(obj, key, value) { if (key in obj) { _babel_runtime_core_js_object_define_property__WEBPACK_IMPORTED_MODULE_0___default()(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var cropperjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! cropperjs */ "./node_modules/cropperjs/dist/cropper.js");
+/* harmony import */ var cropperjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(cropperjs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/debounce */ "./node_modules/lodash/debounce.js");
+/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -107,17 +65,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { _babel_runtime_cor
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return _defineProperty({
+    return {
       name: "",
       avatar: "",
       artistData: null,
       isSending: false,
-      objectUrl: null,
-      previewCropped: null,
-      cropper: null,
-      selectedFile: null,
-      debouncedUpdatePreview: lodash_debounce__WEBPACK_IMPORTED_MODULE_2___default()(this.updatePreview, 257)
-    }, "isSending", false);
+      imgURL: "",
+      rotation: 0
+    };
   },
   mounted: function mounted() {
     var _this = this;
@@ -144,46 +99,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { _babel_runtime_cor
     });
   },
   methods: {
-    resetCropper: function resetCropper() {
-      this.cropper.reset();
-    },
-    rotateLeft: function rotateLeft() {
-      console.log(this.cropper);
-      this.cropper.rotate(-90);
-    },
-    rotateRight: function rotateRight() {
-      this.cropper.rotate(90);
-    },
-    setupCropper: function setupCropper(selectedFile) {
-      if (this.cropper) {
-        this.cropper.destroy();
-      }
-
-      if (this.objectUrl) {
-        window.URL.revokeObjectURL(this.objectUrl);
-      }
-
-      if (!selectedFile) {
-        this.cropper = null;
-        this.objectUrl = null;
-        this.previewCropped = null;
-        return;
-      }
-
-      this.objectUrl = window.URL.createObjectURL(selectedFile);
-      this.$nextTick(this.setupCropperInstance);
-    },
-    setupCropperInstance: function setupCropperInstance() {
-      this.cropper = new cropperjs__WEBPACK_IMPORTED_MODULE_1___default.a(this.$refs.source, {
-        aspectRatio: 1,
-        crop: this.debouncedUpdatePreview
-      });
-    },
-    updatePreview: function updatePreview(event) {
-      var canvas = this.cropper.getCroppedCanvas();
-      this.previewCropped = canvas.toDataURL("image/png");
-      this.avatar = this.previewCropped;
-    },
     handleSave: function handleSave(e) {
       var _this2 = this;
 
@@ -192,9 +107,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { _babel_runtime_cor
         if (result) {
           _this2.isSending = true;
 
+          var canvas = _this2.$refs.clipper.clip();
+
+          var ResultAvatar = canvas.toDataURL("image/jpeg", 1);
+
           _this2.$http.post("/api/settings/artists/".concat(_this2.$route.params.slug, "/edit"), {
             name: _this2.name,
-            avatar: _this2.avatar
+            avatar: ResultAvatar
           }, {
             headers: {
               Authorization: "Bearer ".concat(localStorage.getItem("jwt"))
@@ -216,36 +135,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { _babel_runtime_cor
     }
   }
 });
-
-/***/ }),
-
-/***/ "./node_modules/core-js/library/fn/object/define-property.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/core-js/library/fn/object/define-property.js ***!
-  \*******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(/*! ../../modules/es6.object.define-property */ "./node_modules/core-js/library/modules/es6.object.define-property.js");
-var $Object = __webpack_require__(/*! ../../modules/_core */ "./node_modules/core-js/library/modules/_core.js").Object;
-module.exports = function defineProperty(it, key, desc) {
-  return $Object.defineProperty(it, key, desc);
-};
-
-
-/***/ }),
-
-/***/ "./node_modules/core-js/library/modules/es6.object.define-property.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/core-js/library/modules/es6.object.define-property.js ***!
-  \****************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var $export = __webpack_require__(/*! ./_export */ "./node_modules/core-js/library/modules/_export.js");
-// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-$export($export.S + $export.F * !__webpack_require__(/*! ./_descriptors */ "./node_modules/core-js/library/modules/_descriptors.js"), 'Object', { defineProperty: __webpack_require__(/*! ./_object-dp */ "./node_modules/core-js/library/modules/_object-dp.js").f });
-
 
 /***/ }),
 
@@ -305,115 +194,77 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("div", [
-        _c(
-          "div",
-          { staticStyle: { "max-width": "100%" } },
-          [
-            _c(
-              "v-card-text",
-              [
-                _c("v-file-input", {
-                  staticClass: "my-4",
-                  attrs: {
-                    accept: "image/png, image/jpeg",
-                    placeholder: "Modifier l'image de l'artiste",
-                    "show-size": 1024
-                  },
-                  on: { change: _vm.setupCropper },
+        _c("div", { staticStyle: { "max-width": "100%" } }, [
+          _c(
+            "div",
+            { staticClass: "my-4" },
+            [
+              _c(
+                "clipper-upload",
+                {
+                  staticClass:
+                    "inline-block p-2 my-2 bg-primary rounded text-white",
                   model: {
-                    value: _vm.selectedFile,
+                    value: _vm.imgURL,
                     callback: function($$v) {
-                      _vm.selectedFile = $$v
+                      _vm.imgURL = $$v
                     },
-                    expression: "selectedFile"
+                    expression: "imgURL"
                   }
-                }),
-                _vm._v(" "),
-                _vm.objectUrl
-                  ? _c(
-                      "div",
-                      { staticClass: "flex flex-wrap justify-around" },
-                      [
-                        _c("div", { staticClass: " text-center" }, [
-                          _c("div", { staticClass: "inline-block" }, [
-                            _c("img", {
-                              ref: "source",
-                              staticClass: "block max-w-full",
-                              staticStyle: { "max-height": "299px" },
-                              attrs: { src: _vm.objectUrl }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "d-flex justify-center" },
-                            [
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { icon: "icon", small: "small" },
-                                  on: { click: _vm.resetCropper }
-                                },
-                                [
-                                  _c("v-icon", { attrs: { small: "small" } }, [
-                                    _vm._v("mdi-aspect-ratio")
-                                  ])
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "mx-2" }),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { icon: "icon", small: "small" },
-                                  on: { click: _vm.rotateLeft }
-                                },
-                                [
-                                  _c("v-icon", { attrs: { small: "small" } }, [
-                                    _vm._v("mdi-rotate-left")
-                                  ])
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { icon: "icon", small: "small" },
-                                  on: { click: _vm.rotateRight }
-                                },
-                                [
-                                  _c("v-icon", { attrs: { small: "small" } }, [
-                                    _vm._v("mdi-rotate-right")
-                                  ])
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: " text-center" }, [
-                          _c("div", { staticClass: "inline-block " }, [
-                            _c("img", {
-                              staticClass: "block max-w-full",
-                              staticStyle: { "max-height": "299px" },
-                              attrs: { src: _vm.previewCropped }
-                            })
-                          ])
-                        ])
-                      ]
-                    )
-                  : _vm._e()
-              ],
-              1
-            )
-          ],
-          1
-        )
+                },
+                [_vm._v("Importer La photo de l'éditeur")]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "flex", staticStyle: { "max-width": "100%" } },
+                [
+                  _c("clipper-basic", {
+                    ref: "clipper",
+                    staticClass: " flex-grow-3",
+                    attrs: {
+                      src: _vm.imgURL,
+                      preview: "my-preview",
+                      rotate: _vm.rotation
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("clipper-preview", {
+                    staticClass: "flex-grow-2 ml-2 my-clipper",
+                    attrs: { name: "my-preview" }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm.imgURL
+                ? _c(
+                    "div",
+                    { staticClass: "centerx" },
+                    [
+                      _c("vs-input-number", {
+                        attrs: {
+                          min: "0",
+                          max: "360",
+                          step: "90",
+                          label: "Rotation"
+                        },
+                        model: {
+                          value: _vm.rotation,
+                          callback: function($$v) {
+                            _vm.rotation = $$v
+                          },
+                          expression: "rotation"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          )
+        ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "vx-row" }, [

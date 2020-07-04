@@ -29,16 +29,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _editorjs_list__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_editorjs_list__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _editorjs_marker__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @editorjs/marker */ "./node_modules/@editorjs/marker/dist/bundle.js");
 /* harmony import */ var _editorjs_marker__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_editorjs_marker__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var cropperjs__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! cropperjs */ "./node_modules/cropperjs/dist/cropper.js");
-/* harmony import */ var cropperjs__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(cropperjs__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! lodash/debounce */ "./node_modules/lodash/debounce.js");
-/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
-/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vue-flatpickr-component */ "./node_modules/vue-flatpickr-component/dist/vue-flatpickr.min.js");
-/* harmony import */ var vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var flatpickr_dist_flatpickr_css__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! flatpickr/dist/flatpickr.css */ "./node_modules/flatpickr/dist/flatpickr.css");
-/* harmony import */ var flatpickr_dist_flatpickr_css__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(flatpickr_dist_flatpickr_css__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue-select */ "./node_modules/vue-select/dist/vue-select.js");
+/* harmony import */ var vue_select__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(vue_select__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vue-flatpickr-component */ "./node_modules/vue-flatpickr-component/dist/vue-flatpickr.min.js");
+/* harmony import */ var vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var flatpickr_dist_flatpickr_css__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! flatpickr/dist/flatpickr.css */ "./node_modules/flatpickr/dist/flatpickr.css");
+/* harmony import */ var flatpickr_dist_flatpickr_css__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(flatpickr_dist_flatpickr_css__WEBPACK_IMPORTED_MODULE_12__);
 
 
 
@@ -146,38 +142,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
 
 
 
@@ -191,8 +155,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    "v-select": vue_select__WEBPACK_IMPORTED_MODULE_12___default.a,
-    flatPickr: vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_13___default.a
+    "v-select": vue_select__WEBPACK_IMPORTED_MODULE_10___default.a,
+    flatPickr: vue_flatpickr_component__WEBPACK_IMPORTED_MODULE_11___default.a
   },
   data: function data() {
     return {
@@ -206,11 +170,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       hashtags: null,
       artists: null,
       isSending: false,
-      objectUrl: null,
-      previewCropped: null,
-      cropper: null,
-      selectedFile: null,
-      debouncedUpdatePreview: lodash_debounce__WEBPACK_IMPORTED_MODULE_11___default()(this.updatePreview, 257),
+      imgURL: '',
+      rotation: 0,
       selected: [],
       options: [],
       artistOptions: [],
@@ -337,45 +298,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     });
   },
   methods: {
-    resetCropper: function resetCropper() {
-      this.cropper.reset();
-    },
-    rotateLeft: function rotateLeft() {
-      this.cropper.rotate(-90);
-    },
-    rotateRight: function rotateRight() {
-      this.cropper.rotate(90);
-    },
-    setupCropper: function setupCropper(selectedFile) {
-      if (this.cropper) {
-        this.cropper.destroy();
-      }
-
-      if (this.objectUrl) {
-        window.URL.revokeObjectURL(this.objectUrl);
-      }
-
-      if (!selectedFile) {
-        this.cropper = null;
-        this.objectUrl = null;
-        this.previewCropped = null;
-        return;
-      }
-
-      this.objectUrl = window.URL.createObjectURL(selectedFile);
-      this.$nextTick(this.setupCropperInstance);
-    },
-    setupCropperInstance: function setupCropperInstance() {
-      this.cropper = new cropperjs__WEBPACK_IMPORTED_MODULE_10___default.a(this.$refs.source, {
-        aspectRatio: 1,
-        crop: this.debouncedUpdatePreview
-      });
-    },
-    updatePreview: function updatePreview(event) {
-      var canvas = this.cropper.getCroppedCanvas();
-      this.previewCropped = canvas.toDataURL("image/png");
-      this.avatar = this.previewCropped;
-    },
     JsonFormatter: function JsonFormatter(Data) {
       var _this2 = this;
 
@@ -452,9 +374,13 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
         if (result) {
           _this3.editor.save().then(function (outputData) {
+            var canvas = _this3.$refs.clipper.clip();
+
+            var ResultAvatar = canvas.toDataURL("image/jpeg", 1);
+
             _this3.$http.post("/api/articles/add-new-article", {
               data: outputData,
-              avatar: _this3.avatar,
+              avatar: ResultAvatar,
               title: _this3.title,
               category: _this3.category.value,
               hashtags: _this3.hashtags,
@@ -538,311 +464,254 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
+        { staticClass: "my-4" },
         [
           _c(
+            "clipper-upload",
+            {
+              staticClass:
+                "inline-block p-2 my-2 bg-primary rounded text-white",
+              model: {
+                value: _vm.imgURL,
+                callback: function($$v) {
+                  _vm.imgURL = $$v
+                },
+                expression: "imgURL"
+              }
+            },
+            [_vm._v("Importer L'image de l'article")]
+          ),
+          _vm._v(" "),
+          _c(
             "div",
-            { staticStyle: { "max-width": "100%" } },
+            { staticClass: "flex", staticStyle: { "max-width": "100%" } },
             [
-              _c(
-                "v-card-text",
+              _c("clipper-basic", {
+                ref: "clipper",
+                staticClass: " flex-grow-3",
+                attrs: {
+                  src: _vm.imgURL,
+                  preview: "my-preview",
+                  rotate: _vm.rotation
+                }
+              }),
+              _vm._v(" "),
+              _c("clipper-preview", {
+                staticClass: "flex-grow-2 ml-2 my-clipper",
+                attrs: { name: "my-preview" }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _vm.imgURL
+            ? _c(
+                "div",
+                { staticClass: "centerx" },
                 [
-                  _c("v-file-input", {
-                    staticClass: "my-4",
+                  _c("vs-input-number", {
                     attrs: {
-                      accept: "image/png, image/jpeg",
-                      placeholder:
-                        "Selectionner une image principale de l'article ",
-                      "show-size": 1024
+                      min: "0",
+                      max: "360",
+                      step: "90",
+                      label: "Rotation"
                     },
-                    on: { change: _vm.setupCropper },
                     model: {
-                      value: _vm.selectedFile,
+                      value: _vm.rotation,
                       callback: function($$v) {
-                        _vm.selectedFile = $$v
+                        _vm.rotation = $$v
                       },
-                      expression: "selectedFile"
+                      expression: "rotation"
                     }
-                  }),
-                  _vm._v(" "),
-                  _vm.objectUrl
-                    ? _c(
-                        "div",
-                        { staticClass: "flex flex-wrap justify-around" },
-                        [
-                          _c("div", { staticClass: " text-center" }, [
-                            _c("div", { staticClass: "inline-block" }, [
-                              _c("img", {
-                                ref: "source",
-                                staticClass: "block max-w-full",
-                                staticStyle: { "max-height": "299px" },
-                                attrs: { src: _vm.objectUrl }
-                              })
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "d-flex justify-center" },
-                              [
-                                _c(
-                                  "v-btn",
-                                  {
-                                    attrs: { icon: "icon", small: "small" },
-                                    on: { click: _vm.resetCropper }
-                                  },
-                                  [
-                                    _c(
-                                      "v-icon",
-                                      { attrs: { small: "small" } },
-                                      [_vm._v("mdi-aspect-ratio")]
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "mx-2" }),
-                                _vm._v(" "),
-                                _c(
-                                  "v-btn",
-                                  {
-                                    attrs: { icon: "icon", small: "small" },
-                                    on: { click: _vm.rotateLeft }
-                                  },
-                                  [
-                                    _c(
-                                      "v-icon",
-                                      { attrs: { small: "small" } },
-                                      [_vm._v("mdi-rotate-left")]
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-btn",
-                                  {
-                                    attrs: { icon: "icon", small: "small" },
-                                    on: { click: _vm.rotateRight }
-                                  },
-                                  [
-                                    _c(
-                                      "v-icon",
-                                      { attrs: { small: "small" } },
-                                      [_vm._v("mdi-rotate-right")]
-                                    )
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: " text-center" }, [
-                            _c("div", { staticClass: "inline-block " }, [
-                              _c("img", {
-                                staticClass: "block max-w-full",
-                                staticStyle: { "max-height": "299px" },
-                                attrs: { src: _vm.previewCropped }
-                              })
-                            ])
-                          ])
-                        ]
-                      )
-                    : _vm._e()
+                  })
                 ],
                 1
               )
-            ],
-            1
-          ),
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "mt-4" },
+        [
+          _c("label", { staticClass: "vs-input--label" }, [
+            _vm._v("Categorie")
+          ]),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "mt-4" },
-            [
-              _c("label", { staticClass: "vs-input--label" }, [
-                _vm._v("Categorie")
-              ]),
-              _vm._v(" "),
-              _c("v-select", {
-                attrs: { selected: _vm.selected, options: _vm.options },
-                model: {
-                  value: _vm.category,
-                  callback: function($$v) {
-                    _vm.category = $$v
-                  },
-                  expression: "category"
-                }
-              })
-            ],
-            1
-          ),
+          _c("v-select", {
+            attrs: { selected: _vm.selected, options: _vm.options },
+            model: {
+              value: _vm.category,
+              callback: function($$v) {
+                _vm.category = $$v
+              },
+              expression: "category"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "mt-4" },
+        [
+          _c("label", { staticClass: "vs-input--label" }, [_vm._v("Hashtags")]),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "mt-4" },
-            [
-              _c("label", { staticClass: "vs-input--label" }, [
-                _vm._v("Hashtags")
-              ]),
-              _vm._v(" "),
-              _c("v-select", {
-                attrs: {
-                  multiple: "",
-                  taggable: "",
-                  "push-tags": "",
-                  dir: _vm.$vs.rtl ? "rtl" : "ltr",
-                  options: _vm.hashtagOptions
-                },
-                model: {
-                  value: _vm.hashtags,
-                  callback: function($$v) {
-                    _vm.hashtags = $$v
-                  },
-                  expression: "hashtags"
-                }
-              })
-            ],
-            1
-          ),
+          _c("v-select", {
+            attrs: {
+              multiple: "",
+              taggable: "",
+              "push-tags": "",
+              dir: _vm.$vs.rtl ? "rtl" : "ltr",
+              options: _vm.hashtagOptions
+            },
+            model: {
+              value: _vm.hashtags,
+              callback: function($$v) {
+                _vm.hashtags = $$v
+              },
+              expression: "hashtags"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "mt-4" },
+        [
+          _c("label", { staticClass: "vs-input--label" }, [_vm._v("Artists")]),
           _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "mt-4" },
-            [
-              _c("label", { staticClass: "vs-input--label" }, [
-                _vm._v("Artists")
-              ]),
-              _vm._v(" "),
-              _c("v-select", {
-                attrs: {
-                  multiple: "",
-                  dir: _vm.$vs.rtl ? "rtl" : "ltr",
-                  options: _vm.artistOptions
-                },
-                model: {
-                  value: _vm.artists,
-                  callback: function($$v) {
-                    _vm.artists = $$v
-                  },
-                  expression: "artists"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "vs-collapse",
-            [
-              _c("vs-collapse-item", [
-                _c("div", { attrs: { slot: "header" }, slot: "header" }, [
-                  _vm._v("\n    Réglages avancés \n  ")
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "flex items-center " }, [
-                  _c(
-                    "div",
-                    { staticClass: "col-md-4" },
-                    [
-                      _c("label", { staticClass: "vs-input--label" }, [
-                        _vm._v("Programmer La publication")
-                      ]),
-                      _vm._v(" "),
-                      _c("vs-switch", {
-                        model: {
-                          value: _vm.Scheduled,
-                          callback: function($$v) {
-                            _vm.Scheduled = $$v
-                          },
-                          expression: "Scheduled"
-                        }
-                      })
-                    ],
-                    1
-                  ),
+          _c("v-select", {
+            attrs: {
+              multiple: "",
+              dir: _vm.$vs.rtl ? "rtl" : "ltr",
+              options: _vm.artistOptions
+            },
+            model: {
+              value: _vm.artists,
+              callback: function($$v) {
+                _vm.artists = $$v
+              },
+              expression: "artists"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "vs-collapse",
+        [
+          _c("vs-collapse-item", [
+            _c("div", { attrs: { slot: "header" }, slot: "header" }, [
+              _vm._v("\n    Réglages avancés \n  ")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "flex items-center " }, [
+              _c(
+                "div",
+                { staticClass: "col-md-4" },
+                [
+                  _c("label", { staticClass: "vs-input--label" }, [
+                    _vm._v("Programmer La publication")
+                  ]),
                   _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "ml-5 col-md-6" },
-                    [
-                      _c("label", { staticClass: "vs-input--label" }, [
-                        _vm._v("Date de publication")
-                      ]),
-                      _vm._v(" "),
-                      _c("flat-pickr", {
-                        staticClass: "block w-full",
-                        attrs: {
-                          disabled: !_vm.Scheduled,
-                          config: _vm.configdateTimePickerPublish,
-                          placeholder: "Date de publication"
-                        },
-                        model: {
-                          value: _vm.publishTime,
-                          callback: function($$v) {
-                            _vm.publishTime = $$v
-                          },
-                          expression: "publishTime"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "flex items-center " }, [
-                  _c(
-                    "div",
-                    { staticClass: "col-md-4" },
-                    [
-                      _c("label", { staticClass: "vs-input--label" }, [
-                        _vm._v("Publication à la une ")
-                      ]),
-                      _vm._v(" "),
-                      _c("vs-switch", {
-                        model: {
-                          value: _vm.Featured,
-                          callback: function($$v) {
-                            _vm.Featured = $$v
-                          },
-                          expression: "Featured"
-                        }
-                      })
-                    ],
-                    1
-                  ),
+                  _c("vs-switch", {
+                    model: {
+                      value: _vm.Scheduled,
+                      callback: function($$v) {
+                        _vm.Scheduled = $$v
+                      },
+                      expression: "Scheduled"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "ml-5 col-md-6" },
+                [
+                  _c("label", { staticClass: "vs-input--label" }, [
+                    _vm._v("Date de publication")
+                  ]),
                   _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "ml-5 col-md-6" },
-                    [
-                      _c("label", { staticClass: "vs-input--label" }, [
-                        _vm._v("Date de la promotion")
-                      ]),
-                      _vm._v(" "),
-                      _c("flat-pickr", {
-                        staticClass: "block w-full",
-                        attrs: {
-                          disabled: !_vm.Featured,
-                          config: _vm.configdateTimePickerfeatured,
-                          placeholder: "Date de promotion"
-                        },
-                        model: {
-                          value: _vm.featuredRange,
-                          callback: function($$v) {
-                            _vm.featuredRange = $$v
-                          },
-                          expression: "featuredRange"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ])
-              ])
-            ],
-            1
-          )
+                  _c("flat-pickr", {
+                    staticClass: "block w-full",
+                    attrs: {
+                      disabled: !_vm.Scheduled,
+                      config: _vm.configdateTimePickerPublish,
+                      placeholder: "Date de publication"
+                    },
+                    model: {
+                      value: _vm.publishTime,
+                      callback: function($$v) {
+                        _vm.publishTime = $$v
+                      },
+                      expression: "publishTime"
+                    }
+                  })
+                ],
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "flex items-center " }, [
+              _c(
+                "div",
+                { staticClass: "col-md-4" },
+                [
+                  _c("label", { staticClass: "vs-input--label" }, [
+                    _vm._v("Publication à la une ")
+                  ]),
+                  _vm._v(" "),
+                  _c("vs-switch", {
+                    model: {
+                      value: _vm.Featured,
+                      callback: function($$v) {
+                        _vm.Featured = $$v
+                      },
+                      expression: "Featured"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "ml-5 col-md-6" },
+                [
+                  _c("label", { staticClass: "vs-input--label" }, [
+                    _vm._v("Date de la promotion")
+                  ]),
+                  _vm._v(" "),
+                  _c("flat-pickr", {
+                    staticClass: "block w-full",
+                    attrs: {
+                      disabled: !_vm.Featured,
+                      config: _vm.configdateTimePickerfeatured,
+                      placeholder: "Date de promotion"
+                    },
+                    model: {
+                      value: _vm.featuredRange,
+                      callback: function($$v) {
+                        _vm.featuredRange = $$v
+                      },
+                      expression: "featuredRange"
+                    }
+                  })
+                ],
+                1
+              )
+            ])
+          ])
         ],
         1
       ),
@@ -857,7 +726,7 @@ var render = function() {
                 "vs-button",
                 {
                   staticClass: "ml-auto mt-2",
-                  attrs: { disable: _vm.isSending },
+                  attrs: { disabled: _vm.isSending },
                   on: { click: _vm.handleSave }
                 },
                 [_vm._v("Save Article")]
