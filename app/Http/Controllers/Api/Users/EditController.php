@@ -10,7 +10,7 @@ class EditController extends Controller
 {
     public function editUser($slug){
 
-    	$payload = request(['full_name','username','email','password','role','status', 'mobile','country','adresse','gender','biography']);
+    	$payload = request(['full_name','username','email','password','role','status', 'mobile','country','adresse','gender','biography','facebook','twitter','instagram']);
 
     	if($administrator = Administrator::fetchBySlug($slug)){
     		if(request('full_name')){
@@ -58,6 +58,21 @@ class EditController extends Controller
                 $details->gender = $payload['gender'];
 
             }
+            if(request('twitter')){
+
+                $details->twitter = $payload['twitter'];
+            }
+            if(request('facebook')){
+
+                $details->facebook = $payload['facebook'];
+
+            }
+            if(request('instagram')){
+
+                $details->instagram = $payload['instagram'];
+
+            }
+
             $details->updated_at = now();
             $details->save();
 	    	$administrator->updated_at = now();

@@ -51,7 +51,7 @@
 
     <!-- Save & Reset Button -->
     <div class="flex flex-wrap items-center justify-end">
-      <vs-button class="ml-auto mt-2" @click="handleSubmit" :disable="isSending"
+      <vs-button class="ml-auto mt-2" @click="handleSubmit" :disabled="isSending"
         >Save Changes</vs-button
       >
     </div>

@@ -153,7 +153,7 @@ const router = new Router({
         },
         {
           path: "/settings/create-artist",
-          name: "artists",
+          name: "artists-create",
           component: () =>
             import("@/views/pages/Settings/Artists/ArtistCreate.vue"),
           meta: {

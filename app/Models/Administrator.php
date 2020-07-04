@@ -35,7 +35,7 @@ class Administrator extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-    protected $hidden = ['password','id','status'];
+    protected $hidden = ['password','status'];
     /**
     * The attributes that should be cast.
     *
