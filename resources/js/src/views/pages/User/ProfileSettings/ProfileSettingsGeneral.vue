@@ -49,6 +49,8 @@
       label-placeholder="Nom"
       v-model="full_name"
     />
+
+    
     <span class="text-danger text-sm" v-show="errors.has('name')">{{
       errors.first("name")
     }}</span>
