@@ -19,9 +19,6 @@ import VuejsClipper from 'vuejs-clipper'
 Vue.use(VuejsClipper)
 
 
-import Vuetify from 'vuetify'
-Vue.use(Vuetify)
-
 import EditorJS from '@editorjs/editorjs';
 
 // axios
