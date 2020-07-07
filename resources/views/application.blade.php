@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="{{ asset(mix('css/app.css')) }}">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ asset('images/logo/favicon.png') }}">
+        <link rel="icon"  type="image/png" href="https://cd1.rap2france.com/public/templates/default/assets/images/icone/57.jpg">
   </head>
   <body>
     <noscript>
