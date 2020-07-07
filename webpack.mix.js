@@ -14,7 +14,7 @@ require('dotenv').config();
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+mix.js('resources/js/app.js', 'public/js').sourceMaps()
     .webpackConfig({
         resolve: {
             alias: {
@@ -36,7 +36,7 @@ mix.js('resources/js/app.js', 'public/js')
     .copyDirectory('node_modules/material-icons/iconfont', 'public/css/material-icons') // Material Icon fonts
     .copyDirectory('node_modules/material-icons/iconfont/material-icons.css', 'public/css/material-icons/material-icons.css') // Material Icon fonts css
     .copy('node_modules/prismjs/themes/prism-tomorrow.css', 'public/css/prism-tomorrow.css') // Prism Tomorrow theme css
-    .copyDirectory('resources/assets/images', 'public/images'); // Copy all images from resources to public folder
+    .copyDirectory('resources/assets/images', 'public/images') // Copy all images from resources to public folder
 
 
 // Change below options according to your requirement
