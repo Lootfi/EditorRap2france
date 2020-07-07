@@ -8,12 +8,13 @@ use Analytics;
 use DB;
 use App\PageTodayReviews;
 use Carbon\Carbon;
-use App\Actualite;
+use App\Models\Article;
 use Spatie\Analytics\Period;
 
 class AnalyticController extends Controller
 {
     public function getMostViewedPages($analyticType ='today', $maxResults = 500){
+
 
         switch ($analyticType) {
              Case 'today' : 
@@ -51,9 +52,10 @@ class AnalyticController extends Controller
 
         $add_date = now();
 
+
         foreach($mostViewedPages as $page){
 
-            if($actualité = Actualite::where('url',$page['url'])->first() ){ //If the article exists else skip it
+        if($actualité = Article::where('tag',str_replace(['/news-','.html'],'',$page['url']))->first() ){ //If the article exists else skip it
             $actualiteArray = ['actualite_id' => $actualité->id , 'views' => $page['pageViews'] , 'add_date' => $add_date];
             //add the article array to the filtered array
             array_push($filteredMostViewedPage ,$actualiteArray);
@@ -65,7 +67,7 @@ class AnalyticController extends Controller
             null,
             'actualite_id'
         )));
-
+        
         $column = null;
         foreach($filteredMostViewedPage as $pagereview){
 

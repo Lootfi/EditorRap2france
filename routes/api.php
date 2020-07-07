@@ -34,9 +34,7 @@ Route::group(['middleware' => ['jwt.verify']],function(){
 	Route::post('/{slug}/uploadAvatar','AvatarController@uploadAvatar');
 });
 	
-Route::group(['prefix' => 'analytics' ,'namespace' => 'Analytics'],function(){
-	Route::get('/{analyticType}/{maxResults}', 'AnalyticController@getMostViewedPages')->name('analytics');
-});
+
 
 Route::group(['prefix' => 'user', 'namespace' => 'User'],function(){
 
@@ -75,9 +73,11 @@ Route::group(['prefix' => 'settings', 'namespace' =>'Settings'],function(){
 
 });
 
-
 	Route::get('/{slug}/exportToFacebookArticle','Facebook\InstantController@exportMarkup');
 	Route::get('/{slug}/getView','Facebook\InstantController@getView');
+	Route::group(['prefix' => 'analytics' ,'namespace' => 'Analytics'],function(){
+	Route::get('/{analyticType}/{maxResults}', 'AnalyticController@getMostViewedPages')->name('analytics');
+});
 
 	Route::feeds();
 	
