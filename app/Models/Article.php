@@ -14,7 +14,7 @@ class Article extends Model implements Feedable
      *
      * @var string
      */
-    protected $table = 'r2f_new_actualite_copy_testing';
+    protected $table = 'r2f_new_actualite_testing_copy';
     
     /**
      * Indicates if the model should be timestamped.
@@ -137,7 +137,7 @@ class Article extends Model implements Feedable
     }
     public function getContenuFormatAttribute(){
 
-        if($this->contenuJson == null ){
+        if($this->type == 1 ){
 
             return ['type' => "raw", 'contenu' => html_entity_decode($this->contenu)  ];
        
