@@ -52,6 +52,8 @@ Vue.use(VeeValidate)
 import { VueHammer } from 'vue2-hammer'
 Vue.use(VueHammer)
 
+import Vuetify from 'vuetify'
+Vue.use(Vuetify)
 
 // PrismJS
 import 'prismjs'
