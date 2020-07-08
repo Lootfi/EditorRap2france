@@ -79,7 +79,7 @@
             <img
               class="max-w-full h-auto mx-auto"
               v-if="articleData.image"
-              :src="`/images/admin/articles/avatars/${articleData.image}`"
+              :src="`${articleData.Avatar}`"
             />
           </div>
           <vs-divider> L'article </vs-divider>
@@ -185,7 +185,7 @@ export default {
     },
 
     JsonFormatter(Data) {
-      var content = Data.ContenuFormat.contenu;
+      var content = JSON.parse(Data.ContenuFormat.contenu);
       var rawHtml = "";
       content.blocks.map((block) => {
         if (block.type == "paragraph") {

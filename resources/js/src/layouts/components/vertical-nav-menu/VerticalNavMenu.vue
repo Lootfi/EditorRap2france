@@ -27,7 +27,7 @@
       <div @mouseenter="mouseEnter" @mouseleave="mouseLeave">
 
         <!-- Header -->
-        <div class="header-sidebar flex items-center ustify-between " slot="header">
+        <div class="header-sidebar flex items-center justify-between " slot="header">
 
           <!-- Logo -->
           <router-link tag="div" class="vx-logo cursor-pointer flex items-center" to="/">

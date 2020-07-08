@@ -34,7 +34,7 @@ class Article extends Model implements Feedable
      *
      * @var array
      */
-    protected $hidden = ['contenu','contenuJson','id','idcat','admin_creator_id'];
+    protected $hidden = ['contenuJson','idcat','admin_creator_id'];
     /**
     * The attributes that should be cast.
     *
@@ -130,6 +130,10 @@ class Article extends Model implements Feedable
     
     public function getAvatarAttribute(){
 
+        if($this->type == 1){
+
+            return "https://cd1.rap2france.com/public/medias/news/".$this->id."/660x330/mdpi/".$this->image;
+        }
          
         return "/images/admin/articles/avatars/optimized/" . $this->image; 
     
@@ -143,7 +147,7 @@ class Article extends Model implements Feedable
        
         }else{
 
-            return ['type' => "json" , 'contenu' => $this->contenuJson];
+            return ['type' => "json" , 'contenu' => $this->contenuJSON];
         }
     }
 

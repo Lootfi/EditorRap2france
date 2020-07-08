@@ -153,9 +153,7 @@ export default {
               minDate: "today",
               minTime: Date.now(),
               enableSeconds: true,
-            },
-      debouncedUpdatePreview: debounce(this.updatePreview, 257),
-    };
+            },    };
   },
   computed: {
     activeUserInfo() {
@@ -287,7 +285,7 @@ export default {
           });
 
           this.editor = new EditorJS({
-            data: this.articleData.ContenuFormat.contenu,
+            data: JSON.parse(this.articleData.ContenuFormat.contenu),
 
             tools: {
               Marker: {

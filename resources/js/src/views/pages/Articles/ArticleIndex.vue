@@ -84,7 +84,7 @@
             <vs-td class="img-container">
               <vs-avatar
                 v-if="tr.image"
-                :src="`/images/admin/articles/avatars/${tr.image}`"
+                :src="`${tr.Avatar}`"
                 size="large"
                 @click.stop="$router.push(`/articles/${tr.tag}`)"
               />

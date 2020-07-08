@@ -63,6 +63,26 @@ return [
             ]) : [],
         ],
 
+        'R2F' => [
+            'driver' => 'mysql',
+            'url' => '',
+            'host' => env('R2F_HOST'),
+            'port' => env('R2F_PORT'),
+            'database' => env('R2F_DATABASE', 'forge'),
+            'username' => env('R2F_USERNAME', 'forge'),
+            'password' => env('R2F_PASSWORD', ''),
+            'unix_socket' => env('R2F_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

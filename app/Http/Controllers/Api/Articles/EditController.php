@@ -33,7 +33,7 @@ class EditController extends Controller
         }
         if(request('avatar')){  
             $imageData = request('avatar');
-            $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+            $fileName = sprintf("%s-%s.jpg",str_slug(request('title')), time());
             $oldAvatar = public_path('images/admin/articles/avatars/').$article->image;
             $oldOptimizedAvatar = public_path('images/admin/articles/avatars/optimized').$article->image;
             File::delete($oldAvatar);

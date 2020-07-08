@@ -14,7 +14,7 @@ class ShowController extends Controller
 
     	if($article = Article::fetchByTag($tag)){
 
-    
+ 
 
     		return $article;
     		
