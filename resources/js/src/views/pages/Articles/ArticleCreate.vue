@@ -12,7 +12,8 @@
     }}</span>
     <div id="editorjs" class="bg-white py-4"></div>
     <div class="my-4">
-        <clipper-upload class="inline-block p-2 my-2 bg-primary rounded text-white" v-model="imgURL">Importer L'image de l'article</clipper-upload>
+        <clipper-upload class="inline-block p-2 my-2 bg-primary rounded text-white" v-validate="'required'" v-model="imgURL" name="image">Importer L'image de l'article</clipper-upload>
+      <span class="text-danger text-sm" v-show="errors.has('image')">{{errors.first("image") }}</span>
         <div class="flex" style="max-width: 100%;">
         <clipper-basic 
         class=" flex-grow-3"
@@ -358,8 +359,8 @@ export default {
     handleSave(e) {
       e.preventDefault();
       this.$validator.validateAll().then((result) => {
-        this.isSending = true;
         if (result) {
+          this.isSending = true;
           this.editor.save().then((outputData) => {
             const canvas = this.$refs.clipper.clip();
             const ResultAvatar = canvas.toDataURL("image/jpeg", 1);

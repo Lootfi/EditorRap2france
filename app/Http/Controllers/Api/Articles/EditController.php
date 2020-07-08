@@ -22,8 +22,8 @@ class EditController extends Controller
     	$article->titre = request('title');
         $article->idcat= request('category');
     	$article->updated_at = now();
-    	$article->url = '/news/'.str_slug(request('title'));
-    	$article->tag = str_slug(request('title'));
+    	$article->url = '/news/'.str_slug(request('title'))."-".$article->id;
+    	$article->tag = str_slug(request('title'))."-".$article->id;
         $article->contenutext = request('text');
     	$article->contenuJson = request('data');
         $article->contenu = request('formattedJsonContent');
@@ -83,6 +83,7 @@ class EditController extends Controller
                     array_push($hashtagArray,$dbHashtag['id']);
 
                 }
+
                  $article->hashtags()->sync($hashtagArray);
 
             }
@@ -91,9 +92,9 @@ class EditController extends Controller
 
                 $ArtistsWithRank = [];
                 
-                foreach(request('artists') as$key =>  $artist){
+                foreach(request('artists') as $key =>  $artist){
 
-                    array_push($ArtistsWithRank,['artist_id' => $artist['value'] , 'rank' => $key+1]);
+                    array_push($ArtistsWithRank,['artist_id' => $artist['value'] , 'rank' => $key + 1]);
                 }
 
                 $article->artists()->sync($ArtistsWithRank);

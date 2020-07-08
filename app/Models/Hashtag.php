@@ -24,8 +24,7 @@ class Hashtag extends Model
 
     {
 
-        return $this->belongsToMany(\App\Models\Article::class, 'r2f_new_actualités_hashtags')
-                    ->withPivot('id');
+        return $this->belongsToMany(\App\Models\Article::class, 'r2f_new_actualités_hashtags');
 
     }
 

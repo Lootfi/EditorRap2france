@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-4">
+  <div style="margin-top:2rem;">
     <vs-input
       v-model="email"
       name="email"
@@ -17,7 +17,7 @@
       icon="icon icon-lock"
       icon-pack="feather"
       label-placeholder="Password"
-      class="w-full mt-6"
+      class="w-full mb-2"
     />
 
     <div class="flex flex-wrap justify-between mb-3">

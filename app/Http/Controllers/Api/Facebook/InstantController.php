@@ -43,6 +43,7 @@ class InstantController extends Controller
     public function getView($tag){
 
     	    $article = Article::fetchByTag($tag);
+    	    
     	    return view('InstantTemplate',['article' => $article]);
 
     }

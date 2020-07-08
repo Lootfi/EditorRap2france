@@ -13,7 +13,7 @@ class ShowController extends Controller
 
     	if($artist = Artist::fetchBySlug($slug)){
 
-    	 $artist->setAttribute('articles',$artist->articles()->get());
+    	 $artist->setAttribute('articles',$artist->articles()->OrderBy('id','DESC')->get());
     	 
     	 return $artist;
     	}

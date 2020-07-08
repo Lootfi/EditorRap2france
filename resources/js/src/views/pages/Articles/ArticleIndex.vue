@@ -74,7 +74,7 @@
         <vs-th sort-key="category">Categorie</vs-th>
         <vs-th sort-key="popularity">Ecrit par</vs-th>
         <vs-th sort-key="order_status">Ecrit le</vs-th>
-        <vs-th sort-key="order_status">Order Status</vs-th>
+        <vs-th sort-key="status">Etat</vs-th>
         <vs-th>Actions</vs-th>
       </template>
 

@@ -28,7 +28,7 @@
 
       <!-- Body text for your article -->
 
-      @foreach($article->ContenuFormat['contenu']['blocks'] as $block)
+      @foreach(json_decode($article->ContenuFormat['contenu'],true)['blocks'] as $block)
 
 
           @if($block['type'] == "paragraph")

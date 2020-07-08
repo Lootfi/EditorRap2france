@@ -118,7 +118,7 @@ export default {
     return {
       editor: null,
       title: "",
-      avatar: "",
+      avatar: null,
       text: "",
       articleData: null,
       article_not_found: false,
@@ -420,8 +420,12 @@ export default {
         this.isSending = true;
         if (result) {
           this.editor.save().then((outputData) => {
+            const ResultAvatar = null
+            if(this.avatar){
+
             const canvas = this.$refs.clipper.clip();
             const ResultAvatar = canvas.toDataURL("image/jpeg", 1);
+            }
             this.$http
               .post(
                 `/api/articles/${this.$route.params.tag}/edit`,
