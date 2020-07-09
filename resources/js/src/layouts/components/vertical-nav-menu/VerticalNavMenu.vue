@@ -31,7 +31,7 @@
 
           <!-- Logo -->
           <router-link tag="div" class="vx-logo cursor-pointer flex items-center" to="/">
-            <img src="/images/logos/R2F-logo-b.png" />
+            <img src="/images/logos/R2F-logo-b.png" style="width:50px;" />
           </router-link>
           <!-- /Logo -->
 
