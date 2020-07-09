@@ -2,7 +2,7 @@
 <html lang="en" prefix="op: http://media.facebook.com/op#">
   <head>
     <meta charset="utf-8">
-    <link rel="canonical" href="{{$article->url}}">
+    <link rel="canonical" href="https://front.rap2france.com/{{$article->url}}">
     <meta property="op:markup_version" content="v1.0">
   </head>
   <body>
@@ -10,10 +10,10 @@
         <h1>{{$article->titre}}</h1>
 
         <!-- The date and time when your article was originally published -->
-        <meta propety="time" class="op-published" datetime="${{$article->created_at}}" />
+        <meta propety="time" class="op-published" datetime="{{$article->created_at}}" />
 
         <!-- The date and time when your article was last updated -->
-        <meta propety="time" class="op-modified" dateTime="${{$article->updated_at}}" />
+        <meta propety="time" class="op-modified" dateTime="{{$article->updated_at}}" />
 
         <!-- The authors of your article -->
         <address>

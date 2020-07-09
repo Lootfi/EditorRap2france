@@ -1,16 +1,18 @@
 <template>
   <div class="my-4">
+    <div class="title">
     <vs-input
       class="w-full my-4"
+      size="large"
       label="Titre"
       name="title"
       v-model="title"
       v-validate="'required'"
     />
+  </div>
     <span class="text-danger text-sm" v-show="errors.has('title')">{{
       errors.first("title")
     }}</span>
-    <div id="editorjs" class="bg-white py-4"></div>
     <div class="my-4">
         <clipper-upload class="inline-block p-2 my-2 bg-primary rounded text-white" v-validate="'required'" v-model="imgURL" name="image">Importer L'image de l'article</clipper-upload>
       <span class="text-danger text-sm" v-show="errors.has('image')">{{errors.first("image") }}</span>
@@ -29,6 +31,8 @@
        <vs-input-number min="0" max="360" step="90" v-model="rotation" label="Rotation"/>
       </div>
       </div>
+    <div id="editorjs" class="bg-white py-4"></div>
+    
       <div class="mt-4">
         <label class="vs-input--label">Categorie</label>
         <v-select v-model="category" :selected="selected" :options="options" />
@@ -399,3 +403,19 @@ export default {
   },
 };
 </script>
+<style>
+  
+
+  .ce-block__content{
+
+    margin: 0;
+    padding:20px;
+    width:100%;
+    word-break:break-all;
+  }
+
+  .title .vs-input--label{
+
+    font-size:1.5rem;
+  }
+</style>
