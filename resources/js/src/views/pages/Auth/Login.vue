@@ -15,9 +15,9 @@
     <div class="vx-col sm:w-1/2 md:w-1/2 lg:w-3/4 xl:w-3/5 sm:m-0 m-4">
       <div slot="no-body" class="full-page-bg-color">
         <div class="vx-row no-gutter justify-center items-center">
-          <div class="vx-col hidden lg:block lg:w-1/2">
+          <div class="vx-col hidden lg:block text-center lg:w-1/2">
             <img
-              src="@assets/images/pages/login.png"
+              src="/images/logos/r2f_logo_black_450.png"
               alt="login"
               class="mx-auto"
             />
@@ -25,8 +25,8 @@
 
           <div class="vx-col sm:w-full md:w-full lg:w-1/2 d-theme-dark-bg">
             <div class="px-8 pt-8 login-tabs-container">
-              <div class="vx-card__title mb-5">
-                <h4 class="mb-4">Login</h4>
+              <div class="vx-card__title mb-5 text-center">
+                <h4 class="mb-4">Connexion</h4>
               </div>
 
               <div class="mt-4">

@@ -2,7 +2,7 @@
 <html lang="en" prefix="op: http://media.facebook.com/op#">
   <head>
     <meta charset="utf-8">
-    <link rel="canonical" href="https://front.rap2france.com/{{$article->url}}">
+    <link rel="canonical" href="https://front.rap2france.com{{$article->url}}">
     <meta property="op:markup_version" content="v1.0">
   </head>
   <body>
