@@ -41,8 +41,8 @@ class EditController extends Controller
             $AvatarPath = public_path('images/admin/articles/avatars/').$fileName;
             $optimized = "/images/admin/articles/avatars/optimized";
             \Image::make(request('avatar'))->save($AvatarPath);
-            $result = LaravelShortPixel::fromFiles($AvatarPath,$optimized, [$compression_level = 1, $width = 200, $height = 300, $maxDimension = true]);
             ImageOptimizer::optimize($AvatarPath);
+            $result = LaravelShortPixel::fromFiles($AvatarPath,$optimized, [$compression_level = 1, $width = 660, $height = 330, $maxDimension = true]);
 
             $article->image = $fileName;
         }

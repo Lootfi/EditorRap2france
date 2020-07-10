@@ -33,9 +33,12 @@
     <div id="editorjs" class="bg-white py-4"></div>
       
     <div class="mt-4">
-      <label class="vs-input--label">Categorie</label>
-      <v-select v-model="category" :options="options" />
+      <label class="vs-input--label">Categorie</label> 
+      <v-select v-model="category" :selected="selected" :options="options" name="category" v-validate="'required'" />
     </div>
+    <span class="text-danger text-sm" v-show="errors.has('category')">{{
+      errors.first("category")
+    }}</span>
     <div class="mt-4">
       <label class="vs-input--label">Hashtags</label>
       <v-select
@@ -424,11 +427,10 @@ export default {
         this.isSending = true;
         if (result) {
           this.editor.save().then((outputData) => {
-            const ResultAvatar = null
-            if(this.avatar){
-
+            var ResultAvatar = null
+            if(this.imgURL){
             const canvas = this.$refs.clipper.clip();
-            const ResultAvatar = canvas.toDataURL("image/jpeg", 1);
+            ResultAvatar = canvas.toDataURL("image/jpeg", 1);
             }
             this.$http
               .post(

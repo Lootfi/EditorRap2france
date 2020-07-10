@@ -35,8 +35,12 @@
     
       <div class="mt-4">
         <label class="vs-input--label">Categorie</label>
-        <v-select v-model="category" :selected="selected" :options="options" />
+        <v-select v-model="category" :selected="selected" :options="options" name="category" v-validate="'required'"
+/>
       </div>
+       <span class="text-danger text-sm" v-show="errors.has('category')">{{
+      errors.first("category")
+    }}</span>
       <div class="mt-4">
         <label class="vs-input--label">Hashtags</label>
         <v-select
@@ -293,7 +297,6 @@ export default {
             });
 
             rawHtml = `${rawHtml}<div class="m-4"><ol style="list-style-type:decimal;" >${listItems}</ol></div>`;
-            console.log(rawHtml);
           }
           if (block.data.style == "unordered") {
             var listItems = "";
