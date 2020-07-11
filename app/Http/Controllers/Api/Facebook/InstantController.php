@@ -24,11 +24,10 @@ class InstantController extends Controller
 	$transformer = new Transformer();
 	$rules = file_get_contents(__DIR__ .'/simple_rules.json',true);
 	$transformer->loadRules($rules);
-    libxml_use_internal_errors(false);
-	$html=file_get_contents(url('/'). '/api/'.$tag.'/getView',true);
+    libxml_use_internal_errors(true);
+	$html=file_get_contents(url('/').'/api/'.$tag.'/getView',true);
 	$document = new \DOMDocument();
 	$document->loadHTML($html);
-	libxml_use_internal_errors(true);
 	$instant_article = InstantArticle::create();
 	$transformer->transform($instant_article, $document);
 
