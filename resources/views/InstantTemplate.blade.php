@@ -59,7 +59,7 @@
           <iframe width="{{$block['data']['width']}}" height="{{$block['data']['height']}}" src="{{$block['data']['embed']}}"  frameborder="0" border="0"></iframe>
         @endif
         @endif
-    }
+
     @endforeach
       @endif
       

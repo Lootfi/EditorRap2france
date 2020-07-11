@@ -50,11 +50,11 @@ class Article extends Model implements Feedable
 
     public function getStatusNameAttribute(){
 
-        if($this->status == 1){
+        if($this->status == 2){
 
             return "Non Publié";
         }
-        if($this->status == 2){
+        if($this->status == 1){
 
             return "Publié";
         }
