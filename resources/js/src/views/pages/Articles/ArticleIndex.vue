@@ -137,7 +137,6 @@
               </vx-tooltip>
                 <vx-tooltip text="Créer instant article">
                 <feather-icon
-                  v-if="isJsonArticle(tr)"
                   @click.stop="exportMarkup(tr.tag)"
                   icon="FacebookIcon"
                   svgClasses="w-5 h-5 hover:text-primary

@@ -22,6 +22,11 @@
       <!-- Article body goes here -->
 
       <!-- Body text for your article -->
+      @if($article->ContenuFormat['type'] == 'raw')
+
+        {!! html_entity_decode($article->contenu, ENT_QUOTES, 'UTF-8') !!} 
+
+      @else
 
       @foreach(json_decode($article->ContenuFormat['contenu'],true)['blocks'] as $block)
 
@@ -54,7 +59,10 @@
           <iframe width="{{$block['data']['width']}}" height="{{$block['data']['height']}}" src="{{$block['data']['embed']}}"  frameborder="0" border="0"></iframe>
         @endif
         @endif
+    }
     @endforeach
+      @endif
+      
 </article>
 </body>
 </html>
