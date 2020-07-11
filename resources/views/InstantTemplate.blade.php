@@ -6,6 +6,10 @@
     <meta property="op:markup_version" content="v1.0">
   </head>
   <body>
+    <header>
+      <time class="op-published" datetime="{{$article->created_at}}">{{$article->created_at}}</time>
+      <time class="op-modified" datetime="{{$article->updated_at}}">{{$article->updated_at}}</time>
+    </header>
       <div class="header">
         <h1>{{$article->titre}}</h1>
 
