@@ -51,7 +51,7 @@ const router = new Router({
           },
         },
         {
-          path: "/dashboard",
+          path: "/",
           name: "dashboard",
           component: () => import("@/views/pages/Dashboard.vue"),
           meta: {
@@ -218,7 +218,7 @@ router.beforeEach((to, from, next) => {
      (to.matched.some((record) => record.meta.requiresAdmin) &&
       LoggedInuser.role != "Admin" ) || (to.matched.some((record) => record.meta.activated) && LoggedInuser.StatusName =="Suspendu")
     ) {
-      next("/dashboard");
+      next("/");
     } else {
       next();
     }
