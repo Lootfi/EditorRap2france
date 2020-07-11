@@ -6,28 +6,18 @@
     <meta property="op:markup_version" content="v1.0">
   </head>
   <body>
+    <article>
     <header>
+      <h1>{{$article->titre}}</h1>
+
+      <img src="{{asset($article->Avatar)}}" />
+
       <time class="op-published" datetime="{{$article->created_at}}">{{$article->created_at}}</time>
       <time class="op-modified" datetime="{{$article->updated_at}}">{{$article->updated_at}}</time>
-    </header>
-      <div class="header">
-        <h1>{{$article->titre}}</h1>
-
-        <!-- The date and time when your article was originally published -->
-        <meta propety="time" class="op-published" datetime="{{$article->created_at}}" />
-
-        <!-- The date and time when your article was last updated -->
-        <meta propety="time" class="op-modified" dateTime="{{$article->updated_at}}" />
-
-        <!-- The authors of your article -->
-        <address>
+      <address>
           <a rel="facebook" href="http://facebook.com/brandon.diamond">{{$article->Creator->Full_Name}}</a>
         </address>
-        <!-- The cover image shown inside your article --> 
-          <img src="{{asset($article->Avatar)}}" />
-
-      </div>
-
+    </header>
       <!-- Article body goes here -->
 
       <!-- Body text for your article -->
@@ -66,4 +56,5 @@
     @endforeach
 
   </body>
+</article>
 </html>
