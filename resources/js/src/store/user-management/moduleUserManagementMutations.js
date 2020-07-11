@@ -12,8 +12,8 @@ export default {
   SET_USERS (state, users) {
     state.users = users
   },
-  REMOVE_RECORD (state, itemId) {
-    const userIndex = state.users.findIndex((u) => u.id === itemId)
-    state.users.splice(userIndex, 1)
+  REMOVE_ITEM (state, userSlug) {
+    const ItemIndex = state.users.findIndex((p) => p.slug === userSlug)
+    state.users.splice(ItemIndex, 1)
   }
 }

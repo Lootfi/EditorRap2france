@@ -44,7 +44,7 @@ export default {
         .catch((error) => { reject(error) })
     })
   },
-  removeRecord ({ commit }, artistSlug) {
+  removeItem ({ commit }, artistSlug) {
     return new Promise((resolve, reject) => {
       axios.delete(`/api/settings/artists/${artistSlug}`)
         .then((response) => {

@@ -44,11 +44,14 @@ export default {
         .catch((error) => { reject(error) })
     })
   },
-  removeRecord ({ commit }, userId) {
-    return new Promise((resolve, reject) => {
-      axios.delete(`/api/user-management/users/${userId}`)
+  removeRecord ({ commit }, userSlug) {
+     return new Promise((resolve, reject) => {
+      axios.get(`/api/users/${userSlug}/delete`,{
+        headers : {
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+          }})
         .then((response) => {
-          commit('REMOVE_RECORD', userId)
+          commit('REMOVE_ITEM', userSlug)
           resolve(response)
         })
         .catch((error) => { reject(error) })

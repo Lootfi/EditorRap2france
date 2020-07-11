@@ -21,7 +21,7 @@
             @click="$router.push('/create-article')"
           >
             <feather-icon icon="PlusIcon" svgClasses="h-4 w-4" />
-            <span class="ml-2 text-base text-primary">Add New</span>
+            <span class="ml-2 text-base text-primary">Ajouter un article</span>
           </div>
         </div>
 
@@ -37,7 +37,7 @@
                   ? currentPage * itemsPerPage
                   : products.length
               }}
-              of {{ queriedItems }}</span
+              de {{ queriedItems }}</span
             >
             <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
           </div>
@@ -72,10 +72,10 @@
         <tbody>
           <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
             <vs-td class="img-container">
-              <vs-avatar
+              <img
+                class="product-img w-full"
                 v-if="tr.image"
-                :src="`/images/admin/articles/avatars/${tr.image}`"
-                size="large"
+                :src="`${tr.Avatar}`"
                 @click.stop="$router.push(`/articles/${tr.tag}`)"
               />
             </vs-td>
@@ -99,29 +99,42 @@
               </p>
             </vs-td>
 
-            <vs-td>
-              <p class="product-name font-medium truncate">{{ tr.dateactu }}</p>
+           <vs-td>
+              <vx-tooltip :text="tr.created_at">
+              <p class="product-name font-medium truncate">{{ tr.CreatedAtAgo }}</p>
+            </vx-tooltip>
             </vs-td>
             <vs-td class="whitespace-no-wrap">
-              <feather-icon
-                v-if="isJsonArticle(tr)"
-                icon="EditIcon"
-                svgClasses="w-5 h-5 hover:text-primary stroke-current"
-                @click="$router.push(`/articles/${tr.tag}/edit`)"
-              />
-              <feather-icon
-                @click.stop="openDelete(tr.tag)"
-                icon="TrashIcon"
-                svgClasses="w-5 h-5 hover:text-danger stroke-current"
-                class="ml-2"
-              />
-              <feather-icon
-                @click.stop="exportMarkup(tr.tag)"
-                icon="FacebookIcon"
-                svgClasses="w-5 h-5 hover:text-primary stroke-current"
-                class="ml-2"
-              />
-            </vs-td>
+              <div  class="flex px-2">
+              <vx-tooltip text="Modifier">
+                <feather-icon
+                  v-if="isJsonArticle(tr)"
+                  icon="EditIcon"
+                  svgClasses="w-5 h-5 hover:text-primary stroke-current"
+                  @click="$router.push(`/articles/${tr.tag}/edit`)"
+                />
+              </vx-tooltip>
+                <vx-tooltip text="Supprimer">
+                <feather-icon
+                  @click.stop="openDelete(tr.tag)"
+                  icon="TrashIcon"
+                  svgClasses="w-5 h-5 hover:text-danger stroke-current"
+                  class="ml-2"
+                />
+              </vx-tooltip>
+                <vx-tooltip text="Créer instant article">
+                <feather-icon
+                  v-if="isJsonArticle(tr)"
+                  @click.stop="exportMarkup(tr.tag)"
+                  icon="FacebookIcon"
+                  svgClasses="w-5 h-5 hover:text-primary
+              </div>
+            </vs-td>y stroke-current"
+                  class="ml-2"
+                />
+              </vx-tooltip>
+            </div>
+          </vs-td>
           </vs-tr>
         </tbody>
       </template>

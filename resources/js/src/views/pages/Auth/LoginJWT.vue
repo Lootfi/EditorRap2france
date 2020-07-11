@@ -7,7 +7,7 @@
       icon="icon icon-user"
       icon-pack="feather"
       label-placeholder="Email"
-      class="w-full"
+      class="w-full my-5"
     />
     <vs-input
       v-model="password"
@@ -17,10 +17,10 @@
       icon="icon icon-lock"
       icon-pack="feather"
       label-placeholder="Password"
-      class="w-full mb-2"
+      class="w-full my-5"
     />
 
-    <div class="flex flex-wrap justify-between mb-3">
+    <div class="flex flex-wrap items-center justify-center my-5">
       <vs-button @click="handleSubmit" :disabled="isSending">Login</vs-button>
     </div>
   </div>

@@ -33,7 +33,7 @@
             class="flex py-2 px-4 cursor-pointer hover:bg-primary hover:text-white"
             @click="logout">
             <feather-icon icon="LogOutIcon" svgClasses="w-4 h-4" />
-            <span class="ml-2">Logout</span>
+            <span class="ml-2">Déconnexion</span>
           </li>
         </ul>
       </vs-dropdown-menu>
@@ -53,8 +53,7 @@ export default {
     logout () {
       
       localStorage.clear();
-      // This is just for demo Purpose. If user clicks on logout -> redirect
-      this.$router.push('/login').catch(() => {})
+      this.$router.push({name : "page-login"}).catch(() => {})
     }
   }
 }

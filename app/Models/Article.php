@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
+use Carbon\Carbon;
 
 class Article extends Model implements Feedable
 {
@@ -27,7 +28,7 @@ class Article extends Model implements Feedable
      *
      * @var array
      */
-    protected $appends = ['Creator','Category','ContenuFormat','Hashtags','Artists','Avatar','StatusName','IsFeatured'];
+    protected $appends = ['Creator','Category','ContenuFormat','Hashtags','Artists','Avatar','StatusName','IsFeatured','CreatedAtAgo'];
 
      /**
      * The attributes that should be hidden for arrays.
@@ -51,11 +52,11 @@ class Article extends Model implements Feedable
 
         if($this->status == 1){
 
-            return "Pending";
+            return "Non Publié";
         }
         if($this->status == 2){
 
-            return "published";
+            return "Publié";
         }
     }
 
@@ -70,6 +71,11 @@ class Article extends Model implements Feedable
             return null;
 
         }
+    }
+
+    public function getCreatedAtAgoAttribute(){
+
+        return Carbon::createFromTimeStamp(strtotime($this->created_at))->diffForHumans();
     }
 
    public static function published(){

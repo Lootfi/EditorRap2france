@@ -11,7 +11,7 @@
   <div id="page-user-list">
     <vx-card
       ref="filterCard"
-      title="Filters"
+      title="Filtres"
       class="user-list-filters mb-8"
       actionButtons
       @refresh="resetColFilters"
@@ -29,7 +29,7 @@
           />
         </div>
         <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
-          <label class="text-sm opacity-75">Status</label>
+          <label class="text-sm opacity-75">État</label>
           <v-select
             :options="statusOptions"
             :clearable="false"
@@ -59,7 +59,7 @@
                     ? currentPage * paginationPageSize
                     : usersData.length
                 }}
-                of {{ usersData.length }}</span
+                de {{ usersData.length }}</span
               >
               <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
             </div>
@@ -144,15 +144,15 @@ export default {
   data() {
     return {
       // Filter Options
-      roleFilter: { label: "All", value: "all" },
+      roleFilter: { label: "Tout", value: "" },
       roleOptions: [
-        { label: "All", value: "all" },
+        { label: "Tout", value: "" },
         { label: "Administrateur", value: "Admin" },
         { label: "Editeur", value: "Editor" },
       ],
-      statusFilter: { label: "All", value: "all" },
+      statusFilter: { label: "Tout", value: "" },
       statusOptions: [
-        { label: "All", value: "all" },
+        { label: "Tout", value: "" },
         { label: "Activé", value: "Activé" },
         { label: "Suspendu", value: "Suspendu" },
       ],
@@ -176,7 +176,7 @@ export default {
           cellRendererFramework: "CellRendererLink",
         },
         {
-          headerName: "Username",
+          headerName: "Nom d'utilisateur",
           field: "username",
           filter: true,
           width: 210,
@@ -188,14 +188,14 @@ export default {
           width: 225,
         },
         {
-          headerName: "Name",
+          headerName: "Nom",
           field: "Full_Name",
           filter: true,
           width: 200,
         },
         {
           headerName: "Role",
-          field: "role",
+          field: "RoleName",
           filter: true,
           width: 150,
         },
@@ -206,6 +206,12 @@ export default {
           width: 150,
           cellRendererFramework: "CellRendererStatus",
         },
+        {
+          headerName: 'Actions',
+          field: 'transactions',
+          width: 150,
+          cellRendererFramework: 'CellRendererActions'
+        }
       ],
 
       // Cell Renderer Components

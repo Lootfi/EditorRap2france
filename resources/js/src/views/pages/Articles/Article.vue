@@ -27,8 +27,8 @@
                       $router.push(`/editors/${articleData.Creator.slug}`)">
                     {{ articleData.Creator.Full_Name}}
                   </p>
-                  <p>Last updated on {{ articleData.updated_at }}</p>
-                  <p><span v-if="isPublished">Publié</span><span v-else>À Publier</span> Le :{{articleData.dateactu}} </p>
+                  <p>Dernière Mise à jour le : {{ articleData.updated_at }}</p>
+                  <p><span v-if="isPublished">Publié</span><span v-else>À Publier</span> Le : {{articleData.dateactu}} </p>
                 </div>
               </div>
               <div v-if="showActions(articleData)">
@@ -58,9 +58,9 @@
               </div>
             </div>
           </div>
-          <p>Category : {{ articleData.Category.nom }}</p>
+          <p>Categorie : {{ articleData.Category.nom }}</p>
           <div class="flex items-center my-4">
-                       <div >Artists :</div>
+                       <div >Artistes :</div>
                             <ul class="users-liked user-list ml-3 sm:ml-6">
                             <li v-for="(artist, index) in articleData.Artists" :key="index">
                                 <vx-tooltip :text="artist.name" position="bottom">

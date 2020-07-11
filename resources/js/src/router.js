@@ -33,11 +33,7 @@ const router = new Router({
       children: [
         // =============================================================================
         // Theme Routes
-        // =============================================================================
-        {
-          path: "/",
-          redirect: { name: "dashboard" },
-        },
+        // ============================================================================
         {
           path: "/profile",
           name: "profile",
@@ -190,7 +186,7 @@ const router = new Router({
       component: () => import("@/layouts/full-page/FullPage.vue"),
       children: [
         {
-          path: "/login",
+          path: "/",
           name: "page-login",
           component: () => import("@/views/pages/Auth/Login.vue"),
           meta: {
@@ -208,26 +204,15 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ["/login"];
-  const authRequired = !publicPages.includes(to.path);
-  axios
-    .get("/api/auth/checkAuthToken", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      },
-    })
-
-    .then((response) => {})
-    .catch((error) => {
-      localStorage.clear();
-    });
+  const publicPages = ["page-login"];
+  const authRequired = !publicPages.includes(to.name);
   const LoggedInuser = JSON.parse(localStorage.getItem("user"));
   const loggedIn = localStorage.getItem("jwt");
 
   // trying to access a restricted page + not logged in
   // redirect to login page
   if (authRequired && !loggedIn) {
-    next("/login");
+    next({ name: 'page-login' });
   } else {
     if (
      (to.matched.some((record) => record.meta.requiresAdmin) &&

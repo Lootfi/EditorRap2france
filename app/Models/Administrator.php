@@ -28,7 +28,7 @@ class Administrator extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-    protected $appends = ['Details','StatusName','Avatar'];
+    protected $appends = ['Details','StatusName','Avatar','RoleName'];
 
      /**
      * The attributes that should be hidden for arrays.
@@ -66,6 +66,16 @@ class Administrator extends Authenticatable implements JWTSubject
         }
     }
 
+    public function getRoleNameAttribute(){
+
+        if($this->role == "Admin"){
+
+            return "Administrateur";
+        }
+
+        return "Editeur";
+    }
+
     public function getAvatarAttribute(){
 
         $detail = \App\Models\AdministratorDetail::where('admin_id',$this->id)->first();
@@ -92,7 +102,7 @@ class Administrator extends Authenticatable implements JWTSubject
 
     public function articles(){
 
-        return $this->hasMany('\App\Models\Article','admin_creator_id','id');
+        return $this->hasMany('\App\Models\Article','admin_creator_id','id')->latest();
     
 
     }

@@ -64,7 +64,8 @@
       <vs-collapse>
 
     <vs-collapse-item>
-    <div slot="header">
+    <div slot="header" class="font-bold text-sm">
+
       Réglages avancés 
     </div>
       <div class="flex items-center ">

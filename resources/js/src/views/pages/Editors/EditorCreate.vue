@@ -208,7 +208,7 @@ export default {
       adresse: "",
       gender: "",
       avatar: "",
-      isSending: "",
+      isSending: false,
       statusOptions: [
         { label: "Activé", value: "1" },
         { label: "Suspendu", value: "2" },

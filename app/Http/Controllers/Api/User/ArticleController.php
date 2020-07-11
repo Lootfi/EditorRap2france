@@ -13,6 +13,6 @@ class ArticleController extends Controller
 
     	$user = JWTAuth::parseToken()->authenticate();
 
-    	return $user->articles;
+    	return $user->articles->take(50);
     }
 }

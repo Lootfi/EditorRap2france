@@ -12,7 +12,6 @@ class DeleteController extends Controller
     public function deleteUser($slug){
 
     	if($administrator = Administrator::fetchBySlug($slug)){
-    		
             $details = $administrator->Details;
             $oldAvatar = public_path('images/admin/users/avatars/').$details->picture;
             File::delete($oldAvatar);

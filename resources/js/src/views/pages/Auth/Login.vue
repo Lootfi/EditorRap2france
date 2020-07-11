@@ -17,14 +17,15 @@
         <div class="vx-row no-gutter justify-center items-center">
           <div class="vx-col hidden lg:block text-center lg:w-1/2">
             <img
-              src="/images/logos/r2f_logo_black_450.png"
+              src="/images/logos/r2f_logo_black_150.png"
               alt="login"
               class="mx-auto"
             />
           </div>
 
-          <div class="vx-col sm:w-full md:w-full lg:w-1/2 d-theme-dark-bg">
-            <div class="px-8 pt-8 login-tabs-container">
+          <div class="vx-col sm:w-full md:w-full lg:w-1/2 d-theme-dark-bg ">
+            <div class="px-8 pt-8 login-tabs-container flex items-center justify-center">
+              <div>
               <div class="vx-card__title mb-5 text-center">
                 <h4 class="mb-4">Connexion</h4>
               </div>
@@ -32,6 +33,7 @@
               <div class="mt-4">
                 <login-jwt></login-jwt>
               </div>
+            </div>
             </div>
           </div>
         </div>
