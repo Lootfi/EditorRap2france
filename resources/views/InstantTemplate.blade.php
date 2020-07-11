@@ -9,8 +9,9 @@
     <article>
     <header>
       <h1>{{$article->titre}}</h1>
-
+      <figure>
       <img src="{{asset($article->Avatar)}}" />
+    </figure>
 
       <time class="op-published" datetime="{{$article->created_at}}">{{$article->created_at}}</time>
       <time class="op-modified" datetime="{{$article->updated_at}}">{{$article->updated_at}}</time>
@@ -54,7 +55,6 @@
         @endif
         @endif
     @endforeach
-
-  </body>
 </article>
+</body>
 </html>
