@@ -396,7 +396,7 @@ export default {
               .then((response) => {
                 this.$router.push("/articles");
               })
-              .catch(function(error){
+              .catch((error) => {
 
                 this.isSending = false;
               })

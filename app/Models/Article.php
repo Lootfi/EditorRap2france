@@ -80,17 +80,17 @@ class Article extends Model implements Feedable
 
    public static function published(){
 
-        return self::where('status',2);
+        return self::where('status',1);
     }
 
     public static function Pending(){
 
-        return self::where('status',1);
+        return self::where('status',2);
     }
 
     public function publish(){
 
-        $this->status = 2;
+        $this->status = 1;
         $this->updated_at = now();
         $this->save();
         return $this;

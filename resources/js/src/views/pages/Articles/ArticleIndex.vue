@@ -214,7 +214,7 @@ export default {
 
     statusColor(row){
 
-      if(row.status == 2){
+      if(row.status == 1){
 
         return "success"
       }
