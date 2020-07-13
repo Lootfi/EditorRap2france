@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Article;
+use DB;
 
 class AddArticleToDB extends Command
 {
@@ -36,9 +37,12 @@ class AddArticleToDB extends Command
      *
      * @return mixed
      */
-    public function handle($id)
+    public function handle()
     {
-        $article = Article::findOrFail($id);
+
+
+
+       $article = Article::latest()->first();
 
         DB::connection('R2F')->table('R2F_actualite')->insert([
             'alaune' => $article->alaune,
@@ -60,5 +64,7 @@ class AddArticleToDB extends Command
             'titre' => $article->titre,
             'url'=> $article->url,
         ]);
+
+    
     }
 }
