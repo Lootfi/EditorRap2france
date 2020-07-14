@@ -48,6 +48,8 @@ class Article extends Model implements Feedable
        'contenuJson' => 'array'
     ];
 
+    
+
     public function getStatusNameAttribute(){
 
         if($this->status == 2){

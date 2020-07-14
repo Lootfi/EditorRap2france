@@ -21,6 +21,7 @@
         "laravel/ui": "^2.0",
         "motivo/editorjs-data-converter": "^1.0",
         "sebdesign/artisan-cloudflare": "^2.3",
+        "shortpixel/shortpixel-php": "^1.6",
         "spatie/laravel-analytics": "^3.10",
         "spatie/laravel-feed": "^2.7",
         "spatie/laravel-image-optimizer": "^1.6",
