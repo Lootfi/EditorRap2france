@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Storage;
-require_once base_path('vendor/shortpixel/shortpixel-php/lib/shortpixel-php-req.php"');
+require_once base_path('vendor/shortpixel/shortpixel-php/lib/shortpixel-php-req.php');
 
 class AddImagesToServer extends Command
 {
