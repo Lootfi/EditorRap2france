@@ -9,7 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Artisan;
 use File;
-require_once base_path('vendor/shortpixel/shortpixel-php/lib/shortpixel-php-req.php"');
+require_once base_path('vendor/shortpixel/shortpixel-php/lib/shortpixel-php-req.php');
 class AddImageToServer implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
