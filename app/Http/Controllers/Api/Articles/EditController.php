@@ -12,6 +12,8 @@ use App\Models\Hashtag;
 use App\Models\ArticleHashtag;
 use File;
 use LaravelShortPixel;
+use Storage;
+require_once base_path('vendor/shortpixel/shortpixel-php/lib/shortpixel-php-req.php"');
 class EditController extends Controller
 {
     public function editArticle($tag){
@@ -22,7 +24,7 @@ class EditController extends Controller
     	$article->titre = request('title');
         $article->idcat= request('category');
     	$article->updated_at = now();
-    	$article->url = '/news/'.str_slug(request('title'))."-".$article->id;
+    	$article->url = '/news-'.str_slug(request('title'))."-".$article->id.".html";
     	$article->tag = str_slug(request('title'))."-".$article->id;
         $article->contenutext = request('text');
     	$article->contenuJson = request('data');
@@ -32,19 +34,46 @@ class EditController extends Controller
             $article->dateactu = request('dateactu');
         }
         if(request('avatar')){  
-            $imageData = request('avatar');
-            $fileName = sprintf("%s-%s.jpg",str_slug(request('title')), time());
-            $oldAvatar = public_path('images/admin/articles/avatars/').$article->image;
-            $oldOptimizedAvatar = public_path('images/admin/articles/avatars/optimized').$article->image;
+        $imageData = request('avatar');
+        $fileName = sprintf("%s-%s.jpg",str_slug(request('title')), time());
+        $oldAvatar = public_path('images/admin/articles/avatars/').$article->image;
+        \ShortPixel\setKey(env('SHORT_PIXEL_API_KEY'));
+        $dimensions = [['660','330'],['315','180'],['300','180'],['155','90'],['290','380'],['320','320'], ['290','150'],['145','250'],['32','32'],['240','145'],['100','60']];
+        $densities =['mdpi','xhdpi'];
             File::delete($oldAvatar);
-            File::delete($oldOptimizedAvatar);
             $AvatarPath = public_path('images/admin/articles/avatars/').$fileName;
-            $optimized = "/images/admin/articles/avatars/optimized";
             \Image::make(request('avatar'))->save($AvatarPath);
             ImageOptimizer::optimize($AvatarPath);
-            $result = LaravelShortPixel::fromFiles($AvatarPath,$optimized, [$compression_level = 1, $width = 660, $height = 330, $maxDimension = true]);
+
+            foreach($dimensions as $dimension){
+
+                    foreach($densities as $density ){
+                       $directory = "images/admin/articles/avatars/optimized/".$article->id."/".$dimension[0]."x".$dimension[1]."/".$density;
+                        if(!Storage::exists($directory)){
+                            Storage::makeDirectory($directory);
+                    }
+                            File::delete($directory."/".$article->image)
+                        \ShortPixel\fromFile($AvatarPath)->optimize(2)->resize($dimension[0],$dimension[1])->toFiles($directory);
+                    }
+                }
 
             $article->image = $fileName;
+
+            $imgtosend = str_replace(' ', 'SPACESEPARATOR', $fileName);
+            $urltosend = "https://img.rap2france.com/public/medias/r2f_new-downloadimg-2.php?img=".$imgtosend."&id=".$article->id."&url=".url('/');
+            $ch = curl_init($urltosend);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+                    curl_setopt($ch, CURLOPT_PROXY, "113.52.144.36");
+                    curl_setopt($ch, CURLOPT_PROXYPORT, "9339");
+                    curl_setopt($ch, CURLOPT_PROXYUSERPWD, "allwebnet@gmail.com:dtNj0hSa");
+                    curl_setopt($ch, CURLOPT_HEADER, 0);
+                    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0');
+                    $data = curl_exec($ch);
+                    $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
         }
 
         if(request('featured')){

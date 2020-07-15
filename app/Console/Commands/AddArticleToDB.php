@@ -13,7 +13,7 @@ class AddArticleToDB extends Command
      *
      * @var string
      */
-    protected $signature = 'command:AddArticle';
+    protected $signature = 'command:AddArticle {id}';
 
     /**
      * The console command description.
@@ -40,11 +40,9 @@ class AddArticleToDB extends Command
     public function handle()
     {
 
-
-
-       $article = Article::latest()->first();
-
-        DB::connection('R2F')->table('R2F_actualite')->insert([
+   $article = Article::findOrFail($this->argument('id'));
+   DB::connection('R2F')->table('R2F_actualite')->insert([
+            'id' => $article->id,
             'alaune' => $article->alaune,
             'auteur' => $article->auteur,
             'contenu' => $article->contenu ,
@@ -53,7 +51,6 @@ class AddArticleToDB extends Command
             'updated_at' => $article->updated_at,
             'dateactu' => $article->dateactu,
             'diapo' => $article->diapo,
-            'id' => $article->id,
             'idcat' => $article->idcat,
             'identifier' => $article->identifier,
             'image' => $article->image,
