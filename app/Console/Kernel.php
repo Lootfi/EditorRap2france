@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('command:PublishArticles');
-        $schedule->command('queue:work --timeout=0');
+        $schedule->command('queue:work --timeout=0 --tries=3');
     }
 
     /**
