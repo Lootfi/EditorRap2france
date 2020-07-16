@@ -44,15 +44,13 @@ class AddImageToServer implements ShouldQueue
         $AvatarPath = public_path('images/admin/articles/avatars/').$this->fileName;
             foreach($dimensions as $dimension){
                 foreach($densities as $density ){
-                    $directory = "public/images/admin/articles/avatars/optimized/".$this->id."/".$dimension[0]."x".$dimension[1]."/".$density;
+                    $directory = "public/images/admin/articles/avatars/optimized/".$this->id."/".$dimension[0]."x".$dimension[1]."/".$density."/";
                     if(!File::exists($directory)){
 
                             File::makeDirectory($directory,0777,true);
 
                     }
-
-                        \ShortPixel\fromFile($AvatarPath)->optimize(2)->resize($dimension[0],$dimension[1])->toFiles($directory);
-                        echo "success";
+                    \ShortPixel\fromFile($AvatarPath)->optimize(2)->resize($dimension[0],$dimension[1])->toFiles($directory);
                     }
                 }
 
