@@ -43,13 +43,10 @@ class EditController extends Controller
         \Image::make(request('avatar'))->save($AvatarPath);
         ImageOptimizer::optimize($AvatarPath);
         $article->image = $fileName;
-        $article->save();
          ModifyImageInServer::dispatch($fileName, $article->id,url('/'),$oldImageName);
-
-
-
-
         }
+        $article->save();
+
 
         if(request('featured')){
 
