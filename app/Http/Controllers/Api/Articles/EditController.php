@@ -28,7 +28,7 @@ class EditController extends Controller
     	$article->updated_at = now();
     	$article->url = '/news-'.str_slug(request('title'))."-".$article->id.".html";
     	$article->tag = str_slug(request('title'))."-".$article->id;
-        $article->contenutext = request('formattedJsonContent');
+        $article->contenutext = request('text');
     	$article->contenuJSON = request('data');
         $article->contenu = request('formattedJsonContent');
         if(request('dateactu')){
