@@ -14,6 +14,7 @@ use File;
 use LaravelShortPixel;
 use Storage;
 use App\Jobs\ModifyImageInServer;
+use Artisan;
 require_once base_path('vendor/shortpixel/shortpixel-php/lib/shortpixel-php-req.php');
 class EditController extends Controller
 {
@@ -44,7 +45,6 @@ class EditController extends Controller
         $article->image = $fileName;
         $article->save();
          ModifyImageInServer::dispatch($fileName, $article->id,url('/'),$oldImageName);
-         Artisan::call('command:UpdateArticle',['id' => $article->id]);
 
 
 
