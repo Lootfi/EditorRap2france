@@ -42,6 +42,16 @@ class UpdateArticleAvatar extends Command
     $article = Article::findOrFail($this->argument('id'));
    DB::connection('R2F')->table('R2F_actualite')
                           ->where('id', $article->id)
-                          ->update(['image' => $article->image]);
+                          ->update(['image' => $article->image,
+                                    'titre' => $article->titre,
+                                    'contenu' => $article->contenu ,
+                                    'contenutext' => $article->contenutext,
+                                    'updated_at' => $article->updated_at,
+                                    'idcat' => $article->idcat,
+                                    'image' => $article->image,
+                                    'tag' =>$article->tag,
+                                    'url'=> $article->url,
+
+                                ]);
     }
 }
