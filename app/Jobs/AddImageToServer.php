@@ -52,6 +52,7 @@ class AddImageToServer implements ShouldQueue
                     }
 
                         \ShortPixel\fromFile($AvatarPath)->optimize(2)->resize($dimension[0],$dimension[1])->toFiles($directory);
+                        echo "success";
                     }
                 }
 
