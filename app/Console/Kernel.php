@@ -24,8 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('queue:listen --timeout=0 ');
-        $schedule->command('command:PublishArticles');
+        $schedule->command('queue:listen --timeout=0 ')->withoutOverlapping();
+        $schedule->command('command:PublishArticles')->withoutOverlapping();
     }
 
     /**
