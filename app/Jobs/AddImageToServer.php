@@ -41,12 +41,12 @@ class AddImageToServer implements ShouldQueue
        \ShortPixel\setKey(env('SHORT_PIXEL_API_KEY'));
         $dimensions = [['660','330'],['315','180'],['300','180'],['155','90'],['290','380'],['320','320'], ['290','150'],['145','250'],['32','32'],['240','145'],['100','60']];
         $densities = ['mdpi','xhdpi'];
-        $AvatarPath = public_path('/images/admin/articles/avatars/').$this->fileName;
+        $AvatarPath = public_path('images/admin/articles/avatars/').$this->fileName;
             foreach($dimensions as $dimension){
                 foreach($densities as $density ){
                     $directory = "public/images/admin/articles/avatars/optimized/".$this->id."/".$dimension[0]."x".$dimension[1]."/".$density;
                     if(!File::exists($directory)){
-                            echo $directory;
+
                             File::makeDirectory($directory,0777,true);
 
                     }
@@ -55,7 +55,7 @@ class AddImageToServer implements ShouldQueue
                     }
                 }
 
-        $imgtosend = str_replace(' ', 'SPACESEPARATOR', $this->fileName);
+      /*  $imgtosend = str_replace(' ', 'SPACESEPARATOR', $this->fileName);
        $urltosend = "https://img.rap2france.com/public/medias/r2f_new-downloadimg-2.php?img=".$imgtosend."&id=".$this->id."&url=".$this->url;
                     $ch = curl_init($urltosend);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -69,5 +69,6 @@ class AddImageToServer implements ShouldQueue
                     curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0');
                     $data = curl_exec($ch);
                     $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);      //Here we fetch the HTTP response code
+                    */
     }
 }
