@@ -40,7 +40,7 @@ class UpdateArticleAvatar extends Command
     public function handle()
     {
     $article = Article::findOrFail($this->argument('id'));
-   DB::connection('R2F')->table('R2F_actualite')->
+   DB::connection('R2F')->table('R2F_actualite')
                           ->where('id', $article->id)
                           ->update(['image' => $article->image]);
     }
