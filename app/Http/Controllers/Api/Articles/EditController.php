@@ -43,7 +43,7 @@ class EditController extends Controller
         ImageOptimizer::optimize($AvatarPath);
         $article->image = $fileName;
         $article->save();
-         AddImageToServer::dispatch($fileName, $article->id,url('/'),$oldImageName);
+         ModifyImageInServer::dispatch($fileName, $article->id,url('/'),$oldImageName);
 
 
 

@@ -459,7 +459,7 @@ export default {
                 this.isSending = false;
                 this.$router.push(`/articles/${this.$route.params.tag}`);
               })
-              .catch(function(error) {
+              .catch((error) => {
                 this.isSending = false;
                 this.$vs.dialog({
                   color: "danger",
