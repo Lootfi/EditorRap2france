@@ -48,7 +48,6 @@ class UpdateArticleAvatar extends Command
                                     'contenutext' => $article->contenutext,
                                     'updated_at' => $article->updated_at,
                                     'idcat' => $article->idcat,
-                                    'image' => $article->image,
                                     'tag' =>$article->tag,
                                     'url'=> $article->url,
 
