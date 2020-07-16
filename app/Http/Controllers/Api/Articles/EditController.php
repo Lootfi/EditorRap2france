@@ -44,6 +44,8 @@ class EditController extends Controller
         $article->image = $fileName;
         $article->save();
          ModifyImageInServer::dispatch($fileName, $article->id,url('/'),$oldImageName);
+         Artisan::call('command:UpdateArticle',['id' => $article->id]);
+
 
 
 
