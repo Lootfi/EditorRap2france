@@ -79,6 +79,8 @@ Route::group(['prefix' => 'settings', 'namespace' =>'Settings'],function(){
 
 	Route::get('/{slug}/exportToFacebookArticle','Facebook\InstantController@exportMarkup');
 	Route::get('/{slug}/getView','Facebook\InstantController@getView');
+	Route::get('/articles' , 'Articles\IndexController@getAllArticles');
+
 
 
 

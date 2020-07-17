@@ -83,8 +83,8 @@
             />
           </div>
           <vs-divider> L'article </vs-divider>
-          <div v-if="article_raw">
-            <div v-html="articleData.ContenuFormat.contenu"></div>
+          <div v-if="article_raw" >
+            <div itemprop="articleBody" v-html="articleData.ContenuFormat.contenu"></div>
           </div>
           <div v-else>
             <div v-html="articleData.ContenuFormat.contenu"></div>
