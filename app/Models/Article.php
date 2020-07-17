@@ -194,6 +194,7 @@ class Article extends Model implements Feedable
     public function FormattedContent($article){
 
         $article->contenu = html_entity_decode($article->contenu, ENT_QUOTES, 'UTF-8');
+
         $imageIds = [];
         preg_match_all('#(<p>)?\s*(<div[^>]*data-img-buddy[^>]*>[^>]*<\/div>)\s*(<\/p>)?#mx', $article->contenu, $ImageAttributes);
         $attributes = [];
@@ -221,6 +222,29 @@ class Article extends Model implements Feedable
 
             foreach($images as $key => $image){
                 $article->contenu = str_replace($ImageAttributes[0][$key], $image, $article->contenu);
+
+            }
+
+            preg_match_all('#<div[^>]*data-html-snippet[^>]*>[^>]*</div>#mxiU', $article->contenu, $Embeds);
+            $embedsArray = [];
+            foreach($Embeds[0] as $key => $embed){
+                preg_match_all('#data-html-snippet-(.*)\s*=\s*"(.*)"#isxmU', $embed, $resultSnippet);
+            array_push($embedsArray, $resultSnippet);
+            } 
+
+            $embedIframes = [];
+            foreach($embedsArray as $embedEl){
+
+                $embed =  base64_decode($embedEl[2][0]);
+                $embed = html_entity_decode($embed, ENT_QUOTES, 'UTF-8');
+                $embed = sprintf('<div class="my-4 mx-auto "  data-html-snippet="true">%s</div>', $embed);
+                array_push($embedIframes,$embed);
+
+            }
+            foreach($embedIframes as $key => $iframe){
+
+            $article->contenu = str_replace($Embeds[0][$key], $iframe, $article->contenu);
+
 
             }
 

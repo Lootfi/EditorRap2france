@@ -16,7 +16,7 @@ class IndexController extends Controller
     		
     		return Article::OrderBy('created_at','DESC')->take(50)->get();
 
-  
+    			
 
     }
 
