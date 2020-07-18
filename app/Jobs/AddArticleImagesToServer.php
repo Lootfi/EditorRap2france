@@ -24,7 +24,7 @@ class AddArticleImagesToServer implements ShouldQueue
     public function __construct($blocks,$id)
     {
         $this->blocks = $blocks;
-        $this->$id = $id;
+        $this->id = $id;
     }
 
     /**
