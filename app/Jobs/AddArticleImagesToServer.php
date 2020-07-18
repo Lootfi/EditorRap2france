@@ -15,16 +15,16 @@ class AddArticleImagesToServer implements ShouldQueue
     
 
     protected $blocks;
-    protected $article;
+    protected $id;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($blocks,$article)
+    public function __construct($blocks,$id)
     {
         $this->blocks = $blocks;
-        $this->$article = $article;
+        $this->$id = $id;
     }
 
     /**
@@ -39,7 +39,7 @@ class AddArticleImagesToServer implements ShouldQueue
                     if($block['type'] == 'image'){
 
                         $image = new ImageArticle();
-                        $image->idnews = $this->article->id;
+                        $image->idnews = $this->id;
                         $image->image = $block['data']['file']['name'];
                         $image->created_at = now();
                         $image->updated_at = now();
