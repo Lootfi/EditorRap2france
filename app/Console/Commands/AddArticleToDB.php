@@ -62,6 +62,9 @@ class AddArticleToDB extends Command
             'url'=> $article->url,
         ]);
 
+        $images = $article->articlesImages->toArray();
+        DB::connection('R2F')->table('R2F_news_image')->insert($images);
+
     
     }
 }
