@@ -35,7 +35,7 @@ class Article extends Model implements Feedable
      *
      * @var array
      */
-    protected $hidden = ['contenuJson','idcat','admin_creator_id'];
+    protected $hidden = ['idcat','admin_creator_id'];
     /**
     * The attributes that should be cast.
     *
@@ -45,10 +45,10 @@ class Article extends Model implements Feedable
        'created_at' => 'datetime:Y-m-d',
        'updated_at' => 'datetime:Y-m-d',
        'dateactu' =>'datetime:Y-m-d',
-       'contenuJson' => 'array'
     ];
 
     
+
 
     public function getStatusNameAttribute(){
 
