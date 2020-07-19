@@ -382,7 +382,7 @@ export default {
                   category: this.category.value,
                   hashtags: this.hashtags,
                   artists: this.artists,
-                  formattedJsonContent: this.JsonFormatter(outputData),
+                  content: "This text will be formatted !",
                   text: this.text,
                   dateactu : this.publishTime,
                   featured : this.featuredRange
@@ -394,10 +394,28 @@ export default {
                 }
               )
               .then((response) => {
-                this.$router.push("/articles");
+
+                  console.log('Response recieved')
+                  this.$http.post(`api/articles/${response.data.tag}/format`,{
+
+                    content: this.JsonFormatter(JSON.parse(response.data.contenuJSON)),
+                  },
+                    {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+                  },
+                }
+
+                  ).then(response => {
+
+                     this.$router.push("/articles");
+
+
+                  })
+
               })
               .catch((error) => {
-
+                console.error(error);
                 this.isSending = false;
               })
           });
