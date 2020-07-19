@@ -46,7 +46,7 @@ class AddArticleToDB extends Command
             'alaune' => $article->alaune,
             'auteur' => $article->auteur,
             'contenu' => htmlentities(html_entity_decode($article->contenu ,ENT_QUOTES, 'UTF-8'), ENT_QUOTES, 'UTF-8'),
-            'contenutext' => $article->contenutext,
+            'contenutext' => htmlentities(strip_tags(html_entity_decode($article->contenu, ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8'),
             'created_at'=> $article->created_at,
             'updated_at' => $article->updated_at,
             'dateactu' => $article->dateactu,
