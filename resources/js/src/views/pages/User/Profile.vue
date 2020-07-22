@@ -82,13 +82,13 @@
         	<div v-for="(article, index) in articles.slice(0,4)" >
         	<vx-card  class="mt-base" :key="index">
         	<div class="lg:flex items-center ">
-        		<div class="bg-white  lg:col-3 cursor-pointer" style="height:200px; ">
-                    <img :src="article.Avatar" class="sm:mx-auto p-4" style="max-width:100%; max-height:100%;" >
+        		<div class="bg-white  lg:col-3 cursor-pointer" >
+                    <img :src="article.Avatar" class="sm:mx-auto p-4" style="max-width:100%; max-height:auto;" >
                 </div>
         					<div>
         				<h2>{{article.titre}}</h2>
         				<small>Publié le : {{article.dateactu}}</small>
-        				<p>{{article.ContenuTextFormat.substring(0,255)}} <a  @click="$router.push(`/articles/${article.tag}`)" class="ml-auto cursor-pointer text-primary"> [Continuer]</a>
+        				<p>{{article.ContenuTextFormat.substring(0,255)}}...<a  @click="$router.push(`/articles/${article.tag}`)" class="ml-auto cursor-pointer text-primary"> [Continuer]</a>
         			
         				</p>
         					</div>
@@ -114,7 +114,11 @@ export default {
       return this.$store.state.AppActiveUser;
     },
   },
-  mounted() {
+  created() {
+    this.$vs.loading({
+      type: "corners",
+      text: "Patientez s'il vous plait",
+    });
     this.$http
       .get("/api/user/my-article", {
         headers: {
@@ -123,6 +127,7 @@ export default {
       })
       .then((response) => {
         this.articles = response.data;
+                this.$vs.loading.close();
       })
       .catch((error) => {});
   }, 
