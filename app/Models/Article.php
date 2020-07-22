@@ -28,7 +28,7 @@ class Article extends Model implements Feedable
      *
      * @var array
      */
-    protected $appends = ['Creator','Category','ContenuFormat','Hashtags','Artists','Avatar','StatusName','IsFeatured','CreatedAtAgo'];
+    protected $appends = ['Creator','Category','ContenuFormat','Hashtags','Artists','Avatar','StatusName','IsFeatured','CreatedAtAgo','ContenuTextFormat'];
 
      /**
      * The attributes that should be hidden for arrays.
@@ -122,6 +122,11 @@ class Article extends Model implements Feedable
     public function getArtistsAttribute(){
 
         return $this->artists()->orderBy('rank')->get();
+    }
+
+    public function getContenuTextFormatAttribute()
+    {
+        return html_entity_decode($this->contenutext, ENT_QUOTES, 'UTF-8');
     }
 
 

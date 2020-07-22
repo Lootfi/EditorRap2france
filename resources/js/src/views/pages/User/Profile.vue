@@ -88,7 +88,7 @@
         					<div>
         				<h2>{{article.titre}}</h2>
         				<small>Publié le : {{article.dateactu}}</small>
-        				<p>{{article.contenutext}} <a  @click="$router.push(`/articles/${article.tag}`)" class="ml-auto cursor-pointer text-primary"> [Continuer]</a>
+        				<p>{{article.ContenuTextFormat.substring(0,255)}} <a  @click="$router.push(`/articles/${article.tag}`)" class="ml-auto cursor-pointer text-primary"> [Continuer]</a>
         			
         				</p>
         					</div>
@@ -122,7 +122,6 @@ export default {
         },
       })
       .then((response) => {
-      	console.log(response.data)
         this.articles = response.data;
       })
       .catch((error) => {});
