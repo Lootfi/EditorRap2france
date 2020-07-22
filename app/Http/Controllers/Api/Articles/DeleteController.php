@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use Storage;
+use Artisan;
 use File;
 class DeleteController extends Controller
 {
@@ -17,6 +18,11 @@ class DeleteController extends Controller
     			$OptimizedPath = "images/admin/articles/avatars/optimized/".$article->id;
     			File::delete($AvatarPath);
     			Storage::deleteDirectory($OptimizedPath);
+
+                if($article->ContenuFormat->type != "raw"){
+                    Artisan::call("command:DeleteArticle",['id' => $article->id]);
+                }
+
     			$article->delete();
     			return response()->JSON('Article Deleted');
     		}

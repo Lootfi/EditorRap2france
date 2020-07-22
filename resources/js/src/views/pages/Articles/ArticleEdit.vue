@@ -424,8 +424,8 @@ export default {
     handleSave(e) {
       e.preventDefault();
       this.$validator.validateAll().then((result) => {
-        this.isSending = true;
         if (result) {
+          this.isSending = true;
           this.editor.save().then((outputData) => {
             var ResultAvatar = null
             if(this.imgURL){
@@ -456,9 +456,24 @@ export default {
                 }
               )
               .then((response) => {
-                this.isSending = false;
+                this.$http.post(`/api/articles/${response.data.tag}/edit/format`,{
+
+                    content: this.JsonFormatter(JSON.parse(response.data.contenuJSON)),
+                  },
+                    {
+                  headers: {
+                    Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+                  },
+                })
+              
+              .then(response => {
+
                 this.$router.push(`/articles/${this.$route.params.tag}`);
+              }).catch((error) => {
+
+                this.isSending = false;
               })
+            })
               .catch((error) => {
                 this.isSending = false;
                 this.$vs.dialog({

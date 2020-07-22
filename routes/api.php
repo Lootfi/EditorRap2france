@@ -47,6 +47,7 @@ Route::group(['prefix' => 'articles' ,'namespace' => 'Articles'],function(){
 	Route::get('/{tag}','ShowController@showArticle');
 	Route::post('/{tag}/edit','EditController@editArticle');
 	Route::post('/add-new-article','CreateController@createArticle');
+	Route::post('/{tag}/edit/format','EditController@formatArticle');
 	Route::post('/{tag}/format','CreateController@formatArticle');
 	Route::post('/uploadImageByFile','CreateController@uploadImageByFile');
 	Route::get('/{tag}/delete','DeleteController@deleteArticle');
@@ -79,7 +80,7 @@ Route::group(['prefix' => 'settings', 'namespace' =>'Settings'],function(){
 
 	Route::get('/{slug}/exportToFacebookArticle','Facebook\InstantController@exportMarkup');
 	Route::get('/{slug}/getView','Facebook\InstantController@getView');
-
+	
 
 
 

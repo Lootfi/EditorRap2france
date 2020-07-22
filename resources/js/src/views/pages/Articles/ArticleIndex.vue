@@ -83,7 +83,7 @@
           <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
             <vs-td class="img-container">
               <img
-                class="product-img w-full"
+                style="width:155px; height:90px;"
                 v-if="tr.image"
                 :src="`${tr.Avatar}`"
                 @click.stop="$router.push(`/articles/${tr.tag}`)"

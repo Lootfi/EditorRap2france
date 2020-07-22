@@ -395,7 +395,6 @@ export default {
               )
               .then((response) => {
 
-                  console.log('Response recieved')
                   this.$http.post(`api/articles/${response.data.tag}/format`,{
 
                     content: this.JsonFormatter(JSON.parse(response.data.contenuJSON)),

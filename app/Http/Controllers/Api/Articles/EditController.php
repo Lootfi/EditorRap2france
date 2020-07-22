@@ -13,6 +13,7 @@ use App\Models\ArticleHashtag;
 use File;
 use LaravelShortPixel;
 use Storage;
+use App\Models\ImageArticle;
 use App\Jobs\ModifyImageInServer;
 use Artisan;
 require_once base_path('vendor/shortpixel/shortpixel-php/lib/shortpixel-php-req.php');
@@ -29,7 +30,7 @@ class EditController extends Controller
     	$article->url = '/news-'.str_slug(request('title'))."-".$article->id.".html";
     	$article->tag = str_slug(request('title'))."-".$article->id;
         $article->contenutext = request('text');
-    	$article->contenuJSON = request('data');
+    	$article->contenuJSON = json_encode(request('data'));
         $article->contenu = request('formattedJsonContent');
         if(request('dateactu')){
 
@@ -102,10 +103,59 @@ class EditController extends Controller
 
             }
 
+
+            foreach(json_decode($article->contenuJSON,true)['blocks'] as $key =>  $block){
+
+                if($block['type'] == 'image' && !preg_match('#^https://img.rap2france.com#', $block['data']['file']['url']) ){
+
+                        $image = new ImageArticle();
+                        $image->idnews = $article->id;
+                        $image->image = $block['data']['file']['name'];
+                        $image->created_at = now();
+                        $image->updated_at = now();
+                        $image->save(); 
+                        $urltosend = "https://img.rap2france.com/public/medias/r2f_new-downloadimg-corps-dimension.php?imgUrl=".$block['data']['file']['url']."&id=".$image->id."&url=".url('/')."&name=".$image->image;
+
+                        $ch = curl_init($urltosend);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                        curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
+                        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+                        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+                        curl_setopt($ch, CURLOPT_PROXY, "113.52.144.36");
+                        curl_setopt($ch, CURLOPT_PROXYPORT, "9339");
+                        curl_setopt($ch, CURLOPT_PROXYUSERPWD, "allwebnet@gmail.com:dtNj0hSa");
+                        curl_setopt($ch, CURLOPT_HEADER, 0);
+                        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0');
+                        $data = curl_exec($ch);
+                        $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);      //Here we fetch the HTTP response code
+
+                        $jsonContent = json_decode($article->contenuJSON,true);
+
+                        $jsonContent['blocks'][$key]['data']['file']['url'] ="https://img.rap2france.com/public/medias/news/image/".$image->id."/raw/mdpi/".$block['data']['file']['name']; 
+
+                        $article->contenuJSON = json_encode($jsonContent);
+                        $article->save();
+                        
+                    }
+                }
+
         
 
     		return $article;
 			   
 			
+    }
+
+
+    public function formatArticle(Request $request,$tag){
+
+
+        $article = Article::fetchByTag($tag);
+        $article->contenu = $request->content;
+        $article->save();
+
+        Artisan::call('command:UpdateArticle',['id' => $article->id]);
+
+        return $article;
     }
 }
