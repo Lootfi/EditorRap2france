@@ -19,7 +19,7 @@ class DeleteController extends Controller
     			File::delete($AvatarPath);
     			Storage::deleteDirectory($OptimizedPath);
 
-                if($article->ContenuFormat->type != "raw"){
+                if($article->ContenuFormat['type'] != "raw"){
                     Artisan::call("command:DeleteArticle",['id' => $article->id]);
                 }
 
