@@ -35,7 +35,7 @@
                 <div class="dropdown-button-container">
                   <vs-dropdown>
                     <vs-button
-                      class="btn-drop"
+                      class="btn-drop text-black"
                       color="rgba(0,0,0,0)"
                       type="gradient"
                       icon="more_horiz"
@@ -49,7 +49,7 @@
                       >
                         Modifier</vs-dropdown-item
                       >
-                      <vs-dropdown-item divider @click="handleDelete">
+                      <vs-dropdown-item divider @click="openDelete(articleData.tag)">
                         Supprimer
                       </vs-dropdown-item>
                     </vs-dropdown-menu>
@@ -168,10 +168,21 @@ export default {
 
       return true;
     },
-    handleDelete(e) {
-      e.preventDefault();
+
+    openDelete(tag) {
+      this.$vs.dialog({
+        type: "confirm",
+        color: "danger",
+        title: `Suppression`,
+        text: "Etes vous sur de vouloir supprimer le present article",
+        accept: this.handleDelete,
+        parameters: tag,
+      });
+    },
+
+    handleDelete(tag) {
       this.$http
-        .get(`/api/articles/${this.$route.params.tag}/delete`, {
+        .get(`/api/articles/${tag}/delete`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`,
           },
