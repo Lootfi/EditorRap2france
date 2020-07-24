@@ -50,7 +50,7 @@ class getNewArticles extends Command
         $images = DB::connection('R2F')->table('R2F_news_image')->select('id','idnews','image',
             'created_at', 'updated_at')->where('id','>',$lastArticleImage->id)->get()->toArray();
         $images = json_decode( json_encode($images), true);
-        DB::table('R2F_news_image')->insert($images);
+        DB::table('r2f_news_image')->insert($images);
 
 
     }
