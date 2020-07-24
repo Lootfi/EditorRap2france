@@ -128,6 +128,7 @@ export default {
       .then((response) => {
         this.articles = response.data;
                 this.$vs.loading.close();
+
       })
       .catch((error) => {});
   }, 

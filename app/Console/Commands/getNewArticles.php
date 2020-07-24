@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Article;
+use App\Models\ImageArticle;
 use DB;
 
 class getNewArticles extends Command
@@ -43,5 +44,14 @@ class getNewArticles extends Command
         $articles = DB::connection('R2F')->table('R2F_actualite')->select('alaune', 'auteur', 'contenu', 'contenutext', 'created_at', 'dateactu', 'diapo', 'id', 'idcat', 'identifier', 'image', 'keywords', 'program', 'signature', 'tag', 'titre', 'updated_at', 'url')->where('id','>',$lastArticle->id)->get()->toArray();
         $articles = json_decode( json_encode($articles), true);
         DB::table('r2f_new_actualite_testing_copy')->insert($articles);
+
+
+        $lastArticleImage = ImageArticle::latest()->first();
+        $images = DB::connection('R2F')->table('R2F_news_image')->select('id','idnews','image',
+            'created_at', 'updated_at')->where('id','>',$lastArticleImage->id)->get()->toArray();
+        $images = json_decode( json_encode($images), true);
+        DB::table('R2F_news_image')->insert($images);
+
+
     }
 }
