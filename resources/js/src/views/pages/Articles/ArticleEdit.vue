@@ -356,7 +356,6 @@ export default {
             });
 
             rawHtml = `${rawHtml}<div class="m-4"><ol style="list-style-type:decimal;" >${listItems}</ol></div>`;
-            console.log(rawHtml);
           }
           if (block.data.style == "unordered") {
             var listItems = "";
@@ -382,7 +381,7 @@ export default {
                               <div class="flex flex-col items-start">
                                 <span class="mb-1 text-sm italic font-bold">
                                 Said By 
-                                  ${block.data.caption}
+                                  ${block.data.caption != null ? block.data.caption : ""}
                                 </span>
                               </div>
                               </cite>
@@ -391,29 +390,29 @@ export default {
         if (block.type == "image") {
           if (block.data.file) {
             rawHtml = `${rawHtml}<div class="my-4 "><img style="max-width:100%;" src="${block.data.file.url}" />
-              <p class="text-center mt-2 font-bold">${block.data.caption}</p>
+              <p class="text-center mt-2 font-bold">${block.data.caption != null ? block.data.caption : ""}</p>
               </div>`;
           }
           if (block.data.url) {
             rawHtml = `${rawHtml}<div class="my-4 "><img style="max-width:100%;" src="${block.data.url}" />
-              <p class="text-center mt-2 font-bold">${block.data.caption}</p>
+              <p class="text-center mt-2 font-bold">${block.data.caption != null ? block.data.caption : ""}</p>
               </div>`;
           }
         }
 
         if (block.type == "embed") {
           if (block.data.service == "instagram") {
-            const embedInstagram = `<iframe src="${block.data.embed}" width="${block.data.width}" height="${block.data.height}" frameborder="0"></iframe><p class="text-center mt-2 font-bold">${block.data.caption}</p>`;
+            const embedInstagram = `<iframe src="${block.data.embed}" width="${block.data.width}" height="${block.data.height}" frameborder="0"></iframe><p class="text-center mt-2 font-bold">${block.data.caption != null ? block.data.caption : ""}</p>`;
             rawHtml = `${rawHtml}<div class="my-4 text-center">${embedInstagram}</div>`;
           }
           if (block.data.service == "youtube") {
-            const embedYoutube = `<iframe src="${block.data.embed}" width="${block.data.width}" height="${block.data.height}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><p class="text-center font-bold">${block.data.caption}</p>`;
+            const embedYoutube = `<iframe src="${block.data.embed}" width="${block.data.width}" height="${block.data.height}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><p class="text-center font-bold">${block.data.caption != null ? block.data.caption : ""}</p>`;
             rawHtml = `${rawHtml}<div class="my-4 mx-auto text-center">${embedYoutube}</div>`;
           }
 
           if (block.data.service == "twitter") {
             const embedTwitter = `<iframe border=0 frameborder=0 width="${block.data.width}" height="${block.data.height}"
-                    src=${block.data.embed}></iframe><p class="text-center mt-2 font-bold">${block.data.caption}</p>`;
+                    src=${block.data.embed}></iframe><p class="text-center mt-2 font-bold">${block.data.caption != null ? block.data.caption : ""}</p>`;
             rawHtml = `${rawHtml}<div class="my-4 mx-auto text-center">${embedTwitter}</div>`;
           }
         }
