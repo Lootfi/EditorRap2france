@@ -51,7 +51,7 @@ const router = new Router({
           },
         },
         {
-          path: "/",
+          path: "/dashboard",
           name: "dashboard",
           component: () => import("@/views/pages/Dashboard.vue"),
           meta: {
@@ -195,35 +195,48 @@ const router = new Router({
         },
       ],
     },
-    // Redirect to 404 page, if no match found
     {
       path: "*",
-      redirect: "/pages/error-404",
+      redirect: "/dashboard",
     },
   ],
 });
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ["page-login"];
-  const authRequired = !publicPages.includes(to.name);
-  const LoggedInuser = JSON.parse(localStorage.getItem("user"));
-  const loggedIn = localStorage.getItem("jwt");
-
-  // trying to access a restricted page + not logged in
-  // redirect to login page
-  if (authRequired && !loggedIn) {
-    next({ name: 'page-login' });
-  } else {
-    if (
-     (to.matched.some((record) => record.meta.requiresAdmin) &&
-      LoggedInuser.role != "Admin" ) || (to.matched.some((record) => record.meta.activated) && LoggedInuser.StatusName =="Suspendu")
-    ) {
-      next("/");
-    } else {
-      next();
+    if(to.matched.some(record => record.meta.requiresAuth)) {
+        if (localStorage.getItem('jwt') == null) {
+            next({
+                name: 'page-login',
+                params: { nextUrl: to.fullPath }
+            })
+        } else {
+            let user = JSON.parse(localStorage.getItem('user'))
+            if(to.matched.some(record => record.meta.requiresAdmin) ) {
+                if(user.role == "Admin"){
+                    next()
+                }
+                else{
+                 
+                    next("/dashboard")
+        
+                  }
+                
+            }else {
+              
+                next()
+            }
+}
+    } else if(to.matched.some(record => record.meta.guest)) {
+        if(localStorage.getItem('jwt') == null){
+            next()
+        }
+        else{
+            next("/dashboard")
+        }
+    }else {
+        next() 
     }
-  }
-});
+})
 
 
 router.afterEach(() => {
