@@ -29,7 +29,7 @@ export default {
 
        })
         .then((response) => {
-          commit('SET_PRODUCTS', response.data)
+          commit('SET_PRODUCTS', response.data.data)
           resolve(response)
           
         })

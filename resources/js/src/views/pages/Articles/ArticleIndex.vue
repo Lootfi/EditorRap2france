@@ -84,8 +84,8 @@
             <vs-td class="img-container">
               <img
                 style="width:155px; height:90px;"
-                v-if="tr.image"
-                :src="`${tr.Avatar}`"
+                v-if="tr.Avatar"
+                :src="tr.Avatar"
                 @click.stop="$router.push(`/articles/${tr.tag}`)"
               />
             </vs-td>
@@ -100,12 +100,12 @@
             </vs-td>
 
             <vs-td>
-              <p class="product-category">{{ tr.Category.nom }}</p>
+              <p class="product-category">{{ tr.Category }}</p>
             </vs-td>
 
             <vs-td>
               <p class="product-name font-medium truncate">
-                {{ tr.Creator.Full_Name }}
+                {{ tr.Creator.name }}
               </p>
             </vs-td>
 
@@ -214,7 +214,7 @@ export default {
 
     statusColor(row){
 
-      if(row.status == 1){
+      if(row.StatusName == "Publié"){
 
         return "success"
       }
@@ -234,7 +234,7 @@ export default {
     },
 
     isJsonArticle(row) {
-      if (row.ContenuFormat.type == "raw") {
+      if (row.ContentType == "raw") {
         return false;
       }
 

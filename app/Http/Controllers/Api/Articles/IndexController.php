@@ -21,8 +21,11 @@ class IndexController extends Controller
     		->orderBy('articles.created_at','DESC')
     		->get();
     		*/
-    		
-    	 return new ArticleCollection(Article::all());
+    	
+         $articles = new ArticleCollection(Article::latest()->get());
+
+         return $articles;
+    	// return new ArticleCollection(Article::all());
 
     			
 

@@ -28,7 +28,7 @@ class Article extends Model implements Feedable
      *
      * @var array
      */
-
+        protected $appends = ['Creator','Category','ContenuFormat','Hashtags','Artists','Avatar','StatusName','IsFeatured','CreatedAtAgo','ContenuTextFormat'];
 
      /**
      * The attributes that should be hidden for arrays.

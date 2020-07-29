@@ -20,7 +20,7 @@ class Article extends JsonResource
             'titre' => $this->titre,
             'tag' => $this->tag,
             'Category' => $this->Category->nom,
-            'Creator' => $this->Creator->full_name,
+            'Creator' => ['name' => $this->Creator->Full_Name, 'email' => $this->Creator->email], 
             'created_at' => $this->created_at,
             'CreatedAtAgo' => $this->CreatedAtAgo,
             'StatusName' => $this->StatusName,
