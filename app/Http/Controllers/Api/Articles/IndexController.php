@@ -22,7 +22,6 @@ class IndexController extends Controller
     		->get();
     		*/
     		
-    		return "hey";
     	 return new ArticleCollection(Article::all());
 
     			
