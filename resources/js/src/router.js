@@ -28,7 +28,7 @@ const router = new Router({
       // =============================================================================
       // MAIN LAYOUT ROUTES
       // =============================================================================
-      path: "",
+      path: "/route",
       component: () => import("./layouts/main/Main.vue"),
       children: [
         // =============================================================================
@@ -222,8 +222,15 @@ router.beforeEach((to, from, next) => {
                   }
                 
             }else {
+
+              if(to.matched.some((record) => record.meta.activated) && user.StatusName =="Suspendu"){
               
-                next()
+                next("/dashboard")
+            }
+              else{
+
+                  next()
+                }
             }
 }
     } else if(to.matched.some(record => record.meta.guest)) {
