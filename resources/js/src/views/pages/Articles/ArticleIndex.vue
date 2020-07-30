@@ -85,8 +85,8 @@
             <vs-td class="img-container">
               <img
                 style="width:155px; height:90px;"
-                v-if="tr.Avatar"
-                :src="tr.Avatar"
+                v-if="tr.image"
+                :src="tr.image"
                 @click.stop="$router.push(`/articles/${tr.tag}`)"
               />
             </vs-td>
@@ -101,12 +101,12 @@
             </vs-td>
 
             <vs-td>
-              <p class="product-category">{{ tr.Category.nom }}</p>
+              <p class="product-category">{{ tr.Category}}</p>
             </vs-td>
 
             <vs-td>
               <p class="product-name font-medium truncate">
-                {{ tr.Creator.Full_Name }}
+                {{ tr.CreatorFullName }}
               </p>
             </vs-td>
 
@@ -206,7 +206,7 @@ export default {
     showArticle(row) {
       if (
        (this.activeUserInfo.user.role == "Admin" ||
-        this.activeUserInfo.user.email == row.Creator.email) && this.activeUserInfo.user.StatusName =="Activé"
+        this.activeUserInfo.user.email == row.CreatorEmail) && this.activeUserInfo.user.StatusName =="Activé"
       ) {
         return true;
       }
