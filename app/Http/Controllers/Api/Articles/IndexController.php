@@ -24,7 +24,7 @@ class IndexController extends Controller
     	
         // $articles = new ArticleCollection(Article::latest()->get());
 
-        $articles = Article::latest()->get();
+        $articles = Article::latest()->first();
         $articles->append(['StatusName','Category','CreatedAtAgo']);
         return $articles;
     	// return new ArticleCollection(Article::all());
