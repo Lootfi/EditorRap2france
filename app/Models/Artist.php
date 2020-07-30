@@ -54,8 +54,7 @@ class Artist extends Model
      public function articles()
 
     {
-        return $this->belongsToMany(\App\Models\Article::class, 'r2f_new_article_artist');
-                    
+        return $this->belongsToMany(\App\Models\Article::class, 'r2f_new_article_artist');                    
     }
 
 }

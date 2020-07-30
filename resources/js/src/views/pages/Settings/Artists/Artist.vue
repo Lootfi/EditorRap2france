@@ -54,7 +54,7 @@
                         <slot name="item-meta">
                             <h6 class="item-name font-semibold mb-1 hover:text-primary cursor-pointer" @click="$router.push(`/articles/${article.tag}`)">{{article.titre}}</h6>
                             <p class="text-sm mb-4">By <span class="font-semibold cursor-pointer">{{article.Creator.Full_Name}}</span></p>
-                            <p class="item-description text-sm">{{article.contenutext}}</p>
+                            <p class="item-description text-sm truncate">{{article.ContenuTextFormat}}</p>
                         </slot>
                     </div>
                 </div>

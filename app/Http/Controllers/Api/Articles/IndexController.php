@@ -22,9 +22,11 @@ class IndexController extends Controller
     		->get();
     		*/
     	
-         $articles = new ArticleCollection(Article::latest()->get());
+        // $articles = new ArticleCollection(Article::latest()->get());
 
-         return $articles;
+        $articles = Article::latest()->get();
+        $articles->append(['StatusName','Category','CreatedAtAgo']);
+        return $articles;
     	// return new ArticleCollection(Article::all());
 
     			

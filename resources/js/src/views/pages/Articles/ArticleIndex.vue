@@ -16,6 +16,7 @@
       pagination
       :max-items="itemsPerPage"
       search
+      noDataText="Chargement des données ... "
       :data="products"
     >
       <div
@@ -100,12 +101,12 @@
             </vs-td>
 
             <vs-td>
-              <p class="product-category">{{ tr.Category }}</p>
+              <p class="product-category">{{ tr.Category.nom }}</p>
             </vs-td>
 
             <vs-td>
               <p class="product-name font-medium truncate">
-                {{ tr.Creator.name }}
+                {{ tr.Creator.Full_Name }}
               </p>
             </vs-td>
 
@@ -234,11 +235,12 @@ export default {
     },
 
     isJsonArticle(row) {
-      if (row.ContentType == "raw") {
-        return false;
+      if (row.type ==  2) {
+        return true;
       }
 
-      return true;
+      return false;
+      
     },
     handleDelete(parameters) {
       this.$store.dispatch("dataList/removeItem", parameters).catch((err) => {

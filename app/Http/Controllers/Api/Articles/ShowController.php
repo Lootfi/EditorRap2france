@@ -15,7 +15,9 @@ class ShowController extends Controller
     	if($article = Article::fetchByTag($tag)){
 
  
-
+    		$article->makeVisible('contenuJSON');
+    		$article->makeVisible('contenu');
+    		$article->append(['StatusName','Category','CreatedAtAgo','ContenuFormat','Hashtags','Artists']);
     		return $article;
     		
     	}

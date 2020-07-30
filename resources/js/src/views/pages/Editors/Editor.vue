@@ -20,12 +20,10 @@
       <vx-card title="Informations d'editeur" class="mb-base">
         <!-- Avatar -->
         <div class="vx-row items-center">
-          <!-- Avatar Col -->
-          <div class="vx-col">
+
             <div class="img-container mb-4">
-              <img :src="user_data.Avatar" class="rounded full-width" />
+              <img :src="user_data.Avatar" class="rounded w-1/2" />
             </div>
-          </div>
 
           <!-- Information - Col 1 -->
           <div class="vx-col flex-1 " id="account-info-col-1">
@@ -42,13 +40,6 @@
                 <td class="font-semibold">Email:</td>
                 <td>{{ user_data.email }}</td>
               </tr>
-            </table>
-          </div>
-          <!-- /Information - Col 1 -->
-
-          <!-- Information - Col 2 -->
-          <div class="vx-col flex-1" id="account-info-col-2">
-            <table>
               <tr>
                 <td class="font-semibold">État:</td>
                 <td>{{ user_data.StatusName }}</td>
@@ -59,6 +50,7 @@
               </tr>
             </table>
           </div>
+          
           <!-- /Information - Col 2 -->
           <div class="vx-col w-full flex" id="account-manage-buttons">
             <vs-button

@@ -23,20 +23,20 @@ class Article extends Model implements Feedable
      * @var bool
      */
     public $timestamps = false;
-     /**
+     
+        /**
      * The accessors to append to the model's array form.
      *
      * @var array
      */
-        protected $appends = ['Creator','Category','ContenuFormat','Hashtags','Artists','Avatar','StatusName','IsFeatured','CreatedAtAgo','ContenuTextFormat'];
-
+    protected $appends =  ['Avatar','Creator','ContenuTextFormat'];
      /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
      
-    protected $hidden = ['idcat','admin_creator_id'];
+    protected $hidden = ['id','idcat','admin_creator_id','contenuJSON','contenu'];
     /**
     * The attributes that should be cast.
     *
@@ -114,6 +114,7 @@ class Article extends Model implements Feedable
             {
                return static::all();
             }
+
 
     public function getLinkAttribute()
 {
