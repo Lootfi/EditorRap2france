@@ -11,20 +11,10 @@
         <div class="vx-col md:w-1/2 w-full">
           <vs-input
             class="w-full mt-4"
-            label="Nom d'utilisateur"
-            name="username"
-            v-model="username"
-            v-validate="'alpha_num|required'"
-          />
-          <span class="text-danger text-sm" v-show="errors.has('username')">{{
-            errors.first("username")
-          }}</span>
-          <vs-input
-            class="w-full mt-4"
             label="Nom"
             name="name"
             v-model="name"
-            v-validate="'alpha_spaces|required'"
+            v-validate="'alpha_spaces'"
           />
           <span class="text-danger text-sm" v-show="errors.has('name')">{{
             errors.first("name")
@@ -70,7 +60,6 @@
             class="w-full mt-4"
             label="Bio"
             name="biography"
-            v-validate="'required'"
             placeholder="Biographie"
             v-model="biography"
           />
@@ -78,26 +67,7 @@
             errors.first("biography")
           }}</span>
         </div>
-
         <div class="vx-col md:w-1/2 w-full">
-          <vs-input
-            class="w-full mt-4"
-            label="Adresse"
-            v-model="adresse"
-            name="adresse"
-          />
-          <vs-input
-            class="w-full mt-4"
-            label="Pays"
-            v-model="country"
-            name="country"
-          />
-          <vs-input
-            class="w-full mt-4"
-            label="Mobile"
-            v-model="mobile"
-            name="mobile"
-          />
           <div class="mt-4">
             <label class="vs-input--label">Etat</label>
             <v-select
@@ -127,17 +97,6 @@
               errors.first("role")
             }}</span>
           </div>
-          <div class="mt-4">
-            <label class="text-sm">Sexe</label>
-            <div class="mt-2">
-              <vs-radio vs-value="Male" v-model="gender" class="mr-4"
-                >Male</vs-radio
-              >
-              <vs-radio vs-value="Female" v-model="gender" class="mr-4"
-                >Female</vs-radio
-              >
-            </div>
-          </div>
         </div>
       </div>
 
@@ -164,7 +123,7 @@
       <div class="vx-col w-full">
         <div class="mt-8 flex flex-wrap items-center justify-end">
           <vs-button
-            class="ml-auto mt-2"
+            class="ml-auto mt-2 pointer"
             @click="handleAccountSubmit"
             :disabled="isSending"
             >Save Changes</vs-button
@@ -185,28 +144,17 @@ export default {
     Cropper,
     vSelect,
   },
-  props: {
-    data: {
-      type: Object,
-      required: true,
-    },
-  },
   data() {
     return {
-      username: "",
       name: "",
       email: "",
       password: "",
       confirmPassword: "",
       biography: "",
-      status: "",
-      role: "",
-      country: "",
-      mobile: "",
+      status: { label: "Activé", value: "1" },
+      role: { label: "Editeur", value: "Editor" },
       imgURL: '',
       rotation:0,
-      adresse: "",
-      gender: "",
       avatar: "",
       isSending: false,
       statusOptions: [
@@ -233,18 +181,13 @@ export default {
             .post(
               `/api/users/add-new-user`,
               {
-                username: this.username,
                 full_name: this.name,
                 email: this.email,
                 status: this.status,
                 role: this.role,
                 password: this.password,
                 biography: this.biography,
-                country: this.country,
-                mobile: this.mobile,
-                adresse: this.adresse,
-                gender: this.gender,
-                avatar: this.ResultAvatar,
+                avatar: ResultAvatar,
               },
               {
                 headers: {

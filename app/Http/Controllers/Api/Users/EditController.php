@@ -5,57 +5,42 @@ namespace App\Http\Controllers\Api\Users;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Administrator;
+use Hash;
 
 class EditController extends Controller
 {
     public function editUser($slug){
 
-    	$payload = request(['full_name','username','email','password','role','status', 'mobile','country','adresse','gender','biography','facebook','twitter','instagram']);
+    	$payload = request(['full_name','email','password','role','status','biography','facebook','twitter','instagram']);
 
     	if($administrator = Administrator::fetchBySlug($slug)){
     		if(request('full_name')){
     			$administrator->full_name = $payload['full_name'];
     		}
-    		if(request('username')){
-	    	$administrator->username = $payload['username'];
-    		
-    		}
     		if(request('email')){
 	    	$administrator->email = $payload['email'];
-    		
     		}
     		if(request('password')){
 	    	$administrator->password = Hash::make($payload['password']);
 
     		}
             if(request('status')){
-                if(request('status')['label'] == "Activé"){
+                if(request('status') == "Activé"){
                     $administrator->status = 1;
                 }
-                if(request('status')['label'] == "Suspendu") {
+                if(request('status') == "Suspendu") {
                     $administrator->status = 2;
                 }
             }
 
+            if(request('role')){
+                $administrator->role = request('role')['value'];
+            }
+
             $details = $administrator->Details;
             
-            if(request('mobile')){
-                $details->mobile = $payload['mobile'];
-            }
-            if(request('country')){
-                $details->country = $payload['country'];
-
-            }
-            if(request('adresse')){
-                $details->adresse = $payload['adresse'];
-
-            }
             if(request('biography')){
                 $details->biography = $payload['biography'];
-
-            }
-            if(request('gender')){
-                $details->gender = $payload['gender'];
 
             }
             if(request('twitter')){

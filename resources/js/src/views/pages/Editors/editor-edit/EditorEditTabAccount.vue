@@ -43,16 +43,6 @@
     <!-- Content Row -->
     <div class="vx-row">
       <div class="vx-col md:w-1/2 w-full">
-        <vs-input
-          class="w-full mt-4"
-          label="Username"
-          v-model="data_local.username"
-          name="username"
-          v-validate="'alpha_num|required'"
-        />
-        <span class="text-danger text-sm" v-show="errors.has('username')">{{
-          errors.first("username")
-        }}</span>
 
         <vs-input
           class="w-full mt-4"
@@ -106,6 +96,16 @@
           />
           <span class="text-danger text-sm" v-show="errors.has('role')">{{
             errors.first("role")
+          }}</span>
+          <vs-textarea
+            class="w-full mt-4"
+            label="Bio"
+            name="biography"
+            placeholder="Biographie"
+            v-model="data_local.Details.biography"
+          />
+          <span class="text-danger text-sm" v-show="errors.has('biography')">{{
+            errors.first("biography")
           }}</span>
         </div>
       </div>
@@ -218,11 +218,11 @@ export default {
             .post(
               `/api/users/${this.data.slug}/edit`,
               {
-                username: this.data_local.username,
                 full_name: this.data_local.Full_Name,
                 email: this.data_local.email,
                 status: this.data_local.StatusName,
                 role: this.data_local.role,
+                biography: this.data_local.Details.biography,
               },
               {
                 headers: {

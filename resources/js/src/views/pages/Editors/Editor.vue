@@ -29,10 +29,6 @@
           <div class="vx-col flex-1 " id="account-info-col-1">
             <table>
               <tr>
-                <td class="font-semibold ">Nom d'utilisateur:</td>
-                <td>{{ user_data.username }}</td>
-              </tr>
-              <tr>
                 <td class="font-semibold">Nom:</td>
                 <td>{{ user_data.Full_Name }}</td>
               </tr>
@@ -75,29 +71,6 @@
       </vx-card>
 
       <div class="vx-row">
-        <div class="vx-col lg:w-1/2 w-full">
-          <vx-card title="Information" class="mb-base">
-            <table>
-              <tr>
-                <td class="font-semibold">Mobile</td>
-                <td>{{ user_data.Details.mobile }}</td>
-              </tr>
-              <tr>
-                <td class="font-semibold">Adresse</td>
-                <td>{{ user_data.Details.adresse }}</td>
-              </tr>
-              <tr>
-                <td class="font-semibold">Ville</td>
-                <td>{{ user_data.Details.country }}</td>
-              </tr>
-              <tr>
-                <td class="font-semibold">Sexe</td>
-                <td>{{ user_data.Details.gender }}</td>
-              </tr>
-            </table>
-          </vx-card>
-        </div>
-
         <div class="vx-col lg:w-1/2 w-full">
           <vx-card title="Réseaux Sociaux" class="mb-base">
             <table>

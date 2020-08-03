@@ -92,12 +92,14 @@
             </vs-td>
 
             <vs-td>
+              <vx-tooltip :text="tr.titre">
               <p
                 class="product-name font-medium truncate"
                 @click.stop="$router.push(`/articles/${tr.tag}`)"
               >
                 {{ tr.titre }}
               </p>
+            </vx-tooltip>
             </vs-td>
 
             <vs-td>

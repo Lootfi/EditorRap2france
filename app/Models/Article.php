@@ -36,7 +36,7 @@ class Article extends Model implements Feedable
      * @var array
      */
      
-    protected $hidden = ['id','idcat','admin_creator_id','contenuJSON','contenu'];
+    protected $hidden = ['id','idcat','admin_creator_id'];
     /**
     * The attributes that should be cast.
     *

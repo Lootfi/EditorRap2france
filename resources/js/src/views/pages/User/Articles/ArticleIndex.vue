@@ -65,6 +65,7 @@
         <vs-th sort-key="category">Categorie</vs-th>
         <vs-th sort-key="popularity">Ecrit par</vs-th>
         <vs-th sort-key="order_status">Ecrit le</vs-th>
+        <vs-th sort-key="status">Etat</vs-th>
         <vs-th>Actions</vs-th>
       </template>
 
@@ -73,36 +74,41 @@
           <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
             <vs-td class="img-container">
               <img
-                class="product-img w-full"
+                style="width:155px; height:90px;"
                 v-if="tr.image"
-                :src="`${tr.Avatar}`"
+                :src="tr.image"
                 @click.stop="$router.push(`/articles/${tr.tag}`)"
               />
             </vs-td>
 
             <vs-td>
+              <vx-tooltip :text="tr.titre">
               <p
                 class="product-name font-medium truncate"
                 @click.stop="$router.push(`/articles/${tr.tag}`)"
               >
                 {{ tr.titre }}
               </p>
+            </vx-tooltip>
             </vs-td>
 
             <vs-td>
-              <p class="product-category">{{ tr.Category.nom }}</p>
+              <p class="product-category">{{ tr.Category}}</p>
             </vs-td>
 
             <vs-td>
               <p class="product-name font-medium truncate">
-                {{ tr.Creator.Full_Name }}
+                {{ tr.CreatorFullName }}
               </p>
             </vs-td>
 
-           <vs-td>
+            <vs-td>
               <vx-tooltip :text="tr.created_at">
               <p class="product-name font-medium truncate">{{ tr.CreatedAtAgo }}</p>
             </vx-tooltip>
+            </vs-td>
+             <vs-td>
+              <vs-chip class="product-order-status" :color="statusColor(tr)">{{ tr.StatusName  }}</vs-chip>
             </vs-td>
             <vs-td class="whitespace-no-wrap">
               <div  class="flex px-2">
@@ -124,7 +130,6 @@
               </vx-tooltip>
                 <vx-tooltip text="Créer instant article">
                 <feather-icon
-                  v-if="isJsonArticle(tr)"
                   @click.stop="exportMarkup(tr.tag)"
                   icon="FacebookIcon"
                   svgClasses="w-5 h-5 hover:text-primary
@@ -201,11 +206,22 @@ export default {
     },
 
     isJsonArticle(row) {
-      if (row.ContenuFormat.type == "raw") {
-        return false;
+      if (row.type ==  2) {
+        return true;
       }
 
-      return true;
+      return false;
+      
+    },
+    statusColor(row){
+
+      if(row.StatusName == "Publié"){
+
+        return "success"
+      }
+
+      return "danger"
+
     },
     handleDelete(parameters) {
       this.$store.dispatch("dataList/removeItem", parameters).catch((err) => {

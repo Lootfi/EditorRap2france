@@ -32,7 +32,7 @@
                     <vs-dropdown-menu>
                       <vs-dropdown-item
                        @click="$router.push(`/artists/${artist_data.slug}/edit`)">
-                        Modifier
+                        Modifier 
                       </vs-dropdown-item>
                     </vs-dropdown-menu>
                   </vs-dropdown>
@@ -52,7 +52,7 @@
                 <div class="vx-col sm:w-1/2">
                     <div class="p-4 pt-6">
                         <slot name="item-meta">
-                            <h6 class="item-name font-semibold mb-1 hover:text-primary cursor-pointer" @click="$router.push(`/articles/${article.tag}`)">{{article.titre}}</h6>
+                            <h6 class="item-name font-semibold mb-1 hover:text-primary cursor-pointer truncate" @click="$router.push(`/articles/${article.tag}`)">{{article.titre}}</h6>
                             <p class="text-sm mb-4">By <span class="font-semibold cursor-pointer">{{article.Creator.Full_Name}}</span></p>
                             <p class="item-description text-sm truncate">{{article.ContenuTextFormat}}</p>
                         </slot>

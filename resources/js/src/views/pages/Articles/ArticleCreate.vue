@@ -395,7 +395,8 @@ export default {
               )
               .then((response) => {
 
-                  this.$http.post(`api/articles/${response.data.tag}/format`,{
+                  this.$http.post(`api/articles/${response.data.tag}/format`,
+                  {
 
                     content: this.JsonFormatter(JSON.parse(response.data.contenuJSON)),
                   },
@@ -406,7 +407,11 @@ export default {
                 }
 
                   ).then(response => {
-
+                    $vs.notify({
+                      title:'Parfait !',
+                      text:"L'article a été publié ! ",
+                      color:'primary'
+                    })
                      this.$router.push("/articles");
 
 

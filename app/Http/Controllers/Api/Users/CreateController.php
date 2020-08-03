@@ -13,12 +13,11 @@ class CreateController extends Controller
 {
     public function createUser(){
 
-    	$payload = request(['full_name','username','email','password','role','biography','picture','mobile','adresse','gender','country','status','avatar']);
+    	$payload = request(['full_name','email','password','role','biography','picture','status','avatar']);
 
     	if(!Administrator::where('email',$payload['email'])->first()){
 	    	$administrator = new Administrator();
 	    	$administrator->full_name = $payload['full_name'];
-	    	$administrator->username = $payload['username'];
 	    	$administrator->email = $payload['email'];
 	    	$administrator->password = Hash::make($payload['password']);	
 	    	$administrator->slug = str_slug($payload['full_name']) . "-" .substr(md5(mt_rand()), 0, 6);
@@ -36,21 +35,6 @@ class CreateController extends Controller
 	    	$details->biography = $payload['biography'];
 	    	$details->picture = $payload['avatar'];
 	    	$details->admin_id = $administrator->id;
-	    	if(request('mobile')){
-                $details->mobile = $payload['mobile'];
-            }
-            if(request('country')){
-                $details->country = $payload['country'];
-
-            }
-            if(request('adresse')){
-                $details->adresse = $payload['adresse'];
-
-            }
-            if(request('gender')){
-                $details->gender = $payload['gender'];
-
-            }
             if(request('avatar')){	
     			$imageData = request('avatar');
        			$fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];

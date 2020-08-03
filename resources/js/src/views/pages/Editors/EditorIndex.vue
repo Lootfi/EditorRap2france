@@ -176,22 +176,16 @@ export default {
           cellRendererFramework: "CellRendererLink",
         },
         {
-          headerName: "Nom d'utilisateur",
-          field: "username",
+          headerName: "Nom",
+          field: "Full_Name",
           filter: true,
-          width: 210,
+          width: 200,
         },
         {
           headerName: "Email",
           field: "email",
           filter: true,
           width: 225,
-        },
-        {
-          headerName: "Nom",
-          field: "Full_Name",
-          filter: true,
-          width: 200,
         },
         {
           headerName: "Role",
