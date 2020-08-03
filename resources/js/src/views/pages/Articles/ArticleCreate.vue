@@ -407,7 +407,7 @@ export default {
                 }
 
                   ).then(response => {
-                    $vs.notify({
+                    this.$vs.notify({
                       title:'Parfait !',
                       text:"L'article a été publié ! ",
                       color:'primary'
