@@ -23,7 +23,7 @@ class ArticleController extends Controller
         	->orderBy('articles.created_at','DESC')->get();
 
             $articles->map(function($item,$index){
-                if(now()->diffInSeconds($item->updated_at) < 120){
+                if(now()->diffInSeconds($item->updated_at) < 60){
 
             $item->image =  "/images/admin/articles/avatars/". $item->image; 
             

@@ -145,7 +145,7 @@ class Article extends Model implements Feedable
     
     public function getAvatarAttribute(){
 
-    if(now()->diffInSeconds($this->updated_at) < 120){
+    if(now()->diffInSeconds($this->updated_at) < 60){
 
             return "/images/admin/articles/avatars/". $this->image; 
        }
