@@ -22,7 +22,16 @@ class IndexController extends Controller
 
             $articles->map(function($item,$index){
 
-                $item->image = "https://cd1.rap2france.com/public/medias/news/".$item->id."/660x330/mdpi/".$item->image ;
+        if(now()->diffInSeconds($item->updated_at) < 60){
+
+            $item->image =  "/images/admin/articles/avatars/". $item->image; 
+            
+       }else{
+
+            $item->image = "https://cd1.rap2france.com/public/medias/news/".$item->id."/660x330/mdpi/".$item->image ;
+
+       }
+                
                 $item->CreatedAtAgo = Carbon::createFromTimeStamp(strtotime($item->created_at))->diffForHumans();
                 $item->created_at = Carbon::parse($item->created_at)->format('d.m.Y');
                 if($item->status == 1) {
