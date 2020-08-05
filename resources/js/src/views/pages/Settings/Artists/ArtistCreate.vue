@@ -24,7 +24,7 @@
 
       <div style="max-width: 100%;">
         <div class="my-4">
-      <clipper-upload class="inline-block p-2 my-2 bg-primary rounded text-white" v-model="imgURL">Importer La photo de l'éditeur</clipper-upload>
+      <clipper-upload class="inline-block p-2 my-2 bg-primary rounded text-white" v-model="imgURL">Importer La photo de l'artiste</clipper-upload>
       <div class="flex" style="max-width: 100%;">
       <clipper-basic 
       class=" flex-grow-3"

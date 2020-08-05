@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Artist;
 use Carbon\Carbon;
 use ImageOptimizer;
+use Artisan;
 use LaravelShortPixel;
+use App\Jobs\AddArtistImageToServer;
 
 
 class CreateController extends Controller
@@ -15,6 +17,8 @@ class CreateController extends Controller
     	public function createArtist(){
 
     		if(! Artist::fetchBySlug(str_slug(request('name')))){
+
+                Artisan::call('command:addNewArtists');
 
     			$artist = new Artist();
     			$artist->name = request('name');
@@ -29,8 +33,14 @@ class CreateController extends Controller
                 \Image::make(request('avatar'))->save($AvatarPath);
                 ImageOptimizer::optimize($AvatarPath);
     			$artist->image = $fileName;
-    		}
-    			$artist->save();
+                     $artist->save();
+
+                AddArtistImageToServer::dispatch($artist->image, $artist->id,url('/'));
+
+    		}else{
+                    $artist->save();
+
+            }
 
     			return $artist;
     		}

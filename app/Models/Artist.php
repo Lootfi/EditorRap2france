@@ -42,7 +42,12 @@ class Artist extends Model
     }
     public function getAvatarAttribute(){
 
-        return "/images/admin/artists/avatars/" . $this->image; 
+       if(now()->diffInSeconds($this->updated_at) < 60){
+
+            return "/images/admin/artists/avatars/" . $this->image; 
+       }
+       
+        return "https://cd1.rap2france.com/public/medias/artists/".$this->id."/photoprofil/raw/mdpi/" . $this->image; 
     }
 
     public static function fetchBySlug($slug){

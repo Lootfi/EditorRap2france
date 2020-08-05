@@ -78,7 +78,7 @@
             </div>
             <div class="vx-col lg:w-3/4">
 
-       	<vx-card  card-background="transparent" title="Articles Populaires" class="my-base" :key="index">
+       	<vx-card  card-background="transparent" title="Articles Populaires" class="my-base" >
         	<div v-for="(article, index) in articles.slice(0,4)" >
         	<vx-card  class="mt-base" :key="index">
         	<div class="lg:flex items-center ">

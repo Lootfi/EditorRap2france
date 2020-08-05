@@ -145,7 +145,6 @@ class Article extends Model implements Feedable
     
     public function getAvatarAttribute(){
 
-
     return "https://cd1.rap2france.com/public/medias/news/".$this->id."/660x330/mdpi/".$this->image;
         
     

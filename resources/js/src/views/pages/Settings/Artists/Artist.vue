@@ -9,7 +9,7 @@
             <vs-avatar
                   size="150px"
                   :src="
-                    `/images/admin/artists/avatars/${artist_data.image}`
+                    `${artist_data.Avatar}`
                   "
                 />
           </div>
@@ -40,6 +40,7 @@
               </div>
           </div>  
           <h1 class="my-3">Articles sur l'artiste</h1>
+          <div v-if="artist_data.articles.length > 0"> 
             <div v-for="article in artist_data.articles">
             <div class="vx-row flex-start item-details no-gutter">
 
@@ -59,6 +60,10 @@
                     </div>
                 </div>
             </div>
+          </div>
+        </div>
+          <div v-else>
+            Cet artiste n'a aucun article associé
           </div>
 
         </vx-card>
