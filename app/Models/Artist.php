@@ -42,7 +42,7 @@ class Artist extends Model
     }
     public function getAvatarAttribute(){
 
-       if(now()->diffInSeconds($this->updated_at) < 60){
+       if(now()->diffInSeconds($this->updated_at) < 120){
 
             return "/images/admin/artists/avatars/" . $this->image; 
        }
