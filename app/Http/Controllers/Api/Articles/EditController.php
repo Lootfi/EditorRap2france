@@ -48,64 +48,6 @@ class EditController extends Controller
         }
         $article->save();
 
-
-        if(request('featured')){
-
-                $daterange = explode(" ",request('featured'));
-                if(! $featured = \App\Models\FeaturedArticle::where('article_id',$article->id)->first()){
-                  $featured = new FeaturedArticle();
-                }
-                $featured->article_id = $article->id;
-                $featured->date_start = $daterange[0]." ".$daterange[1];
-                $featured->date_end = $daterange[3]." ".$daterange[4];
-                $featured->save();
-
-            }
-
-        if(request('hashtags')){
-                
-
-                $hashtagArray = [];
-
-                foreach(request('hashtags') as $hashtag){
-
-                    $hashtag = preg_replace('/\s+/', '_', ucfirst($hashtag['label']));
-
-                    if($hashtag[0] !="#"){
-                        $hashtag = "#".$hashtag;
-                    }
-
-                if(!($dbHashtag  = Hashtag::where('nom',$hashtag)->first())){
-                        $dbHashtag = new Hashtag();
-                        $dbHashtag->nom = $hashtag;
-                        $dbHashtag->save();
-
-                    }
-                    
-                    array_push($hashtagArray,$dbHashtag['id']);
-
-                }
-
-                 $article->hashtags()->sync($hashtagArray);
-
-            }
-            
-            if(request('artists')){
-
-                $ArtistsWithRank = [];
-                
-                foreach(request('artists') as $key =>  $artist){
-
-                    array_push($ArtistsWithRank,['artist_id' => $artist['value'] , 'rank' => $key + 1]);
-                }
-
-                $article->artists()->sync($ArtistsWithRank);
-
-            }
-
-
-          
-
         
 
     		return $article;
