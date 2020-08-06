@@ -107,7 +107,7 @@ class EditController extends Controller
             foreach(json_decode($article->contenuJSON,true)['blocks'] as $key =>  $block){
 
                 if($block['type'] == 'image' && preg_match('#^https://img.rap2france.com#', $block['data']['file']['url']) != 1 ){
-
+                    return 'hey';
                         $image = new ImageArticle();
                         $image->idnews = $article->id;
                         $image->image = $block['data']['file']['name'];
