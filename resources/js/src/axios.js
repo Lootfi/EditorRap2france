@@ -9,7 +9,16 @@ const client = axios.create({
   withCredentials: true,
   headers :{
    'Access-Control-Allow-Origin': '*',
-  }
+  },
+  proxy: {
+                      host: '113.52.144.36',
+                      port: 9339,
+                      auth: {
+                        username: 'allwebnet@gmail.com',
+                        password: 'dtNj0hSa'
+                      }
+                }
+    
   // You can add your headers here
 })
 
