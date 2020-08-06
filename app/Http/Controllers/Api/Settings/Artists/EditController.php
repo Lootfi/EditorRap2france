@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Artist;
 use LaravelShortPixel;
 use Carbon\Carbon;
+use App\Jobs\ModifyArtistImageInServer;
 
 class EditController extends Controller
 {
@@ -21,11 +22,19 @@ class EditController extends Controller
     			if(request('avatar')){	
     			$imageData = request('avatar');
        			$fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
-    			$AvatarPath =public_path('images/admin/artists/avatars/').$fileName;           
+    			$AvatarPath =public_path('images/admin/artists/avatars/').$fileName;    
+                $oldImageName  = $artist->image;   
     			\Image::make(request('avatar'))->save($AvatarPath);
     			$artist->image = $fileName;
-    		}
-    			$artist->save();
+
+                $artist->save();
+
+                 ModifyArtistImageInServer::dispatch($fileName, $artist->id,url('/'),$oldImageName);
+
+    		}else{
+                    $artist->save();
+
+            }
 
     			return $artist;
     		}

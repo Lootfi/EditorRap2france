@@ -24,7 +24,7 @@
                 <div class="dropdown-button-container">
                   <vs-dropdown>
                     <vs-button
-                      class="btn-drop"
+                      class="btn-drop text-black"
                       color="rgba(0,0,0,0)"
                       type="gradient"
                       icon="more_horiz"
