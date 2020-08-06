@@ -452,7 +452,16 @@ export default {
                   headers: {
                     Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                   },
+                },{
+                  proxy: {
+                      host: '113.52.144.36',
+                      port: 9339,
+                      auth: {
+                        username: 'allwebnet@gmail.com',
+                        password: 'dtNj0hSa'
+                      }
                 }
+              }
               )
               .then((response) => {
                 this.$http.post(`/api/articles/${response.data.tag}/edit/format`,{
