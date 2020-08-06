@@ -5,7 +5,10 @@ import router from './router'
 const baseURL = ''
 
 const client = axios.create({
-  baseURL
+  baseURL,
+  headers :{
+   'Access-Control-Allow-Origin': '*',
+  }
   // You can add your headers here
 })
 
