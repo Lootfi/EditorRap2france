@@ -106,7 +106,8 @@ class EditController extends Controller
 
             foreach(json_decode($article->contenuJSON,true)['blocks'] as $key =>  $block){
 
-                if($block['type'] == 'image' && preg_match('#^https://img.rap2france.com#', $block['data']['file']['url']) != 1 ){
+                if($block['type'] == 'image' && !preg_match('#^https://img.rap2france.com#', $block['data']['file']['url']) ){
+
                         $image = new ImageArticle();
                         $image->idnews = $article->id;
                         $image->image = $block['data']['file']['name'];
@@ -116,7 +117,7 @@ class EditController extends Controller
                         $urltosend = "https://img.rap2france.com/public/medias/r2f_new-downloadimg-corps-dimension.php?imgUrl=".$block['data']['file']['url']."&id=".$image->id."&url=".url('/')."&name=".$image->image;
 
                         $ch = curl_init($urltosend);
-                       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                         curl_setopt($ch, CURLOPT_BINARYTRANSFER, 1);
                         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
                         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
