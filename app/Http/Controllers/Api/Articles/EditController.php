@@ -36,16 +36,7 @@ class EditController extends Controller
 
             $article->dateactu = request('dateactu');
         }
-        if(request('avatar')){  
-        $oldImageName = $article->image;
-        $imageData = request('avatar');
-        $fileName = sprintf("%s-%s.jpg",str_slug(request('title')), time());
-        $AvatarPath = public_path('images/admin/articles/avatars/').$fileName;
-        \Image::make(request('avatar'))->save($AvatarPath);
-        ImageOptimizer::optimize($AvatarPath);
-        $article->image = $fileName;
-         ModifyImageInServer::dispatch($fileName, $article->id,url('/'),$oldImageName);
-        }
+       
         $article->save();
 
         
