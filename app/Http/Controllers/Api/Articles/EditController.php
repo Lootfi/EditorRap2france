@@ -24,6 +24,18 @@ class EditController extends Controller
 
 
     	$article = Article::fetchByTag($tag);
+
+        foreach(json_decode(request('data'))['blocks'] as $key =>  $block){
+                
+                if($block['type'] == 'image' && !preg_match('#^https://img.rap2france.com#', $block['data']['file']['url']) ){
+
+                 $jsonContent = json_decode(request('data'),true);
+
+                 $jsonContent['blocks'][$key]['data']['file']['url'] ="img.rap2france.com/public/medias/news/image/".$image->id."/raw/mdpi/".$block['data']['file']['name']; 
+                 request('data') = json_encode($jsonContent);
+
+                }}
+                
     	$article->titre = request('title');
         $article->idcat= request('category');
     	$article->updated_at = now();
@@ -131,7 +143,7 @@ class EditController extends Controller
 
                         $jsonContent = json_decode($article->contenuJSON,true);
 
-                        $jsonContent['blocks'][$key]['data']['file']['url'] ="https://img.rap2france.com/public/medias/news/image/".$image->id."/raw/mdpi/".$block['data']['file']['name']; 
+                        $jsonContent['blocks'][$key]['data']['file']['url'] ="img.rap2france.com/public/medias/news/image/".$image->id."/raw/mdpi/".$block['data']['file']['name']; 
 
                         $article->contenuJSON = json_encode($jsonContent);
                         $article->save();
