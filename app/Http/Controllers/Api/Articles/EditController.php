@@ -27,6 +27,7 @@ class EditController extends Controller
 
         foreach(json_decode(request('data'))['blocks'] as $key =>  $block){
                 
+                return "hey";
                 if($block['type'] == 'image' && !preg_match('#^https://img.rap2france.com#', $block['data']['file']['url']) ){
 
                  $jsonContent = json_decode(request('data'),true);
@@ -35,7 +36,7 @@ class EditController extends Controller
                  request('data') = json_encode($jsonContent);
 
                 }}
-                
+
     	$article->titre = request('title');
         $article->idcat= request('category');
     	$article->updated_at = now();
