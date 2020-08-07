@@ -389,7 +389,7 @@ export default {
         }
         if (block.type == "image") {
           if (block.data.file) {
-            rawHtml = `${rawHtml}<div class="my-4 "><img style="max-width:100%;" src="${block.data.file.url.replace("http://","")}" />
+            rawHtml = `${rawHtml}<div class="my-4 "><img style="max-width:100%;" src="${block.data.file.url}" />
               <p class="text-center mt-2 font-bold">${block.data.caption != null ? block.data.caption : ""}</p>
               </div>`;
           }
@@ -427,7 +427,6 @@ export default {
           this.isSending = true;
           this.editor.save().then((outputData) => {
             var ResultAvatar = null
-            console.log(this.outputCleanser(outputData))
             if(this.imgURL){
             const canvas = this.$refs.clipper.clip();
             ResultAvatar = canvas.toDataURL("image/jpeg", 1);
@@ -436,7 +435,7 @@ export default {
               .post(
                 `/api/articles/${this.$route.params.tag}/edit`,
                 {
-                  data: this.outputCleanser(outputData),
+                  data: outputData,
                   title: this.title,
                   avatar: ResultAvatar,
                   category: this.category.value,
@@ -486,17 +485,6 @@ export default {
         }
       });
     },
-    outputCleanser(output){
-
-        output.blocks.map((block) => {
-          if(block.type == "image" && block.data.file.url.substring(0, 4) == "http"){
-
-            block.data.file.url = block.data.file.url.replace("http://","");
-          }
-        })
-
-        return output;
-    }
   },
 };
 

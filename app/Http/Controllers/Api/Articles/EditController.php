@@ -106,9 +106,7 @@ class EditController extends Controller
 
             foreach(json_decode($article->contenuJSON,true)['blocks'] as $key =>  $block){
 
-                if($block['type'] == 'image'){
-
-                    if( !preg_match('#^img.rap2france.com#', $block['data']['file']['url'])){
+                if($block['type'] == 'image' && !preg_match('#^https://img.rap2france.com#', $block['data']['file']['url'])){
 
 
                         $image = new ImageArticle();
@@ -133,19 +131,11 @@ class EditController extends Controller
                         $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);      //Here we fetch the HTTP response code
                         $jsonContent = json_decode($article->contenuJSON,true);
 
-                        $jsonContent['blocks'][$key]['data']['file']['url'] ="http://img.rap2france.com/public/medias/news/image/".$image->id."/raw/mdpi/".$block['data']['file']['name']; 
+                        $jsonContent['blocks'][$key]['data']['file']['url'] ="https://img.rap2france.com/public/medias/news/image/".$image->id."/raw/mdpi/".$block['data']['file']['name']; 
 
                         $article->contenuJSON = json_encode($jsonContent);
                         $article->save();
 
-                    }else{
-
-                        $jsonContent = json_decode($article->contenuJSON,true);
-
-                        $jsonContent['blocks'][$key]['data']['file']['url'] = "http://".$jsonContent['blocks'][$key]['data']['file']['url']; 
-
-                        $article->contenuJSON = json_encode($jsonContent);
-                        $article->save();
                     }
 
                     
@@ -169,7 +159,7 @@ class EditController extends Controller
 
 
         $article = Article::fetchByTag($tag);
-        $article->contenu = str_replace("img.rap2france.com","http://img.rap2france.com",$request->content);
+        $article->contenu = $request->content;
         $article->save();
 
         Artisan::call('command:UpdateArticle',['id' => $article->id]);

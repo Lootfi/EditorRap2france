@@ -193,14 +193,6 @@ const router = new Router({
             guest: true,
           },
         },
-        {
-          path: "/test",
-          name: "page-test",
-          component: () => import("@/views/pages/Test.vue"),
-          meta: {
-            guest: true,
-          },
-        },
       ],
     },
     {
