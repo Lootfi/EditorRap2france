@@ -169,7 +169,7 @@ class EditController extends Controller
 
 
         $article = Article::fetchByTag($tag);
-        $article->contenu = $request->content;
+        $article->contenu = str_replace("img.rap2france.com","http://img.rap2france.com",$request->content);
         $article->save();
 
         Artisan::call('command:UpdateArticle',['id' => $article->id]);
