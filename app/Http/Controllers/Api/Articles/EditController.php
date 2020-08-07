@@ -106,7 +106,10 @@ class EditController extends Controller
 
             foreach(json_decode($article->contenuJSON,true)['blocks'] as $key =>  $block){
 
-                if($block['type'] == 'image' && !preg_match('#^http://img.rap2france.com#', $block['data']['file']['url']) ){
+                if($block['type'] == 'image'){
+
+                    if( !preg_match('#^img.rap2france.com#', $block['data']['file']['url'])){
+
 
                         $image = new ImageArticle();
                         $image->idnews = $article->id;
@@ -128,16 +131,31 @@ class EditController extends Controller
                         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0');
                         $data = curl_exec($ch);
                         $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);      //Here we fetch the HTTP response code
-
                         $jsonContent = json_decode($article->contenuJSON,true);
 
                         $jsonContent['blocks'][$key]['data']['file']['url'] ="http://img.rap2france.com/public/medias/news/image/".$image->id."/raw/mdpi/".$block['data']['file']['name']; 
 
                         $article->contenuJSON = json_encode($jsonContent);
                         $article->save();
+
+                    }else{
+
+                        $jsonContent = json_decode($article->contenuJSON,true);
+
+                        $jsonContent['blocks'][$key]['data']['file']['url'] = "http://".$jsonContent['blocks'][$key]['data']['file']['url']; 
+
+                        $article->contenuJSON = json_encode($jsonContent);
+                        $article->save();
+                    }
+
+                    
+                }
+
+
+                        
                         
                     }
-                }
+                
 
         
 
