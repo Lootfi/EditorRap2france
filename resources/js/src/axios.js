@@ -1,8 +1,17 @@
 // axios
 import axios from 'axios'
 import router from './router'
+import tunnel from 'tunnel'
 
 const baseURL = ''
+
+var tunnelingAgent = tunnel.httpsOverHttp({
+  proxy: {
+    host: '113.52.144.36',
+    port: 9339,
+    proxyAuth: 'allwebnet@gmail.com:dtNj0hSa',
+  }
+});
 
 const client = axios.create({
   baseURL,
@@ -10,14 +19,7 @@ const client = axios.create({
   headers :{
    'Access-Control-Allow-Origin': '*',
   },
-  proxy: {
-                      host: '113.52.144.36',
-                      port: 9339,
-                      auth: {
-                        username: 'allwebnet@gmail.com',
-                        password: 'dtNj0hSa'
-                      }
-                }
+  httpAgent: tunnelingAgent
     
   // You can add your headers here
 })
