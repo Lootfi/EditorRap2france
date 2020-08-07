@@ -389,7 +389,7 @@ export default {
         }
         if (block.type == "image") {
           if (block.data.file) {
-            rawHtml = `${rawHtml}<div class="my-4 "><img style="max-width:100%;" src="${block.data.file.url.replace("http://","")}" />
+            rawHtml = `${rawHtml}<div class="my-4 "><img style="max-width:100%;" src="${block.data.file.url}" />
               <p class="text-center mt-2 font-bold">${block.data.caption != null ? block.data.caption : ""}</p>
               </div>`;
           }
