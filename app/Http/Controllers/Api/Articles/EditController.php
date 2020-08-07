@@ -106,7 +106,7 @@ class EditController extends Controller
 
             foreach(json_decode($article->contenuJSON,true)['blocks'] as $key =>  $block){
 
-                if($block['type'] == 'image' && !preg_match('#^img.rap2france.com#', $block['data']['file']['url']) ){
+                if($block['type'] == 'image' && !preg_match('#^http://img.rap2france.com#', $block['data']['file']['url']) ){
 
                         $image = new ImageArticle();
                         $image->idnews = $article->id;
@@ -131,7 +131,7 @@ class EditController extends Controller
 
                         $jsonContent = json_decode($article->contenuJSON,true);
 
-                        $jsonContent['blocks'][$key]['data']['file']['url'] ="img.rap2france.com/public/medias/news/image/".$image->id."/raw/mdpi/".$block['data']['file']['name']; 
+                        $jsonContent['blocks'][$key]['data']['file']['url'] ="http://img.rap2france.com/public/medias/news/image/".$image->id."/raw/mdpi/".$block['data']['file']['name']; 
 
                         $article->contenuJSON = json_encode($jsonContent);
                         $article->save();
