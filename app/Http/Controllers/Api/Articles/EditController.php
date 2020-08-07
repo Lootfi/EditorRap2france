@@ -142,12 +142,7 @@ class EditController extends Controller
                 }
 
 
-                        
-                        
-                    }
-                
 
-        
 
     		return $article;
 			   
