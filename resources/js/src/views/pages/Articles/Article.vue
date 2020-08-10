@@ -5,14 +5,17 @@
         <vx-card>
           <!-- Title -->
           <div class="article-title   mb-6 py-4">
+            <div class="flex justify-center items-center">
             <h1
               class="text-5xl text-center my-2"
               style="font-family:times new roman"
             >
               {{ articleData.titre }} 
+            </h1>
+            
               <vs-chip v-if="articleData.isFeatured" color="primary">En premier</vs-chip>
 
-            </h1>
+            </div>
             <div class="flex items-center">
               <div class="flex items-center ">
                 <vs-avatar
