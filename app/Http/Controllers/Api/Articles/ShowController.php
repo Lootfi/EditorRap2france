@@ -17,7 +17,7 @@ class ShowController extends Controller
  
     		$article->makeVisible('contenuJSON');
     		$article->makeVisible('contenu');
-    		$article->append(['StatusName','Category','CreatedAtAgo','ContenuFormat','Hashtags','Artists']);
+    		$article->append(['StatusName','Category','CreatedAtAgo','ContenuFormat','Hashtags','Artists','isFeatured']);
     		return $article;
     		
     	}

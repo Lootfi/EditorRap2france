@@ -157,8 +157,6 @@ export default {
               mode:"range",
               enableTime: true,
               dateFormat: 'Y-m-d H:i:s',
-              minDate: "today",
-              minTime: Date.now(),
               enableSeconds: true,
             },    };
   },
@@ -235,6 +233,8 @@ export default {
       })
 
       .then((response) => {
+                  console.log('Hey')
+
         if (
           response.data == "Article not found" ||
           response.data.Creator.email != this.activeUserInfo.user.email
@@ -250,15 +250,15 @@ export default {
           this.$router.push(`/articles/${this.$route.params.tag}`);
         } else {
           this.title = this.articleData.titre;
-          if(this.articleData.status == 1){
+          if(this.articleData.status == 2){
 
             this.publishTime = this.articleData.dateactu
             this.Scheduled = true
           }
-          if(this.articleData.IsFeatured){
+          if(this.articleData.isFeatured){
 
-            this.featuredRange = `${this.articleData.IsFeatured['date_start']} to ${this.articleData.IsFeatured['date_end']}`
-            console.log(this.Featured);
+            this.featuredRange = `${this.articleData.isFeatured['date_start']} to ${this.articleData.isFeatured['date_end']}`
+            console.log(`${this.articleData.isFeatured['date_start']} to ${this.articleData.isFeatured['date_end']}`)
             this.Featured = true
 
           }

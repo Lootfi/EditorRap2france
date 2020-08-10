@@ -9,7 +9,7 @@
       </div>
       <div class="vx-row">
         <div class="vx-col md:w-1/2 w-full">
-          <vs-input
+          <vs-input 
             class="w-full mt-4"
             label="Nom"
             name="name"
