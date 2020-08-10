@@ -8,6 +8,7 @@ use App\Models\Article;
 use Storage;
 use Artisan;
 use File;
+use App\Models\FeaturedArticle;
 class DeleteController extends Controller
 {
     
@@ -22,7 +23,11 @@ class DeleteController extends Controller
                 if($article->ContenuFormat['type'] != "raw"){
                     Artisan::call("command:DeleteArticle",['id' => $article->id]);
                 }
+                if($article->isFeatured){
 
+                    FeaturedArticle::where('article_id',$article->id)->delete();
+
+                }
     			$article->delete();
     			return response()->JSON('Article Deleted');
     		}
