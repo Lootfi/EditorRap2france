@@ -54,8 +54,9 @@ class EditController extends Controller
                 $daterange = explode(" ",request('featured'));
                 if(! $featured = \App\Models\FeaturedArticle::where('article_id',$article->id)->first()){
                   $featured = new FeaturedArticle();
+                  $featured->article_id = $article->id;
+
                 }
-                $featured->article_id = $article->id;
                 $featured->date_start = $daterange[0]." ".$daterange[1];
                 $featured->date_end = $daterange[3]." ".$daterange[4];
                 $featured->save();

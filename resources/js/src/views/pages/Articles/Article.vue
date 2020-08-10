@@ -9,7 +9,9 @@
               class="text-5xl text-center my-2"
               style="font-family:times new roman"
             >
-              {{ articleData.titre }}
+              {{ articleData.titre }} 
+              <vs-chip v-if="articleData.isFeatured" color="primary">En premier</vs-chip>
+
             </h1>
             <div class="flex items-center">
               <div class="flex items-center ">
