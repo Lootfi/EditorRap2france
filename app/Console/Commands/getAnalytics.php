@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api\Analytics;
+namespace App\Console\Commands;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Console\Command;
 use Analytics;
 use DB;
 use App\PageTodayReviews;
@@ -11,37 +10,69 @@ use Carbon\Carbon;
 use App\Models\Article;
 use Spatie\Analytics\Period;
 
-class AnalyticController extends Controller
+class getAnalytics extends Command
 {
-    public function getMostViewedPages($analyticType ='today', $maxResults = 500){
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'command:getAnalytics ';
 
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Command description';
 
-        switch ($analyticType) {
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
+    public function handle()
+    {
+        $timestamps = ['today','yesterday','week','current_month','last_month'];
+
+        foreach($timestamps as $timestamp){
+
+            switch ($timestamp) {
              Case 'today' : 
-            $mostViewedPages =  Analytics::fetchMostVisitedPages(Period::days(1) ,$maxResults);
+            $mostViewedPages =  Analytics::fetchMostVisitedPages(Period::days(1) ,500);
         break;
             Case 'yesterday' :
             $today = Carbon::today();
             $yesterday = Carbon::yesterday()->subWeekdays(1);
     
             //  Get Page views for yesterday
-            $mostViewedPages = Analytics::fetchMostVisitedPages(Period::create($yesterday,$today) ,$maxResults);
+            $mostViewedPages = Analytics::fetchMostVisitedPages(Period::create($yesterday,$today) ,500);
         break;
             Case 'week' : 
         //  Get Page views for the week
-            $mostViewedPages = Analytics::fetchMostVisitedPages(Period::days(7),$maxResults);
+            $mostViewedPages = Analytics::fetchMostVisitedPages(Period::days(7),500);
             break;
 
             Case 'current_month' : 
              $today = Carbon::today();
              $start_month =  Carbon::today()->startOfMonth();
-             $mostViewedPages = Analytics::fetchMostVisitedPages(Period::create($start_month,$today) ,$maxResults);
+             $mostViewedPages = Analytics::fetchMostVisitedPages(Period::create($start_month,$today) ,500);
              
             break;
             Case 'last_month' : 
              $current_month = Carbon::today();
              $last_month =  Carbon::today()->startOfMonth()->subMonth();
-             $mostViewedPages = Analytics::fetchMostVisitedPages(Period::create($last_month,$current_month) ,$maxResults);
+             $mostViewedPages = Analytics::fetchMostVisitedPages(Period::create($last_month,$current_month) ,500);
             break;
             default : 
             
@@ -68,8 +99,6 @@ class AnalyticController extends Controller
             'actualite_id'
         )));
         
-        return $filteredMostViewedPage;
-
         
         $column = null;
         foreach($filteredMostViewedPage as $pagereview){
@@ -77,11 +106,12 @@ class AnalyticController extends Controller
             $column = $column . "(" . $pagereview['actualite_id'] .",".$pagereview['views'].",'".$pagereview['add_date']."'),";
         }
 
-        $sql = "INSERT INTO r2f_new_actualite_analytics_". $analyticType ." (actualite_id,views,add_date) VALUES " ."".rtrim($column,",") ." ON DUPLICATE KEY UPDATE views = VALUES(views),add_date = VALUES(add_date);";
+        $sql = "INSERT INTO r2f_new_actualite_analytics_". $timestamp ." (actualite_id,views,add_date) VALUES " ."".rtrim($column,",") ." ON DUPLICATE KEY UPDATE views = VALUES(views),add_date = VALUES(add_date);";
         DB::statement($sql);
-        DB::table("r2f_new_actualite_analytics_". $analyticType)->where('add_date','!=',$add_date)->delete();
+        DB::table("r2f_new_actualite_analytics_". $timestamp)->where('add_date','!=',$add_date)->delete();
+        
+        echo "Sucesfully updated ! \n";
 
-        return "Sucesfully updated ! ";
+        }
     }
-
 }

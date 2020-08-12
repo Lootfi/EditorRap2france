@@ -55,9 +55,7 @@ Route::group(['prefix' => 'articles' ,'namespace' => 'Articles'],function(){
 
 });
 
-Route::group(['prefix' => 'analytics' ,'namespace' => 'Analytics'],function(){
-	Route::get('/{analyticType}/{maxResults}', 'AnalyticController@getMostViewedPages')->name('analytics');
-});
+
 
 Route::group(['prefix' => 'settings', 'namespace' =>'Settings'],function(){
 
@@ -81,7 +79,9 @@ Route::group(['prefix' => 'settings', 'namespace' =>'Settings'],function(){
 	Route::get('/{slug}/exportToFacebookArticle','Facebook\InstantController@exportMarkup');
 	Route::get('/{slug}/getView','Facebook\InstantController@getView');
 
-	
+	Route::group(['prefix' => 'analytics' ,'namespace' => 'Analytics'],function(){
+	Route::get('/{analyticType}/{maxResults}', 'AnalyticController@getMostViewedPages')->name('analytics');
+});
 
 
 
