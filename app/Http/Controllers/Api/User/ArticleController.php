@@ -8,7 +8,7 @@ use JWTAuth;
 use DB;
 use Carbon\Carbon;
 
-class ArticleController extends Controller
+class ArticleController extends Controller 
 {
     
     public function index(){

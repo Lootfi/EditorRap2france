@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('command:PublishArticles')->withoutOverlapping();
         $schedule->command('command:getNewArticles')->withoutOverlapping();
         $schedule->command('command:getAnalytics ')->hourly()->withoutOverlapping();
+        $schedule->command('command:deleteImagesFromServer')->withoutOverlapping();
 
     }
 

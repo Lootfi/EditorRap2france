@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Analytics;
 use DB;
-use App\PageTodayReviews;
 use Carbon\Carbon;
 use App\Models\Article;
 use Spatie\Analytics\Period;

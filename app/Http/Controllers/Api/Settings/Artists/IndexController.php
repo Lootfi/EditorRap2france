@@ -11,6 +11,6 @@ class IndexController extends Controller
 {
     public function getAllArtists(){
 
-    	return Artist::all();
+    	return Artist::all(); 		
     }
 }

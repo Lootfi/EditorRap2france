@@ -14,7 +14,7 @@ class Administrator extends Authenticatable implements JWTSubject
      *
      * @var string
      */
-    protected $table = 'r2f_new_adminstrators';
+    protected $table = 'r2f_new_adminstrators'; 
     
     /**
      * Indicates if the model should be timestamped.

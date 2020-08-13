@@ -13,7 +13,7 @@ class Article extends JsonResource
      * @return array
      */
     public function toArray($request)
-    {
+    { 
         return [
 
             'Avatar' => $this->Avatar,
