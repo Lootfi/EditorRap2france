@@ -9,6 +9,7 @@ use App\Models\AdministratorDetail;
 use Carbon\Carbon;
 use Hash;
 use ImageOptimizer;
+use App\Jobs\AddAdminImageToServer;
 class CreateController extends Controller
 {
     public function createUser(){
@@ -43,10 +44,14 @@ class CreateController extends Controller
                 ImageOptimizer::optimize($AvatarPath);
 
     			$details->picture = $fileName;
+
+                AddAdminImageToServer::dispatch($details->picture, $administrator->id,url('/'));
+
     		}
 	    	$details->created_at = now();
 	    	$details->updated_at = now();
 	    	$details->save(); 
+
 
 	    	  return response()->json("Administrator Created");
 

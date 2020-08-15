@@ -2,3 +2,4 @@ AddImageToServer.php
 ModifyImageInServer.php
 AddArtistImageToServer.php
 ModifyArtistImageInServer.php
+AddAdminImageToServer.php
