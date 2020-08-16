@@ -11,7 +11,7 @@ use App\Jobs\ModifyArtistImageInServer;
 
 class EditController extends Controller
 {
-    public function EditArtist($slug){
+    public function EditArtist($slug){ 
 
     		if($artist = Artist::fetchBySlug($slug)){
 

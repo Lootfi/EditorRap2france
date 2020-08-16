@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use ImageOptimizer;
 use File;
+use App\Models\ModifyAdminImageInServer;
 
 class AvatarController extends Controller
 {
@@ -18,14 +19,15 @@ class AvatarController extends Controller
     			$imageData = $request->get('avatar');
        			$fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
     			$AvatarPath =public_path('images/admin/users/avatars/').$fileName;
-                $oldAvatar = public_path('images/admin/users/avatars/').$administrator->Details->picture;
-                File::delete($oldAvatar);
+                $oldAvatar = $administrator->Details->picture;
     			\Image::make($request->get('avatar'))->save($AvatarPath);
                 ImageOptimizer::optimize($AvatarPath);
     			$details = $administrator->Details;
     			$details->picture = $fileName;
     			$details->updated_at = now();
     			$details->save();
+
+                ModifyAdminImageInServer::dispatch($fileName, $administrator->id,url('/'),$oldAvatar);
 
     			return response()->json([
 
