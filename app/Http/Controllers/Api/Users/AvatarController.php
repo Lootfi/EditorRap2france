@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use ImageOptimizer;
 use File;
-use App\Models\ModifyAdminImageInServer;
+use App\Jobs\ModifyAdminImageInServer;
 
 class AvatarController extends Controller
 {
