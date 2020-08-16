@@ -79,6 +79,19 @@ class Administrator extends Authenticatable implements JWTSubject
     public function getAvatarAttribute(){
 
         $detail = \App\Models\AdministratorDetail::where('admin_id',$this->id)->first();
+
+
+       if(now()->diffInSeconds($this->updated_at) < 60){
+
+            return "/images/admin/users/avatars/" . $detail->picture; 
+       }
+       
+        return "https://cd1.rap2france.com/public/medias/users/".$this->id."/photoprofil/raw/mdpi/" . $detail->picture; 
+    }
+
+    public function getAvatarAttribute(){
+
+        $detail = \App\Models\AdministratorDetail::where('admin_id',$this->id)->first();
         return "/images/admin/users/avatars/" . $detail->picture; 
     }
     public static function fetchBySlug($slug){
