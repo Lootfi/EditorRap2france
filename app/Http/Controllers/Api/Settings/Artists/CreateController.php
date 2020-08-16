@@ -11,7 +11,7 @@ use Artisan;
 use LaravelShortPixel;
 use App\Jobs\AddArtistImageToServer;
 
-
+ 
 class CreateController extends Controller
 {
     	public function createArtist(){

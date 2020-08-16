@@ -13,7 +13,7 @@ use App\Models\ArticleHashtag;
 use File;
 use LaravelShortPixel;
 use Storage;
-use App\Models\ImageArticle;
+use App\Models\ImageArticle; 
 use App\Jobs\ModifyImageInServer;
 use Artisan;
 require_once base_path('vendor/shortpixel/shortpixel-php/lib/shortpixel-php-req.php');
