@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\ImageArticle;
 use DB;
 
+
 class getNewArticles extends Command
 {
     /**
