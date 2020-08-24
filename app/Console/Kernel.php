@@ -30,6 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('command:getAnalytics ')->hourly()->withoutOverlapping();
         $schedule->command('command:deleteImagesFromServer')->withoutOverlapping();
         $schedule->command('command:populateInstagram')->hourly()->withoutOverlapping();
+        $schedule->command('command:syncDatabase')->hourly()->withoutOverlapping();
 
     }
 
