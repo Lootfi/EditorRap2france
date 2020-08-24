@@ -27,15 +27,6 @@ class ShowController extends Controller
     }
 
 
-    public function sync(){
-
-       return  DB::table('r2f_new_actualite_testing_copy AS testing')
-                    ->select('testing.id','testing.updated_at')
-                    ->join('R2F_actualite','testing.id','=','R2F_actualite.id','left outer')
-                    ->whereRaw('R2F_actualite.updated_at != testing.updated_at')
-                    ->get();
-
-    }
     
     }
 

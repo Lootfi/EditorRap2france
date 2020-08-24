@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::post('/auth/login', 'Auth\LoginController@login');
 Route::get('/auth/logout','Auth\LoginController@logout');
 Route::get('/auth/checkAuthToken','Auth\LoginController@checkAuth');
-Route::get('/articles/SyncingDatabase','Articles\ShowController@sync');
 
 
 Route::group(['middleware' => ['jwt.verify']],function(){
