@@ -43,14 +43,17 @@ class SyncDatabase extends Command
                     ->select('r2f_new_actualite_testing_copy.id','r2f_new_actualite_testing_copy.updated_at')
                     ->join('R2F_actualite','r2f_new_actualite_testing_copy.id','=','R2F_actualite.id','left outer')
                     ->whereNull('R2F_actualite.id')
-                    ->where('r2f_new_actualite_testing_copy.updated_at','<=',Carbon::now()->addMinutes(5))
                     ->get();
 
-        echo $articles;
-/*
         foreach($articles as $article){
 
-            DB::table('r2f_new_actualite_testing_copy')->where('id',json_decode(json_encode($article),true)['id'])->delete();
+             if( Carbon::now()->diffInMinutes(Carbon::parse(json_decode(json_encode($article),true)['updated_at'])) > 5){
+
+                echo "deleting";
+            
+       /*     DB::table('r2f_new_actualite_testing_copy')->where('id',json_decode(json_encode($article),true)['id'])->delete(); */
+
+            }
         }
 
         $updatedArticles = DB::table('r2f_new_actualite_testing_copy AS testing')
@@ -65,6 +68,6 @@ class SyncDatabase extends Command
            $updatedArticle =  DB::table('R2F_actualite')->select('alaune', 'auteur', 'contenu', 'contenutext', 'created_at', 'dateactu', 'diapo', 'id', 'idcat', 'identifier', 'image', 'keywords', 'program', 'signature', 'tag', 'titre', 'updated_at', 'url')->where('id',json_decode(json_encode($article),true)['id'])->get();
 
         }
-        */
+       
     }
 }
