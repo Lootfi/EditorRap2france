@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use DB;
+use Carbon\Carbon;
 
 class SyncDatabase extends Command
 {
@@ -39,11 +40,14 @@ class SyncDatabase extends Command
     public function handle()
     {
         $articles = DB::table('r2f_new_actualite_testing_copy')
-                    ->select('r2f_new_actualite_testing_copy.id')
+                    ->select('r2f_new_actualite_testing_copy.id','r2f_new_actualite_testing_copy.updated_at')
                     ->join('R2F_actualite','r2f_new_actualite_testing_copy.id','=','R2F_actualite.id','left outer')
                     ->whereNull('R2F_actualite.id')
+                    ->where('r2f_new_actualite_testing_copy.updated_at','<=',Carbon::now()->addMinutes(5))
                     ->get();
 
+        echo $articles;
+/*
         foreach($articles as $article){
 
             DB::table('r2f_new_actualite_testing_copy')->where('id',json_decode(json_encode($article),true)['id'])->delete();
@@ -61,5 +65,6 @@ class SyncDatabase extends Command
            $updatedArticle =  DB::table('R2F_actualite')->select('alaune', 'auteur', 'contenu', 'contenutext', 'created_at', 'dateactu', 'diapo', 'id', 'idcat', 'identifier', 'image', 'keywords', 'program', 'signature', 'tag', 'titre', 'updated_at', 'url')->where('id',json_decode(json_encode($article),true)['id'])->get();
 
         }
+        */
     }
 }
