@@ -47,12 +47,9 @@ class SyncDatabase extends Command
 
         foreach($articles as $article){
 
-             if( Carbon::now()->diffInMinutes(Carbon::parse(json_decode(json_encode($article),true)['updated_at'])) > 5){
+             if( Carbon::now()->diffInMinutes(Carbon::parse(json_decode(json_encode($article),true)['updated_at'])) > 2){
 
-                echo "deleting";
-            
-       /*     DB::table('r2f_new_actualite_testing_copy')->where('id',json_decode(json_encode($article),true)['id'])->delete(); */
-
+             DB::table('r2f_new_actualite_testing_copy')->where('id',json_decode(json_encode($article),true)['id'])->delete(); 
             }
         }
 
