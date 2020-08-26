@@ -59,6 +59,7 @@ Route::group(['prefix' => 'articles' ,'namespace' => 'Articles'],function(){
 
 Route::group(['prefix' => 'settings', 'namespace' =>'Settings'],function(){
 
+
 	Route::group(['prefix' => 'categories', 'namespace' =>'Categories'],function(){
 			Route::get('/' , 'IndexController@getAllCategories');
 	});
@@ -75,6 +76,11 @@ Route::group(['prefix' => 'settings', 'namespace' =>'Settings'],function(){
 });
 
 });
+
+
+	Route::get('/settings/statistics','Settings\IndexController@getStatistics');
+	Route::post('/settings/statistics','Settings\IndexController@setStatistic');
+
 
 	Route::get('/{slug}/exportToFacebookArticle','Facebook\InstantController@exportMarkup');
 	Route::get('/{slug}/getView','Facebook\InstantController@getView');

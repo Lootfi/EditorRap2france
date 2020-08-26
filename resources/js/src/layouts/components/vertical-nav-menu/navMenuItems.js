@@ -73,6 +73,13 @@ export default [
    i18n: "settings",
    admin: true,
    submenu: [
+
+   {
+        url: '/settings',
+        name: "Paramètres generaux",
+        slug: "paramteres-generaux",
+        i18n: "Parametres",
+      },
       {
         url: '/settings/artists',
         name: "Liste des artistes",

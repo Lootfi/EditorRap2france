@@ -233,8 +233,6 @@ export default {
       })
 
       .then((response) => {
-                  console.log('Hey')
-
         if (
           response.data == "Article not found" ||
           response.data.Creator.email != this.activeUserInfo.user.email

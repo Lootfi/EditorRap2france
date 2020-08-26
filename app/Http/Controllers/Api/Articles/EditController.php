@@ -36,6 +36,7 @@ class EditController extends Controller
 
             $article->dateactu = request('dateactu');
         }
+        
         if(request('avatar')){  
         $oldImageName = $article->image;
         $imageData = request('avatar');
