@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\SocialCount;
+use InstagramScraper\Instagram;
+use Carbon\Carbon;
 
 class IndexController extends Controller
 {
@@ -53,4 +55,5 @@ class IndexController extends Controller
 
     	return $count;
     }
+
 }

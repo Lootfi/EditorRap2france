@@ -7,7 +7,8 @@ use Illuminate\Console\Command;
 use DB;
 use App\Models\InstagramPicture;
 use Instagram\Api;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use InstagramScraper\Instagram;
+use Carbon\Carbon;
 
 class populateInstagramTable extends Command
 {
@@ -42,28 +43,24 @@ class populateInstagramTable extends Command
      */
     public function handle()
     {
-       $cachePool = new FilesystemAdapter('Instagram', 0, __DIR__ . '/../cache');
+       $instagram = new \InstagramScraper\Instagram();
+        $medias = $instagram->getMedias('rap2france', 25);
 
-        $api = new Api($cachePool);
-        $api->login(env('INSTAGRAM_USER'), env('INSTAGRAM_PASSWORD')); 
-        $profile = $api->getProfile('rap2france');
+        // Let's look at $media
 
-        $media = collect($profile->getMedias());
-        $media = $media->filter(function($item,$index){
+        $medias = collect($medias)->filter(function($item,$index){ 
 
-            return $item->isVideo() == false;
-        });
-
-
+                    return $item->getType() != "video";
+                });
 
         $pictureArray = [];
 
-        foreach($media as $element) {
+            foreach($medias as $element) {
 
-            $itemArray = ['shortcode' =>$element->getShortCode() , 'image_src' =>$element->getDisplaySrc() ,'thumbnail_src' =>$element->getThumbnailSrc(),'created_at' => now(),'updated_at' => now() ];
-            array_push($pictureArray,$itemArray);
+                    $itemArray = ['shortcode' =>$element->getShortCode() , 'image_src' =>$element->getImageHighResolutionUrl() ,'posted_at' => Carbon::parse($element->getCreatedTime()),'created_at' => now(),'updated_at' => now() ];
+                    array_push($pictureArray,$itemArray);
 
-        }
+                }
 
         DB::table('r2f_new_instagram_pictures')->insertOrIgnore($pictureArray);
             

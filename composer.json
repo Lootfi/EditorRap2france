@@ -21,6 +21,7 @@
         "laravel/ui": "^2.0",
         "motivo/editorjs-data-converter": "^1.0",
         "pgrimaud/instagram-user-feed": "^6.4",
+        "raiym/instagram-php-scraper": "^0.9.13",
         "sebdesign/artisan-cloudflare": "^2.3",
         "shortpixel/shortpixel-php": "^1.6",
         "spatie/laravel-analytics": "^3.10",
