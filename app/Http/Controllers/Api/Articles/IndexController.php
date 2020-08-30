@@ -18,7 +18,9 @@ class IndexController extends Controller
     		->join('r2f_new_actualite-categorie AS categorie','articles.idcat','=','categorie.id')
     		->join('r2f_new_adminstrators AS creator','articles.admin_creator_id','=','creator.id')
     		->select('articles.id','articles.titre','articles.image','articles.updated_at','articles.tag','articles.created_at','articles.status','categorie.nom as Category','creator.full_name as CreatorFullName','creator.email as CreatorEmail', 'articles.type')
-    		->orderBy('articles.created_at','DESC')->get();
+    		->orderBy('articles.created_at','DESC')
+            ->limit('100')
+            ->get();
 
             $articles->map(function($item,$index){
 
