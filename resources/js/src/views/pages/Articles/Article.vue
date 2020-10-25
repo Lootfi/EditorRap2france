@@ -1,7 +1,7 @@
 <template>
   <div id="knowledge-base-article">
     <div>
-      <div class="vx-col w-full  mt-12 md:mt-0 ">
+      <div class="vx-col w-full  mt-12 md:mt-0 "> 
         <vx-card>
           <!-- Title -->
           <div class="article-title   mb-6 py-4">

@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
     <div class="search-full-container w-full h-full absolute left-0 top-0" :class="{'flex': showFullSearch}" v-show="showFullSearch">
-      <vx-auto-suggest
+      <vx-auto-suggest 
         ref="navbarSearch"
         :autoFocus="showFullSearch"
         :data="navbarSearchAndPinList"

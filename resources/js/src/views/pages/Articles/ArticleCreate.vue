@@ -6,7 +6,7 @@
       size="large"
       label="Titre"
       name="title"
-      v-model="title"
+      v-model="title" 
       v-validate="'required'"
     />
   </div>
@@ -137,6 +137,7 @@ export default {
       imgURL: '',
       rotation:0,
       selected: [],
+      justCreatedSlug : null,
       options: [],
       artistOptions: [],
       hashtagOptions: [],
@@ -385,7 +386,8 @@ export default {
                   content: "This text will be formatted !",
                   text: this.text,
                   dateactu : this.publishTime,
-                  featured : this.featuredRange
+                  featured : this.featuredRange,
+                  justCreatedSlug: this.justCreatedSlug,
                 },
                 {
                   headers: {
@@ -412,7 +414,8 @@ export default {
                       text:"L'article a été publié ! ",
                       color:'primary'
                     })
-                     this.$router.push("/articles");
+                    this.isSending = false;
+                    this.justCreatedSlug = response.data.tag;
 
 
                   })

@@ -13,7 +13,7 @@
       ref="table"
       multiple
       v-model="selected"
-      pagination
+      pagination 
       :max-items="itemsPerPage"
       search
       noDataText="Chargement des données ... "
@@ -142,11 +142,17 @@
                 <feather-icon
                   @click.stop="exportMarkup(tr.tag)"
                   icon="FacebookIcon"
-                  svgClasses="w-5 h-5 hover:text-primary
-              </div>
-            </vs-td>y stroke-current"
+                  svgClasses="w-5 h-5 hover:text-primary"
                   class="ml-2"
                 />
+              </vx-tooltip>
+              <vx-tooltip text="Visiter l'article">
+                <a v-bind:href="`front.rap2france.com/news-${tr.tag}`" target="_blank">
+                <feather-icon
+                  icon="ExternalLinkIcon"
+                  svgClasses="w-5 h-5 hover:text-danger stroke-current"
+                  class="ml-2"/>
+              </a>
               </vx-tooltip>
             </div>
           </vs-td>

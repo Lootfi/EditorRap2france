@@ -11,7 +11,7 @@
     />
     <span class="text-danger text-sm" v-show="errors.has('title')">{{
       errors.first("title")
-    }}</span>
+    }}</span> 
   </div>
   <div class="my-4">
       <clipper-upload class="inline-block p-2 my-2 bg-primary rounded text-white" v-model="imgURL">Importer L'image de l'article</clipper-upload>

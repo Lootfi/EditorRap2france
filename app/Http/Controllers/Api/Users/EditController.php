@@ -25,16 +25,16 @@ class EditController extends Controller
 
     		}
             if(request('status')){
-                if(request('status') == "Activé"){
+                if(request('status')['label'] == "Activé"){
                     $administrator->status = 1;
                 }
-                if(request('status') == "Suspendu") {
+                if(request('status')['label'] == "Suspendu") {
                     $administrator->status = 2;
                 }
             }
 
             if(request('role')){
-                $administrator->role = request('role')['value'];
+                $administrator->role = request('role');
             }
 
             $details = $administrator->Details;

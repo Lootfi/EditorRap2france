@@ -18,6 +18,7 @@ class IndexController extends Controller
     		->join('r2f_new_actualite-categorie AS categorie','articles.idcat','=','categorie.id')
     		->join('r2f_new_adminstrators AS creator','articles.admin_creator_id','=','creator.id')
     		->select('articles.id','articles.titre','articles.image','articles.updated_at','articles.tag','articles.created_at','articles.status','categorie.nom as Category','creator.full_name as CreatorFullName','creator.email as CreatorEmail', 'articles.type')
+            ->where('articles.titre','like','%'.request('q').'%')
     		->orderBy('articles.created_at','DESC')
             ->limit('100')
             ->get();
@@ -49,6 +50,39 @@ class IndexController extends Controller
             return $articles;
 
     			
+
+    }
+
+
+    public function getArticlesIndex(){
+
+        $articles = DB::table('r2f_new_actualite_testing_copy AS articles')
+            ->select('articles.id','articles.titre','articles.image','articles.tag','articles.updated_at')
+            ->where('articles.titre','like','%'.request('q').'%')
+            ->orderBy('articles.created_at','DESC')
+            ->limit('10')
+            ->get();
+
+            $articles->map(function($item,$index){
+
+                if(now()->diffInSeconds($item->updated_at) < 60){
+
+            $item->image =  "/images/admin/articles/avatars/". $item->image; 
+
+                }else{
+
+            $item->image = "https://cd1.rap2france.com/public/medias/news/".$item->id."/660x330/mdpi/".$item->image ;
+
+            }            
+            });
+
+            $array = [
+            'pages' =>[ 
+            'key' => 'title', 
+            'data' => $articles
+]];
+        
+            return $array;
 
     }
 

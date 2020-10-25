@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/auth/login', 'Auth\LoginController@login');
 Route::get('/auth/logout','Auth\LoginController@logout');
 Route::get('/auth/checkAuthToken','Auth\LoginController@checkAuth');
+Route::get('/articles/index' , 'Articles\IndexController@getArticlesIndex');
 
 
 Route::group(['middleware' => ['jwt.verify']],function(){
@@ -88,6 +89,7 @@ Route::group(['prefix' => 'settings', 'namespace' =>'Settings'],function(){
 	Route::group(['prefix' => 'analytics' ,'namespace' => 'Analytics'],function(){
 	Route::get('/{analyticType}/{maxResults}', 'AnalyticController@getMostViewedPages')->name('analytics');
 });
+
 
 
 

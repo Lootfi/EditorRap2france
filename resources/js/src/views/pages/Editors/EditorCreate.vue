@@ -101,14 +101,16 @@
       </div>
 
      <div class="my-4">
-      <clipper-upload class="inline-block p-2 my-2 bg-primary rounded text-white" v-model="imgURL">Importer La photo de l'éditeur</clipper-upload>
+      <clipper-upload class="inline-block p-2 my-2 bg-primary rounded text-white" name="image" v-validate="'required'" v-model="imgURL">Importer La photo de l'éditeur</clipper-upload>
+      <span class="text-danger text-sm" v-show="errors.has('image')">{{errors.first("image") }}</span>
+
       <div class="flex" style="max-width: 100%;">
       <clipper-basic 
       class=" flex-grow-3"
       ref="clipper" 
       :src="imgURL" 
       preview="my-preview"
-      :rotate="rotation">
+      :rotate="rotation"> 
       </clipper-basic>
       <clipper-preview name="my-preview" class="flex-grow-2 ml-2 my-clipper" >
       </clipper-preview>
