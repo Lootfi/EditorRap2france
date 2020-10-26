@@ -18,7 +18,6 @@
             title="Changer La photo"
             @cancel="val=''"
             @accept="handleAvatarUpload"
-            @close="close"
             :active.sync="activePrompt">
             <div class="con-exemple-prompt">
              <div class="my-4">
@@ -153,6 +152,8 @@ export default {
       roleOptions: [
         { label: "Administrateur", value: "Admin" },
         { label: "Editeur", value: "Editor" },
+        { label: "Bénevole", value: "Benevole" },
+
       ],
     };
   },

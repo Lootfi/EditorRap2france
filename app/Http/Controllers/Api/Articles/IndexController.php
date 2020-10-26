@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use DB;
+use JWTAuth;
 use Carbon\Carbon;
 use App\Http\Resources\ArticleCollection;
 
@@ -22,6 +23,14 @@ class IndexController extends Controller
     		->orderBy('articles.created_at','DESC')
             ->limit('100')
             ->get();
+
+            if(JWTAuth::parseToken()->authenticate()->role == "Benevole"){
+
+               $articles =  $articles->filter(function($item,$index){
+
+                    return $item->CreatorFullName == JWTAuth::parseToken()->authenticate()->Full_Name;
+                });
+            }
 
             $articles->map(function($item,$index){
 
@@ -60,8 +69,16 @@ class IndexController extends Controller
             ->select('articles.id','articles.titre','articles.image','articles.tag','articles.updated_at')
             ->where('articles.titre','like','%'.request('q').'%')
             ->orderBy('articles.created_at','DESC')
-            ->limit('10')
+            ->limit('4')
             ->get();
+
+            if(JWTAuth::parseToken()->authenticate()->role == "Benevole"){
+
+               $articles =  $articles->filter(function($item,$index){
+
+                    return $item->CreatorFullName == JWTAuth::parseToken()->authenticate()->Full_Name;
+                });
+            }
 
             $articles->map(function($item,$index){
 
@@ -76,13 +93,9 @@ class IndexController extends Controller
             }            
             });
 
-            $array = [
-            'pages' =>[ 
-            'key' => 'title', 
-            'data' => $articles
-]];
+           
         
-            return $array;
+            return $articles;
 
     }
 

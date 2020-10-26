@@ -166,6 +166,8 @@ export default {
       roleOptions: [
         { label: "Administrateur", value: "Admin" },
         { label: "Editeur", value: "Editor" },
+        { label: "Bénevole", value: "Benevole" },
+
       ],
     };
   },

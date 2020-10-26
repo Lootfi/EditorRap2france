@@ -25,22 +25,6 @@ const userDefaults = {
 }
 const userInfoLocalStorage = JSON.parse(localStorage.getItem('user')) || {};
 
-const SearchResult = null;
-const getSearchResult = () => {
-
-  this.$http
-      .get("/api/articles/index", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-        },
-      }).then((response) => {
-        SearchResult = response.data;
-      })
-
-}
-
-console.log(getSearchResult)
-
 const getUserInfo = () => {
 
   const userInfo = {uid: 0,

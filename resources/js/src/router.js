@@ -226,12 +226,11 @@ router.beforeEach((to, from, next) => {
                     next()
                 }
                 else{
-                 
-                    next("/dashboard")
-        
-                  }
                 
-            }else {
+                    next("/dashboard")
+                  
+                 }
+             }else {
 
               if(to.matched.some((record) => record.meta.activated) && user.StatusName =="Suspendu"){
               
@@ -239,7 +238,10 @@ router.beforeEach((to, from, next) => {
             }
               else{
 
+                
                   next()
+                  
+                  
                 }
             }
 }

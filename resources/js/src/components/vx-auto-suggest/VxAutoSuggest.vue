@@ -56,7 +56,7 @@
 
             <li class="auto-suggest__suggestion-group__suggestion py-3 px-4 no-results" v-if="!suggestion_list.length && searchQuery">
               <slot name="noResult" :group_name="grp_name">
-                  <p>No Results Found.</p>
+                  <p>Searching ... </p>
               </slot>
             </li>
           </ul>
@@ -157,6 +157,7 @@ export default{
       this.searchQuery = ''
     },
     filter_grp (grp) {
+      console.log(grp)
       const exactEle = grp.data.filter((item) => {
         return item[grp.key].toLowerCase().startsWith(this.searchQuery.toLowerCase())
       })
