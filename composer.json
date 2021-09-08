@@ -9,7 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
-        "davidcb/laravel-shortpixel": "^0.2.0",
+        "davidcb/laravel-shortpixel": "^0.3.1",
         "facebook/facebook-instant-articles-sdk-php": "^1.10",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
@@ -23,7 +23,6 @@
         "pgrimaud/instagram-user-feed": "^6.4",
         "raiym/instagram-php-scraper": "^0.9.13",
         "sebdesign/artisan-cloudflare": "^2.3",
-        "shortpixel/shortpixel-php": "^1.6",
         "spatie/laravel-analytics": "^3.10",
         "spatie/laravel-feed": "^2.7",
         "spatie/laravel-image-optimizer": "^1.6",

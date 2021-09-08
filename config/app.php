@@ -164,7 +164,6 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Motivo\EditorJsDataConverter\EditorJsServiceProvider::class,
         Davidcb\LaravelShortPixel\LaravelShortPixelServiceProvider::class,
-
         /*
          * Package Service Providers...
          */

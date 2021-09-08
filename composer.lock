@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "adb9e7ebcfc6fe166079e63487709838",
+    "content-hash": "0703b9c42fc22aa449e08261cd5255f3",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -106,16 +106,16 @@
         },
         {
             "name": "davidcb/laravel-shortpixel",
-            "version": "0.2",
+            "version": "0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/davidcb/laravel-shortpixel.git",
-                "reference": "ba9303fa176122667133e61a43a56bc80097fd5f"
+                "reference": "2421f273229e79271d52f2b85f80514234f391e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/davidcb/laravel-shortpixel/zipball/ba9303fa176122667133e61a43a56bc80097fd5f",
-                "reference": "ba9303fa176122667133e61a43a56bc80097fd5f",
+                "url": "https://api.github.com/repos/davidcb/laravel-shortpixel/zipball/2421f273229e79271d52f2b85f80514234f391e5",
+                "reference": "2421f273229e79271d52f2b85f80514234f391e5",
                 "shasum": ""
             },
             "require": {
@@ -148,17 +148,20 @@
                     "homepage": "https://davidcouto.com"
                 }
             ],
-            "description": "Laravel 5 package for ShortPixel API integration",
+            "description": "Laravel 5+ package for ShortPixel API integration",
             "homepage": "https://github.com/davidcb/laravel-shortpixel",
             "keywords": [
                 "image",
                 "integration",
                 "laravel",
-                "laravel5",
                 "optimization",
                 "shortpixel"
             ],
-            "time": "2018-10-09T09:03:05+00:00"
+            "support": {
+                "issues": "https://github.com/davidcb/laravel-shortpixel/issues",
+                "source": "https://github.com/davidcb/laravel-shortpixel/tree/0.3.1"
+            },
+            "time": "2021-02-23T12:21:37+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -3167,16 +3170,16 @@
         },
         {
             "name": "shortpixel/shortpixel-php",
-            "version": "v1.6.4",
+            "version": "V1.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/short-pixel-optimizer/shortpixel-php.git",
-                "reference": "8ddbdda375dc82c1f6623d3e9acc8ac7177fc6c4"
+                "reference": "2b654571c203399c3db967318db23e82233f632d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/short-pixel-optimizer/shortpixel-php/zipball/8ddbdda375dc82c1f6623d3e9acc8ac7177fc6c4",
-                "reference": "8ddbdda375dc82c1f6623d3e9acc8ac7177fc6c4",
+                "url": "https://api.github.com/repos/short-pixel-optimizer/shortpixel-php/zipball/2b654571c203399c3db967318db23e82233f632d",
+                "reference": "2b654571c203399c3db967318db23e82233f632d",
                 "shasum": ""
             },
             "require": {
@@ -3218,7 +3221,12 @@
                 "optimize",
                 "shortpixel"
             ],
-            "time": "2020-07-02T09:32:42+00:00"
+            "support": {
+                "email": "support@shortpixel.com",
+                "issues": "https://github.com/short-pixel-optimizer/shortpixel-php/issues",
+                "source": "https://github.com/short-pixel-optimizer/shortpixel-php/tree/V1.7.3"
+            },
+            "time": "2021-03-09T12:29:46+00:00"
         },
         {
             "name": "spatie/browsershot",
@@ -8409,5 +8417,6 @@
     "platform": {
         "php": "^7.2.5"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }
