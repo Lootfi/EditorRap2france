@@ -436,11 +436,11 @@ export default {
   
 
   .ce-block__content{
-
     margin: 0;
-    padding:20px;
+    padding:10px;
     width:100%;
-    word-break:break-all;
+    /* word-break:break-all; */
+    max-width: 710px;
   }
 
   .title .vs-input--label{

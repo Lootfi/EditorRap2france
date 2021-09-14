@@ -80,7 +80,7 @@
         <label class="vs-input--label">Publication à la une </label>
         <vs-switch v-model="Featured" />
       </div>
-      <div class="ml-5 col-md-6"">
+      <div class="ml-5 col-md-6">
         <label class="vs-input--label">Date de la promotion</label>
         <flat-pickr class="block w-full" :disabled="!Featured" :config="configdateTimePickerfeatured" v-model="featuredRange" placeholder="Date de promotion" />
       </div>
@@ -494,9 +494,10 @@ export default {
   .ce-block__content{
 
     margin: 0;
-    padding:20px;
+    padding:10px;
     width:100%;
-    word-break:break-all;
+    /* word-break:break-all; */
+    max-width: 710px;
   }
 
   .title .vs-input--label{
